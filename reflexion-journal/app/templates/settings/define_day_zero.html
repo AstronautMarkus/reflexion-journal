@@ -4,14 +4,43 @@
 {% block content %}
 <div class="container">
   <div class="row">
-    <div class="col-md-4 col-md-offset-4">
-      <form method="post">
-        <div class="form-group">
-          <label for="day_zero">Selecciona el Día Cero:</label>
-          <input type="date" class="form-control" id="day_zero" name="day_zero" required>
+    <div class="col-md-8 col-md-offset-2">
+      {% if has_day_zero_set %}
+        <div id="alerta-dia-zero" class="alert alert-warning" role="alert" style="font-size:1.2em; padding:2em;">
+          Ya tienes un <strong>Día Cero definido</strong> ({{ day_zero_date }}). Si lo cambias, es posible que los registros fuera del nuevo rango de fechas se eliminen.<br>
+          ¿Desea continuar?
+          <div class="text-center" style="margin-top:2em;">
+            <button id="continuar-dia-zero" class="btn btn-danger btn-sm" style="margin-right:1em; padding-left:2em; padding-right:2em;">Sí, continuar</button>
+            <button id="cancelar-dia-zero" class="btn btn-success btn-sm" style="padding-left:2em; padding-right:2em;">Cancelar</button>
+          </div>
         </div>
-        <button type="submit" class="btn btn-primary">Guardar</button>
-      </form>
+        <div id="form-dia-zero" style="display:none;">
+          <form method="post">
+            <div class="form-group">
+              <label for="day_zero">Selecciona el Día Cero:</label>
+              <input type="date" class="form-control" id="day_zero" name="day_zero" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+          </form>
+        </div>
+        <script>
+          document.getElementById('continuar-dia-zero').onclick = function() {
+            document.getElementById('alerta-dia-zero').style.display = 'none';
+            document.getElementById('form-dia-zero').style.display = 'block';
+          };
+          document.getElementById('cancelar-dia-zero').onclick = function() {
+            window.history.back();
+          };
+        </script>
+      {% else %}
+        <form method="post">
+          <div class="form-group">
+            <label for="day_zero">Selecciona el Día Cero:</label>
+            <input type="date" class="form-control" id="day_zero" name="day_zero" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Guardar</button>
+        </form>
+      {% endif %}
     </div>
   </div>
 </div>
