@@ -29,6 +29,6 @@ def create_app():
     app.register_blueprint(main_blueprint)
     app.register_blueprint(auth_blueprint)
     app.register_blueprint(journal_blueprint)
-    app.register_blueprint(settings_blueprint)
+    app.register_blueprint(settings_blueprint, url_prefix='/journal')
     
     return app

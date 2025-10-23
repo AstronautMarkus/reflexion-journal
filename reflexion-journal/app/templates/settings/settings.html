@@ -1,0 +1,15 @@
+{% extends 'base/base.html' %}
+{% block title %}Configuración - Reflexion Journal{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h1>Configuración</h1>
+  <ul class="list-group">
+    <li class="list-group-item">
+      <h5>Definir Día Cero</h5>
+      <p class="mb-1 text-muted">Establece el día inicial para tu diario de reflexiones. Esto te ayudará a llevar un seguimiento cronológico de tus entradas.</p>
+      <a href="{{ url_for('settings.define_day_zero') }}">Configurar</a>
+    </li>
+  </ul>
+</div>
+{% endblock %}
