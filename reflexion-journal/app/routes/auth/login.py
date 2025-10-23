@@ -1,7 +1,8 @@
 from . import auth
-from flask import render_template, flash, redirect, url_for, request, session
+from flask import render_template, flash, redirect, url_for, request
 from app.models.models import User
 from werkzeug.security import check_password_hash
+from flask_login import login_user
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
@@ -24,8 +25,8 @@ def login():
                 flash(error, 'danger')
             return render_template('auth/login.html')
 
-        session['user_id'] = user.id
+        login_user(user)
         flash('Inicio de sesión exitoso. Bienvenido/a de nuevo, ' + user.first_name, 'success')
-        return redirect(url_for('journal.home'))
+        return redirect(url_for('main.home'))
 
     return render_template('auth/login.html')

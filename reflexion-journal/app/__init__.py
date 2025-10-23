@@ -1,9 +1,11 @@
 from flask import Flask
 from flask_cors import CORS
 from flask_migrate import Migrate
-from .models.models import db
+from flask_login import LoginManager
+from .models.models import db, User
 
 migrate = Migrate()
+login_manager = LoginManager()
 
 from app.routes.main import main as main_blueprint
 from app.routes.auth import auth as auth_blueprint
@@ -16,6 +18,11 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app, db)
 
+    login_manager.init_app(app)
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.get(int(user_id))
 
     app.register_blueprint(main_blueprint)
     app.register_blueprint(auth_blueprint)
