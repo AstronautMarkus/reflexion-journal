@@ -1,0 +1,27 @@
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="{{ url_for('main.home') }}">Reflexion Journal</a>
+        </div>
+
+        <ul class="nav navbar-nav">
+            <li><a href="{{ url_for('main.home') }}">Inicio</a></li>
+            <li><a href="/entries">Entradas</a></li>
+            <li><a href="/entries/new">Nueva Entrada</a></li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    <span class="glyphicon glyphicon-user"></span> Usuario <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="/profile">Perfil</a></li>
+                    <li><a href="/settings">Configuración</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="/logout">Cerrar sesión</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
