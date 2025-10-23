@@ -1,14 +1,17 @@
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="{{ url_for('main.home') }}">Reflexion Journal</a>
+            <a class="navbar-brand" href="{{ url_for('main.home') }}">
+                <span class="glyphicon glyphicon-book" aria-hidden="true"></span>
+                Reflexion Journal
+            </a>
         </div>
 
         {% if current_user.is_authenticated %}
         <ul class="nav navbar-nav">
-            <li><a href="{{ url_for('main.home') }}">Inicio</a></li>
-            <li><a href="{{ url_for('reflections.reflections_list') }}">Entradas</a></li>
-            <li><a href="#">Nueva Entrada</a></li>
+            <li><a href="{{ url_for('main.home') }}"><span class="glyphicon glyphicon-home"></span> Inicio</a></li>
+            <li><a href="{{ url_for('reflections.reflections_list') }}"><span class="glyphicon glyphicon-list-alt"></span> Entradas</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-plus-sign"></span> Nueva Entrada</a></li>
         </ul>
         {% endif %}
 
@@ -29,13 +32,13 @@
                 </a>
                 <ul class="dropdown-menu">
                     {% if current_user.is_authenticated %}
-                        <li><a href="{{ url_for('journal.profile') }}">Perfil</a></li>
-                        <li><a href="{{ url_for('settings.settings_page') }}">Configuración</a></li>
+                        <li><a href="{{ url_for('journal.profile') }}"><span class="glyphicon glyphicon-user"></span> Perfil</a></li>
+                        <li><a href="{{ url_for('settings.settings_page') }}"><span class="glyphicon glyphicon-cog"></span> Configuración</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="{{ url_for('auth.logout') }}">Cerrar sesión</a></li>
+                        <li><a href="{{ url_for('auth.logout') }}"><span class="glyphicon glyphicon-log-out"></span> Cerrar sesión</a></li>
                     {% else %}
-                        <li><a href="{{ url_for('auth.login') }}">Iniciar sesión</a></li>
-                        <li><a href="{{ url_for('auth.register') }}">Registrarse</a></li>
+                        <li><a href="{{ url_for('auth.login') }}"><span class="glyphicon glyphicon-log-in"></span> Iniciar sesión</a></li>
+                        <li><a href="{{ url_for('auth.register') }}"><span class="glyphicon glyphicon-plus"></span> Registrarse</a></li>
                     {% endif %}
                 </ul>
             </li>
