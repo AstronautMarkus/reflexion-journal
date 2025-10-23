@@ -27,6 +27,6 @@ def login():
 
         login_user(user)
         flash('Inicio de sesión exitoso. Bienvenido/a de nuevo, ' + user.first_name, 'success')
-        return redirect(url_for('journal.home'))
+        return redirect(url_for('journal.dashboard'))
 
     return render_template('auth/login.html')
