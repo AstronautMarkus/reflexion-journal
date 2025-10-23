@@ -4,11 +4,13 @@
             <a class="navbar-brand" href="{{ url_for('main.home') }}">Reflexion Journal</a>
         </div>
 
+        {% if current_user.is_authenticated %}
         <ul class="nav navbar-nav">
             <li><a href="{{ url_for('main.home') }}">Inicio</a></li>
             <li><a href="#">Entradas</a></li>
             <li><a href="#">Nueva Entrada</a></li>
         </ul>
+        {% endif %}
 
         <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
