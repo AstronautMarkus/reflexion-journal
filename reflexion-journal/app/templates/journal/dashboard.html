@@ -4,14 +4,15 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-      {% if show_day_zero_alert %}
-      <div class="alert alert-warning" role="alert" style="margin-bottom: 20px;">
-        Aún no has definido el día cero de tu Reflexion Journal.
-        <a href="{{ url_for('settings.define_day_zero') }}" style="text-decoration: underline;">Haz click para definirlo aquí</a>.
-      </div>
-      {% endif %}
 
       <h1 class="page-header" id="greeting-header">Buenas, {{ user.first_name }}</h1>
+
+      {% if show_day_zero_alert %}
+        <div class="alert alert-danger" role="alert" style="margin-bottom: 20px;">
+          Aún no has definido el día cero de tu Reflexion Journal.
+          <a href="{{ url_for('settings.define_day_zero') }}">Haz click para definirlo aquí</a>.
+        </div>
+      {% endif %}
 
       {% if day_count is not none %}
         <h4 class="h4 text-info" style="margin-bottom: 20px;">
