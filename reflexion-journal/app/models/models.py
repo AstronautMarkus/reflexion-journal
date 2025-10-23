@@ -25,3 +25,14 @@ class User(UserMixin, db.Model):
             'created_at': self.created_at.isoformat()
         }
 
+class UserDayZero(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    date = db.Column(db.Date, nullable=False)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'date': self.date.isoformat()
+        }
