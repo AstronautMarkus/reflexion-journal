@@ -4,55 +4,75 @@
 <div class="container">
     <div class="row">
         <div class="col-xs-12 text-center">
-            <h1>Bienvenido/a</h1>
-            <p>Antes de iniciar. ¿Eres nuevo/a o ya tienes cuenta?</p>
+            <h1><span class="glyphicon glyphicon-home text-primary"></span> Bienvenido/a</h1>
+            <p><span class="glyphicon glyphicon-question-sign text-info"></span> Antes de iniciar. ¿Eres nuevo/a o ya tienes cuenta?</p>
         </div>
     </div>
+
     <div class="row" style="margin-top:30px;">
         <div class="col-sm-6">
             <div class="panel panel-default">
+                <div class="panel-heading text-center">
+                    <h3 class="panel-title">
+                        <span class="glyphicon glyphicon-user text-primary"></span> Nuevo usuario
+                    </h3>
+                </div>
                 <div class="panel-body text-center">
                     <img src="{{ url_for('static', filename='img/babytux.png') }}" alt="Soy nuevo"
                         class="img-responsive center-block" style="max-height:250px;">
-                    <h3>Soy nuevo/a</h3>
-                    <p>¡Bienvenido/a! Crea una cuenta para empezar a usar Reflexion Journal.</p>
-                    <a href="{{ url_for('auth.register') }}" class="btn btn-primary">Registrarme</a>
+                    <h3><span class="glyphicon glyphicon-leaf text-success"></span> Soy nuevo/a</h3>
+                    <p><span class="glyphicon glyphicon-hand-right"></span> ¡Bienvenido/a! Crea una cuenta para empezar a usar Reflexion Journal.</p>
+                    <a href="{{ url_for('auth.register') }}" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-pencil"></span> Registrarme
+                    </a>
                 </div>
             </div>
         </div>
+
         <div class="col-sm-6">
             <div class="panel panel-default">
+                <div class="panel-heading text-center">
+                    <h3 class="panel-title">
+                        <span class="glyphicon glyphicon-log-in text-success"></span> Usuario existente
+                    </h3>
+                </div>
                 <div class="panel-body text-center">
                     <img src="{{ url_for('static', filename='img/supertux.png') }}" alt="Ya tengo cuenta"
                         class="img-responsive center-block" style="max-height:250px;">
-                    <h3>Ya tengo cuenta</h3>
-                    <p>¡De acuerdo, jefe! Inicia sesión para acceder a tu Reflexion Journal.</p>
-                    <a href="{{ url_for('auth.login') }}" class="btn btn-success">Iniciar sesión</a>
+                    <h3><span class="glyphicon glyphicon-star text-warning"></span> Ya tengo cuenta</h3>
+                    <p><span class="glyphicon glyphicon-ok-sign"></span> ¡De acuerdo, jefe! Inicia sesión para acceder a tu Reflexion Journal.</p>
+                    <a href="{{ url_for('auth.login') }}" class="btn btn-success">
+                        <span class="glyphicon glyphicon-log-in"></span> Iniciar sesión
+                    </a>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="panel panel-info">
-                    <div class="panel-heading text-center">
-                        <h2 style="margin:0;"><span class="glyphicon glyphicon-book"></span> ¿Qué es Reflexion Journal?</h2>
-                    </div>
-                    <div class="panel-body">
-                        <p class="lead text-center">
-                            Reflexion Journal es una herramienta para ayudarte a reflexionar sobre tu día a día y mejorar tu bienestar emocional.
-                        </p>
-                        <ul class="list-unstyled text-center" style="max-width:700px;margin:0 auto;">
-                            <li><span class="glyphicon glyphicon-pencil text-primary"></span> Escribe sobre tus experiencias diarias.</li>
-                            <li><span class="glyphicon glyphicon-heart text-danger"></span> Identifica y comprende tus emociones.</li>
-                            <li><span class="glyphicon glyphicon-flag text-success"></span> Establece tu <strong>"día cero"</strong> para comenzar tu viaje.</li>
-                            <li><span class="glyphicon glyphicon-certificate text-info"></span> Reflexiona con ayuda de la Inteligencia Artificial.</li>
-                        </ul>
-                    </div>
+    <div class="row" style="margin-top:30px;">
+        <div class="col-xs-12">
+            <div class="panel panel-info">
+                <div class="panel-heading text-center">
+                    <h2 style="margin:0;">
+                        <span class="glyphicon glyphicon-book"></span> ¿Qué es Reflexion Journal?
+                    </h2>
+                </div>
+                <div class="panel-body">
+                    <p class="lead text-center">
+                        Reflexion Journal es una herramienta para ayudarte a reflexionar sobre tu día a día y mejorar tu bienestar emocional.
+                    </p>
+                    <ul class="list-unstyled text-center" style="max-width:700px;margin:0 auto;">
+                        <li><span class="glyphicon glyphicon-pencil text-primary"></span> Escribe sobre tus experiencias diarias.</li>
+                        <li><span class="glyphicon glyphicon-heart text-danger"></span> Identifica y comprende tus emociones.</li>
+                        <li><span class="glyphicon glyphicon-flag text-success"></span> Establece tu <strong>"día cero"</strong> para comenzar tu viaje.</li>
+                        <li><span class="glyphicon glyphicon-certificate text-info"></span> Reflexiona con ayuda de la Inteligencia Artificial.</li>
+                    </ul>
+                </div>
+                <div class="panel-footer text-center">
+                    <small><span class="glyphicon glyphicon-time"></span> Dedica unos minutos al día a tu bienestar mental.</small>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 {% endblock %}

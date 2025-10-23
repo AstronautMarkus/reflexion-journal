@@ -6,9 +6,12 @@
   <h1>Configuración</h1>
   <ul class="list-group">
     <li class="list-group-item">
-      <h5>Definir Día Cero</h5>
+      <span class="glyphicon glyphicon-calendar" aria-hidden="true" style="margin-right:8px;"></span>
+      <h5 style="display:inline;">Definir Día Cero</h5>
       <p class="mb-1 text-muted">Establece el día inicial para tu diario de reflexiones. Esto te ayudará a llevar un seguimiento cronológico de tus entradas.</p>
-      <a href="{{ url_for('settings.define_day_zero') }}">Configurar</a>
+      <a href="{{ url_for('settings.define_day_zero') }}">
+        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Configurar
+      </a>
     </li>
   </ul>
 </div>
