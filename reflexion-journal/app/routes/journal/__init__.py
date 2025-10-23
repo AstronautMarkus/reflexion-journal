@@ -2,4 +2,4 @@ from flask import Blueprint
 
 journal = Blueprint('journal', __name__)
 
-from . import dashboard, profile
+from . import dashboard, profile, entries

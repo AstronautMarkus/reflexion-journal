@@ -7,7 +7,7 @@
         {% if current_user.is_authenticated %}
         <ul class="nav navbar-nav">
             <li><a href="{{ url_for('main.home') }}">Inicio</a></li>
-            <li><a href="#">Entradas</a></li>
+            <li><a href="{{ url_for('journal.entries') }}">Entradas</a></li>
             <li><a href="#">Nueva Entrada</a></li>
         </ul>
         {% endif %}

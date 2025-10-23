@@ -1,0 +1,38 @@
+{% extends 'base/base.html' %}
+{% block title %}Mis reflexiones - Reflexion Journal{% endblock %}
+{% block content %}
+    <h1>Mis reflexiones</h1>
+    <div class="row">
+        {% for entry in entries %}
+        <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+                <img src="{{ url_for('static', filename='img/astrotux.png') }}" alt="Astrotux">
+
+                <div class="caption">
+
+                    <h3>
+                        {% if entry.day is not none and entry.day >= 0 %}
+                            Día {{ entry.day }}
+                        {% else %}
+                            Día N/D
+                        {% endif %}
+                    </h3>
+
+                    <p>
+                        {{ entry.reflection_text[:200] }}{% if entry.reflection_text|length > 200 %}...{% endif %}
+                    </p>
+
+                    <p><small>{{ entry.created_at }}</small></p>
+
+                    <p>
+                        <a href="#" class="btn btn-primary" role="button">Ver</a>
+                        <a href="#" class="btn btn-default" role="button">Editar</a>
+                    </p>
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}
