@@ -2,27 +2,48 @@
 {% block title %}Detalle de Reflexión - Reflexion Journal{% endblock %}
 {% block content %}
 <div class="container">
-    <h2 class="page-header">Detalle de Reflexión</h2>
-    <p class="h4" style="margin-bottom: 20px;">Fecha: {{ date }}</p>
+    <h2 class="page-header">
+      <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+      Detalle de Reflexión
+    </h2>
+    <p class="h4" style="margin-bottom: 20px;">
+      <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+      Fecha: {{ date }}
+    </p>
 
     <div class="panel panel-default">
-        <div class="panel-heading"><strong>Estado de ánimo</strong></div>
+        <div class="panel-heading">
+          <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+          <strong>Estado de ánimo</strong>
+        </div>
         <div class="panel-body">{{ reflection.user_mood or 'No escrito' }}</div>
     </div>
     <div class="panel panel-default">
-        <div class="panel-heading"><strong>Reflexión</strong></div>
+        <div class="panel-heading">
+          <span class="glyphicon glyphicon-book" aria-hidden="true"></span>
+          <strong>Reflexión</strong>
+        </div>
         <div class="panel-body">{{ reflection.reflection_text or 'No escrito' }}</div>
     </div>
     <div class="panel panel-default">
-        <div class="panel-heading"><strong>Interacciones</strong></div>
+        <div class="panel-heading">
+          <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+          <strong>Interacciones</strong>
+        </div>
         <div class="panel-body">{{ reflection.interactions or 'No escrito' }}</div>
     </div>
     <div class="panel panel-default">
-        <div class="panel-heading"><strong>Recuerdos/Flashbacks</strong></div>
+        <div class="panel-heading">
+          <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
+          <strong>Recuerdos/Flashbacks</strong>
+        </div>
         <div class="panel-body">{{ reflection.flashbacks or 'No escrito' }}</div>
     </div>
     <div class="panel panel-default">
-        <div class="panel-heading"><strong>Emociones</strong></div>
+        <div class="panel-heading">
+          <span class="glyphicon glyphicon-fire" aria-hidden="true"></span>
+          <strong>Emociones</strong>
+        </div>
         <div class="panel-body">
             {% if reflection.emotions %}
                 {% for emotion in reflection.emotions.split(',') %}
@@ -36,23 +57,37 @@
         </div>
     </div>
     <div class="panel panel-default">
-        <div class="panel-heading"><strong>Conversaciones con amigos / seres queridos</strong></div>
+        <div class="panel-heading">
+          <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+          <strong>Conversaciones con amigos / seres queridos</strong>
+        </div>
         <div class="panel-body">{{ reflection.friendship_talk or 'No escrito' }}</div>
     </div>
     <div class="panel panel-default">
-        <div class="panel-heading"><strong>Experimentos</strong></div>
+        <div class="panel-heading">
+          <span class="glyphicon glyphicon-flask" aria-hidden="true"></span>
+          <strong>Experimentos</strong>
+        </div>
         <div class="panel-body">{{ reflection.experiments or 'No escrito' }}</div>
     </div>
     <div class="panel panel-default">
-        <div class="panel-heading"><strong>Eventos</strong></div>
+        <div class="panel-heading">
+          <span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
+          <strong>Eventos</strong>
+        </div>
         <div class="panel-body">{{ reflection.events or 'No escrito' }}</div>
     </div>
     <div class="panel panel-default">
-        <div class="panel-heading"><strong>Notas rápidas</strong></div>
+        <div class="panel-heading">
+          <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+          <strong>Notas rápidas</strong>
+        </div>
         <div class="panel-body">{{ reflection.rapid_notes or 'No escrito' }}</div>
     </div>
 
-    <a href="{{ url_for('reflections.reflections_list') }}" class="btn btn-primary" style="margin-bottom: 50px;">Volver
-        a la lista de reflexiones</a>
+    <a href="{{ url_for('reflections.reflections_list') }}" class="btn btn-primary" style="margin-bottom: 50px;">
+      <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+      Volver a la lista de reflexiones
+    </a>
 </div>
 {% endblock %}
