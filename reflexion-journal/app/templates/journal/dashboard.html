@@ -22,7 +22,7 @@
       {% if today_reflection is none %}
         <div class="alert alert-warning" role="alert">
           Aún no has escrito ninguna reflexión para hoy. 
-          <a href="">Es un buen momento para comenzar</a>.
+          <a href="{{ url_for('reflections.write_reflection') }}">Es un buen momento para comenzar</a>.
         </div>
       {% endif %}
 

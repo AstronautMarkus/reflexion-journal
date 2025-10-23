@@ -3,7 +3,7 @@ from flask import Flask, render_template
 from flask_login import current_user
 from app.middleware.check_user_auth import login_required_middleware
 from app.models.models import UserDayZero, ReflectionEntry
-from datetime import date
+from datetime import date, datetime, time
 
 @journal.route('/journal/dashboard')
 @login_required_middleware
@@ -13,8 +13,12 @@ def dashboard():
     user_day_zero = UserDayZero.query.filter_by(user_id=user.id).first()
     show_day_zero_alert = not bool(user_day_zero)
 
-    today_reflection = ReflectionEntry.query.filter_by(
-        user_id=user.id, created_at=date.today()
+    today = date.today()
+    start_datetime = datetime.combine(today, time.min)
+    end_datetime = datetime.combine(today, time.max)
+    today_reflection = ReflectionEntry.query.filter(
+        ReflectionEntry.user_id == user.id,
+        ReflectionEntry.created_at.between(start_datetime, end_datetime)
     ).first()
     
     if user_day_zero:

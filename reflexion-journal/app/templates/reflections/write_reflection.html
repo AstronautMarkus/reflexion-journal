@@ -1,0 +1,82 @@
+{% extends 'base/base.html' %}
+{% block title %}Escribir Reflexión - Reflexion Journal{% endblock %}
+{% block content %}
+<div class="container">
+    <h2 class="page-header">Escribir Reflexión</h2>
+    <p class="h4" style="margin-bottom: 20px;">Hoy es {{ current_date }}, cuéntanos sobre tu día. Entre nosotros, ¿qué te gustaría compartir?</p>
+  <form method="post" action="{{ url_for('reflections.submit_reflection') }}">
+    <div class="form-group">
+      <label for="user_mood">Estado de ánimo</label>
+      <textarea placeholder="Como te sientes? te gustaría escribirlo? máx 2048." class="form-control" id="user_mood" name="user_mood" rows="2" required></textarea>
+    </div>
+    <div class="form-group">
+      <label for="reflection_text">Reflexión</label>
+      <textarea placeholder="Alguna cosa que te dejó pensando? máx 2048" class="form-control" id="reflection_text" name="reflection_text" rows="4" required></textarea>
+    </div>
+    <div class="form-group">
+      <label for="interactions">Interacciones</label>
+      <textarea placeholder="Hablaste con alguien relevante hoy? máx 2048" class="form-control" id="interactions" name="interactions" rows="2"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="flashbacks">Recuerdos/Flashbacks</label>
+      <textarea placeholder="Tal vez, un momento específico que recordaste o te hizo sentir algo? máx 2048" class="form-control" id="flashbacks" name="flashbacks" rows="2"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="emotions">Emociones</label>
+      <textarea placeholder="Si tuvieras que describir este día en emociones? separadas por comas, por favor. máx 2048" class="form-control" id="emotions" name="emotions" rows="2"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="friendship_talk">Conversaciones con amigos / seres queridos</label>
+      <textarea placeholder="¿Qué hablaste con ellos? ¿Tienes amigos, familiares? máx 2048" class="form-control" id="friendship_talk" name="friendship_talk" rows="2"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="experiments">Experimentos</label>
+      <textarea placeholder="¿Hiciste algún experimento? algo nuevo que hayas probado? máx 2048" class="form-control" id="experiments" name="experiments" rows="2"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="events">Eventos</label>
+      <textarea placeholder="¿Hubo algún evento significativo hoy? máx 2048" class="form-control" id="events" name="events" rows="2"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="rapid_notes">Notas rápidas</label>
+      <textarea placeholder="Escribe aquí tus notas rápidas. Cositas que se te vengan a la mente. máx 2048" class="form-control" id="rapid_notes" name="rapid_notes" rows="2"></textarea>
+    </div>
+    <div style="margin-bottom: 20px">
+          <button type="submit" class="btn btn-primary">Guardar Reflexión</button>
+    <button type="button" class="btn btn-secondary" id="cancel-btn">Cancelar</button>
+    </div>
+  </form>
+</div>
+
+<div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="cancelModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="cancelModalLabel">¿Estás seguro?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Se perderán los cambios no guardados. ¿Deseas salir?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No, quedarme</button>
+        <button type="button" class="btn btn-danger" id="confirm-exit">Sí, salir</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  document.querySelector('.btn-secondary').removeEventListener('click', function(){}); 
+  document.getElementById('cancel-btn').addEventListener('click', function() {
+    $('#cancelModal').modal('show');
+  });
+  document.getElementById('confirm-exit').addEventListener('click', function() {
+    window.history.back();
+  });
+</script>
+{% endblock %}
