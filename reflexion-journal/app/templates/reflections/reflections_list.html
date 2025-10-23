@@ -1,27 +1,37 @@
 {% extends 'base/base.html' %}
 {% block title %}Mis Reflexiones - Reflexion Journal{% endblock %}
 {% block content %}
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        <h1 class="page-header">Mis Reflexiones</h1>
-        {% if reflection_entries %}
-          <ul class="list-group">
-            {% for entry in reflection_entries %}
-              <li class="list-group-item">
-                <h4>{{ entry.title }}</h4>
-                <p>{{ entry.content }}</p>
-                <small class="text-muted">Escrito el {{ entry.created_at }}</small>
-              </li>
-            {% endfor %}
-          </ul>
-        {% else %}
-          <p class="text-center text-muted" style="margin-top:30px;">
-            Aún no has escrito ninguna reflexión.
+  <h1>Mis reflexiones</h1>
+  <div class="row">
+    {% for entry in reflection_entries %}
+    <div class="col-sm-6 col-md-4">
+      <div class="thumbnail">
+        <img src="{{ url_for('static', filename='img/astrotux.png') }}" alt="Astrotux">
+
+        <div class="caption">
+
+          <h3>
+            {% if entry.day is not none and entry.day >= 0 %}
+              Día {{ entry.day }}
+            {% else %}
+              Día N/D
+            {% endif %}
+          </h3>
+
+          <p>
+            {{ entry.reflection_text[:200] }}{% if entry.reflection_text|length > 200 %}...{% endif %}
           </p>
-          <a href="{{ url_for('journal.dashboard')}}" class="btn btn-primary">Regresar</a>
-        {% endif %}
+
+          <p><small>{{ entry.created_at }}</small></p>
+
+          <p>
+            <a href="#" class="btn btn-primary" role="button">Ver</a>
+            <a href="#" class="btn btn-default" role="button">Editar</a>
+          </p>
+
+        </div>
       </div>
     </div>
+    {% endfor %}
   </div>
 {% endblock %}
