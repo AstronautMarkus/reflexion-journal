@@ -21,6 +21,7 @@
               <input type="date" class="form-control" id="day_zero" name="day_zero" required>
             </div>
             <button type="submit" class="btn btn-primary">Guardar</button>
+            <button type="button" class="btn btn-secondary" id="cancelar-form-dia-zero">Cancelar</button>
           </form>
         </div>
         <script>
@@ -29,6 +30,9 @@
             document.getElementById('form-dia-zero').style.display = 'block';
           };
           document.getElementById('cancelar-dia-zero').onclick = function() {
+            window.history.back();
+          };
+          document.getElementById('cancelar-form-dia-zero').onclick = function() {
             window.history.back();
           };
         </script>
