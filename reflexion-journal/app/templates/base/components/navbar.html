@@ -29,7 +29,7 @@
                 </a>
                 <ul class="dropdown-menu">
                     {% if current_user.is_authenticated %}
-                        <li><a href="#">Perfil</a></li>
+                        <li><a href="{{ url_for('journal.profile') }}">Perfil</a></li>
                         <li><a href="{{ url_for('settings.settings_page') }}">Configuración</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="{{ url_for('auth.logout') }}">Cerrar sesión</a></li>
