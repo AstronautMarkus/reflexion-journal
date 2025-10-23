@@ -4,8 +4,8 @@
 <div class="container">
     <div class="row">
         <div class="col-xs-12 text-center">
-            <h1><span class="glyphicon glyphicon-home text-primary"></span> Bienvenido/a</h1>
-            <p><span class="glyphicon glyphicon-question-sign text-info"></span> Antes de iniciar. ¿Eres nuevo/a o ya tienes cuenta?</p>
+            <h1><span class="glyphicon glyphicon-home text-primary"></span> Bienvenido/a a Reflexion Journal</h1>
+            <p><span class="glyphicon glyphicon-question-sign text-info"></span> <strong>Antes de iniciar. ¿Eres nuevo/a o ya tienes cuenta?</strong></p>
         </div>
     </div>
 
@@ -21,9 +21,9 @@
                     <img src="{{ url_for('static', filename='img/babytux.png') }}" alt="Soy nuevo"
                         class="img-responsive center-block" style="max-height:250px;">
                     <h3><span class="glyphicon glyphicon-leaf text-success"></span> Soy nuevo/a</h3>
-                    <p><span class="glyphicon glyphicon-hand-right"></span> ¡Bienvenido/a! Crea una cuenta para empezar a usar Reflexion Journal.</p>
+                    <p><span class="glyphicon glyphicon-hand-right"></span> <strong>¡Bienvenido/a! Crea una cuenta para empezar a usar Reflexion Journal.</strong></p>
                     <a href="{{ url_for('auth.register') }}" class="btn btn-primary">
-                        <span class="glyphicon glyphicon-pencil"></span> Registrarme
+                        <span class="glyphicon glyphicon-plus"></span> Registrarme
                     </a>
                 </div>
             </div>
@@ -40,7 +40,7 @@
                     <img src="{{ url_for('static', filename='img/supertux.png') }}" alt="Ya tengo cuenta"
                         class="img-responsive center-block" style="max-height:250px;">
                     <h3><span class="glyphicon glyphicon-star text-warning"></span> Ya tengo cuenta</h3>
-                    <p><span class="glyphicon glyphicon-ok-sign"></span> ¡De acuerdo, jefe! Inicia sesión para acceder a tu Reflexion Journal.</p>
+                    <p><span class="glyphicon glyphicon-ok-sign"></span> <strong>¡De acuerdo, jefe! Inicia sesión para acceder a tu Reflexion Journal.</strong></p>
                     <a href="{{ url_for('auth.login') }}" class="btn btn-success">
                         <span class="glyphicon glyphicon-log-in"></span> Iniciar sesión
                     </a>
@@ -59,20 +59,61 @@
                 </div>
                 <div class="panel-body">
                     <p class="lead text-center">
-                        Reflexion Journal es una herramienta para ayudarte a reflexionar sobre tu día a día y mejorar tu bienestar emocional.
+                        <strong>Reflexion Journal es una herramienta para ayudarte a reflexionar sobre tu día a día y mejorar tu bienestar emocional.</strong>
                     </p>
                     <ul class="list-unstyled text-center" style="max-width:700px;margin:0 auto;">
-                        <li><span class="glyphicon glyphicon-pencil text-primary"></span> Escribe sobre tus experiencias diarias.</li>
-                        <li><span class="glyphicon glyphicon-heart text-danger"></span> Identifica y comprende tus emociones.</li>
+                        <li><span class="glyphicon glyphicon-pencil text-primary"></span> <strong>Escribe sobre tus experiencias diarias.</strong></li>
+                        <li><span class="glyphicon glyphicon-heart text-danger"></span> <strong>Identifica y comprende tus emociones.</strong></li>
                         <li><span class="glyphicon glyphicon-flag text-success"></span> Establece tu <strong>"día cero"</strong> para comenzar tu viaje.</li>
-                        <li><span class="glyphicon glyphicon-certificate text-info"></span> Reflexiona con ayuda de la Inteligencia Artificial.</li>
+                        <li><span class="glyphicon glyphicon-certificate text-info"></span> <strong>Reflexiona con ayuda de la Inteligencia Artificial.</strong></li>
                     </ul>
                 </div>
                 <div class="panel-footer text-center">
-                    <small><span class="glyphicon glyphicon-time"></span> Dedica unos minutos al día a tu bienestar mental.</small>
+                    <small><span class="glyphicon glyphicon-time"></span> <strong>Dedica unos minutos al día a tu bienestar mental.</strong></small>
                 </div>
             </div>
         </div>
+
+        <div class="col-xs-12">
+            <div class="media" style="background:#f9f9f9; padding:20px; border-radius:6px; border:1px solid #ddd;">
+                <div class="media-left media-middle">
+                    <img class="media-object" src="{{ url_for('static', filename='img/tux-reading.gif') }}" alt="Pingüino Tux leyendo" style="width:120px; height:120px; object-fit:cover;">
+                </div>
+                <div class="media-body">
+                    <h3 class="media-heading text-info">
+                        <span class="glyphicon glyphicon-comment"></span> ¿Por qué Reflexion Journal?
+                    </h3>
+                    <p>
+                        <strong>¿Alguna vez has sentido que necesitas un espacio donde reflexionar o guardar tu día a día?</strong> Tus pensamientos más íntimos o simplemente llevar un registro de tus emociones y experiencias diarias?
+                    </p>
+                    <p>
+                        <strong>A mí un día me pasó, estaba solo y sin ningún lugar donde expresar lo que sentía, entonces decidí construir Reflexion Journal</strong>, una herramienta que me ayudara a mí, originalmente pensado como un proyecto personal, pero quizás podría ayudar a más personas.
+                    </p>
+                    <p>
+                        Todo comenzó con la idea de crear un diario personal, pero con un enfoque especial en la reflexión y en un "experimento" que hice. Empecé a documentar todo esto en un programa, originalmente una simple aplicación que guardaba los textos en JSON, pero con el tiempo evolucionó a una aplicación web más completa.
+                    </p>
+                    <p>
+                        <strong>Reflexion Journal no es solo un diario, es una herramienta para ayudarte a reflexionar sobre tu día a día.</strong> Tal vez un día quieras mostrarle a tu "yo futuro" lo que viviste o algo que aprendiste. ¿No has pensado en eso de que tu "yo futuro" es otra persona?
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12">
+            <div class="well well-sm text-center" style="margin-top:20px;">
+            <p>
+                <span class="glyphicon glyphicon-console text-primary"></span>
+                <strong>Este programa es Open Source:</strong>
+                puedes encontrar el código en
+                <a href="https://github.com/astronautmarkus/reflexion-journal" target="_blank" class="label label-info">GitHub</a>.
+                Este proyecto está hosteado por <strong>Marcos Reyes</strong> a través de
+                <a href="https://www.reyesandfriends.cl" target="_blank" class="label label-danger">Reyes&amp;Friends</a>.
+                <br><br>
+                <strong>Nunca</strong> se recopilan datos personales ni de uso. ¡Tu privacidad es lo primero! Puedes eliminar tu cuenta y datos cuando quieras.
+            </p>
+            </div>
+        </div>
+
     </div>
 </div>
 {% endblock %}

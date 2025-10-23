@@ -16,7 +16,7 @@
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     {% for category, message in messages %}
-                        <div class="alert alert-{{ category }} alert-dismissible fade in mt-3" role="alert">
+                        <div class="alert alert-{{ category }} alert-dismissible fade in" style="margin-top: 20px;" role="alert">
                             {% if category == 'danger' %}
                                 <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                                 <span class="sr-only">Error:</span>
