@@ -1,47 +1,56 @@
 <nav class="navbar navbar-default navbar-fixed-top" style="z-index: 1030;">
     <div class="container-fluid">
         <div class="navbar-header">
+
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-main" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
             <a class="navbar-brand" href="{{ url_for('main.home') }}">
                 <span class="glyphicon glyphicon-book" aria-hidden="true"></span>
                 Reflexion Journal
             </a>
         </div>
 
-        {% if current_user.is_authenticated %}
-        <ul class="nav navbar-nav">
-            <li><a href="{{ url_for('main.home') }}"><span class="glyphicon glyphicon-home"></span> Inicio</a></li>
-            <li><a href="{{ url_for('reflections.reflections_list') }}"><span class="glyphicon glyphicon-list-alt"></span> Entradas</a></li>
-            <li><a href="#"><span class="glyphicon glyphicon-plus-sign"></span> Nueva Entrada</a></li>
-        </ul>
-        {% endif %}
+        <div class="collapse navbar-collapse" id="navbar-main">
+            {% if current_user.is_authenticated %}
+            <ul class="nav navbar-nav">
+                <li><a href="{{ url_for('main.home') }}"><span class="glyphicon glyphicon-home"></span> Inicio</a></li>
+                <li><a href="{{ url_for('reflections.reflections_list') }}"><span class="glyphicon glyphicon-list-alt"></span> Entradas</a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-plus-sign"></span> Nueva Entrada</a></li>
+            </ul>
+            {% endif %}
 
-        <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                    <span class="glyphicon glyphicon-user"></span>
-                    {% if current_user.is_authenticated %}
-                        {% if current_user.username %}
-                            {{ current_user.username }}
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <span class="glyphicon glyphicon-user"></span>
+                        {% if current_user.is_authenticated %}
+                            {% if current_user.username %}
+                                {{ current_user.username }}
+                            {% else %}
+                                {{ current_user.first_name }} {{ current_user.last_name }}
+                            {% endif %}
                         {% else %}
-                            {{ current_user.first_name }} {{ current_user.last_name }}
+                            Acceder
                         {% endif %}
-                    {% else %}
-                        Usuario
-                    {% endif %}
-                    <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu">
-                    {% if current_user.is_authenticated %}
-                        <li><a href="{{ url_for('journal.profile') }}"><span class="glyphicon glyphicon-user"></span> Perfil</a></li>
-                        <li><a href="{{ url_for('settings.settings_page') }}"><span class="glyphicon glyphicon-cog"></span> Configuración</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="{{ url_for('auth.logout') }}"><span class="glyphicon glyphicon-log-out"></span> Cerrar sesión</a></li>
-                    {% else %}
-                        <li><a href="{{ url_for('auth.login') }}"><span class="glyphicon glyphicon-log-in"></span> Iniciar sesión</a></li>
-                        <li><a href="{{ url_for('auth.register') }}"><span class="glyphicon glyphicon-plus"></span> Registrarse</a></li>
-                    {% endif %}
-                </ul>
-            </li>
-        </ul>
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        {% if current_user.is_authenticated %}
+                            <li><a href="{{ url_for('journal.profile') }}"><span class="glyphicon glyphicon-user"></span> Perfil</a></li>
+                            <li><a href="{{ url_for('settings.settings_page') }}"><span class="glyphicon glyphicon-cog"></span> Configuración</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="{{ url_for('auth.logout') }}"><span class="glyphicon glyphicon-log-out"></span> Cerrar sesión</a></li>
+                        {% else %}
+                            <li><a href="{{ url_for('auth.login') }}"><span class="glyphicon glyphicon-log-in"></span> Iniciar sesión</a></li>
+                            <li><a href="{{ url_for('auth.register') }}"><span class="glyphicon glyphicon-plus"></span> Registrarse</a></li>
+                        {% endif %}
+                    </ul>
+                </li>
+            </ul>
+        </div>
     </div>
 </nav>

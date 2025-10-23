@@ -1,6 +1,6 @@
-<footer class="footer footer-fixed" style="position: fixed; left: 0; bottom: 0; width: 100%; z-index: 100; background: #fff;">
+<footer class="footer navbar navbar-default" style="border-top: 1px solid #e7e7e7; margin-top: 40px;">
     <div class="container">
-        <p class="text-muted text-center">
+        <p class="text-muted text-center" style="margin: 10px 0;">
             <span class="glyphicon glyphicon-book" aria-hidden="true"></span>
             &copy; <span id="current-year"></span> Reflexion Journal. Creado por <a href="https://astronautmarkus.dev" target="_blank">AstronautMarkusDev</a>, basado en lo que todos necesitamos sin saberlo.
         </p>
@@ -10,3 +10,24 @@
 <script>
     document.getElementById('current-year').textContent = new Date().getFullYear();
 </script>
+<style>
+    html, body {
+        height: 100%;
+    }
+    body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 0;
+    }
+    .footer {
+        margin-top: auto;
+        background: #fff;
+        z-index: 1030;
+    }
+    @media (max-width: 767px) {
+        .footer {
+            font-size: 14px;
+        }
+    }
+</style>
