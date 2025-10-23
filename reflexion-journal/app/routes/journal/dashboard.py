@@ -2,7 +2,7 @@ from . import journal
 from flask import Flask, render_template
 from flask_login import current_user
 from app.middleware.check_user_auth import login_required_middleware
-from app.models.models import UserDayZero
+from app.models.models import UserDayZero, ReflectionEntry
 from datetime import date
 
 @journal.route('/journal/dashboard')
@@ -12,6 +12,10 @@ def dashboard():
 
     user_day_zero = UserDayZero.query.filter_by(user_id=user.id).first()
     show_day_zero_alert = not bool(user_day_zero)
+
+    today_reflection = ReflectionEntry.query.filter_by(
+        user_id=user.id, created_at=date.today()
+    ).first()
     
     if user_day_zero:
         day_count = (date.today() - user_day_zero.date).days + 1
@@ -20,5 +24,6 @@ def dashboard():
         'journal/dashboard.html',
         user=user,
         show_day_zero_alert=show_day_zero_alert,
-        day_count=day_count if user_day_zero else None
+        day_count=day_count if user_day_zero else None,
+        today_reflection=today_reflection if today_reflection else None
     )
