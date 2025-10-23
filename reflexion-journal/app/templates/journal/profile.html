@@ -4,25 +4,63 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-4 text-center">
-      <img src="{{ url_for('static', filename='img/astrotux.png') }}" class="img-thumbnail" alt="Imagen de perfil" style="width:180px;height:180px;">
+      <img src="{{ url_for('static', filename='img/astrotux.png') }}" class="img-thumbnail" alt="Imagen de perfil"
+        style="width:180px;height:180px;">
     </div>
     <div class="col-sm-8">
-      <h2 id="profile-name">{{ user.first_name }} {{ user.last_name }}</h2>
+      <h2 id="profile-name">
+        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+        {{ user.first_name }} {{ user.last_name }}
+      </h2>
       <table class="table">
         <tr>
-          <th>Nombre de usuario:</th>
-          <td id="profile-username">{{ user.username }}</td>
+          <th>
+            <span class="glyphicon glyphicon-tag" aria-hidden="true"></span>
+            Nombre de usuario:
+          </th>
+          <td id="profile-username">{{ user.username or 'No definido' }}</td>
         </tr>
         <tr>
-          <th>Email:</th>
+          <th>
+            <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+            Email:
+          </th>
           <td id="profile-email">{{ user.email }}</td>
         </tr>
         <tr>
-          <th>Miembro desde:</th>
+          <th>
+            <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
+            Miembro desde:
+          </th>
           <td>{{ user.created_at.strftime('%d/%m/%Y') }}</td>
         </tr>
+        <tr>
+          <th>
+            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+            Mi Día Cero:
+          </th>
+          <td>
+            {% if day_zero %}
+            Día cero definido el {{ day_zero.strftime('%d/%m/%Y') }}
+            {% else %}
+            No definido
+            {% endif %}
+          </td>
+        </tr>
       </table>
-      <button class="btn btn-primary" data-toggle="modal" data-target="#editProfileModal">Editar perfil</button>
+
+      {% if not day_zero %}
+      <div class="alert alert-danger" role="alert" style="margin-bottom: 20px;">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        Aún no has definido el día cero de tu Reflexion Journal.
+        <a href="{{ url_for('settings.define_day_zero') }}">Haz click para definirlo aquí</a>.
+      </div>
+      {% endif %}
+
+      <button class="btn btn-primary" data-toggle="modal" data-target="#editProfileModal">
+        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+        Editar perfil
+      </button>
     </div>
   </div>
 </div>
@@ -32,30 +70,55 @@
     <div class="modal-content">
       <form id="edit-profile-form" method="post" action="{{ url_for('journal.edit_profile') }}">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="editProfileModalLabel">Editar Perfil</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span
+              aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="editProfileModalLabel">
+            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+            Editar Perfil
+          </h4>
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <label for="edit-first-name">Nombre</label>
-            <input type="text" class="form-control" id="edit-first-name" name="first_name" value="{{ user.first_name }}" required>
+            <label for="edit-first-name">
+              <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+              Nombre
+            </label>
+            <input type="text" class="form-control" id="edit-first-name" name="first_name" value="{{ user.first_name }}"
+              required>
           </div>
           <div class="form-group">
-            <label for="edit-last-name">Apellido</label>
-            <input type="text" class="form-control" id="edit-last-name" name="last_name" value="{{ user.last_name }}" required>
+            <label for="edit-last-name">
+              <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+              Apellido
+            </label>
+            <input type="text" class="form-control" id="edit-last-name" name="last_name" value="{{ user.last_name }}"
+              required>
           </div>
           <div class="form-group">
-            <label for="edit-username">Nombre de usuario</label>
-            <input type="text" class="form-control" id="edit-username" name="username" value="{{ user.username }}" required>
+            <label for="edit-username">
+              <span class="glyphicon glyphicon-tag" aria-hidden="true"></span>
+              Nombre de usuario
+            </label>
+            <input type="text" class="form-control" id="edit-username" name="username" value="{{ user.username }}"
+              required>
           </div>
           <div class="form-group">
-            <label for="edit-email">Email</label>
+            <label for="edit-email">
+              <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+              Email
+            </label>
             <input type="email" class="form-control" id="edit-email" name="email" value="{{ user.email }}" required>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-          <button type="submit" class="btn btn-primary">Guardar cambios</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+            Cancelar
+          </button>
+          <button type="submit" class="btn btn-primary">
+            <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
+            Guardar cambios
+          </button>
         </div>
       </form>
     </div>
@@ -65,8 +128,8 @@
 
 {% block scripts %}
 <script>
-$('#editProfileModal').on('shown.bs.modal', function () {
-  $('#edit-first-name').focus();
-});
+  $('#editProfileModal').on('shown.bs.modal', function () {
+    $('#edit-first-name').focus();
+  });
 </script>
 {% endblock %}
