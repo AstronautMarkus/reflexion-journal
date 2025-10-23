@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/astrotux.png')}}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/reflexion-journal.css') }}">
     <title>{% block title %} {% endblock %}</title>
     {% block head %}{% endblock %}
 </head>
@@ -29,6 +30,7 @@
         {% endwith %}
         {% block content %}{% endblock %}
     </div>
+    <img src="{{ url_for('static', filename='img/booktux.png')}}" alt="" class="booktux-bg">
     {% block scripts %}{% endblock %}
     <script src="{{ url_for('static', filename='js/jquery-3.7.1.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
