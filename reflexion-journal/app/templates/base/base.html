@@ -10,10 +10,32 @@
 <body>
     {% include 'base/components/navbar.html' %}
     <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade in mt-3" role="alert">
+                        {% if category == 'danger' %}
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                            <span class="sr-only">Error:</span>
+                        {% endif %}
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
         {% block content %}{% endblock %}
     </div>
     {% block scripts %}{% endblock %}
     <script src="{{ url_for('static', filename='js/jquery-3.7.1.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap-3.4.1.min.js') }}"></script>
+    <script>
+
+    $(document).on('click', '.alert .close', function() {
+        $(this).closest('.alert').fadeOut(200, function() { $(this).remove(); });
+    });
+    </script>
 </body>
 </html>

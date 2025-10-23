@@ -1,0 +1,56 @@
+{% extends 'base/base.html' %}
+{% block title %}Iniciar sesión - Reflexion Journal{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 text-center">
+            <h1>Iniciar sesión</h1>
+            <p>Ingresa tus datos para acceder a Reflexion Journal.</p>
+        </div>
+    </div>
+    <div class="row" style="margin-top:30px;">
+        <div class="col-sm-6 col-sm-offset-3">
+            <form method="POST" action="{{ url_for('auth.login') }}">
+                <div class="form-group">
+                    <label for="email" class="control-label">Email <i class="text-danger">*</i></label>
+                    <input type="email" class="form-control" name="email" id="email" required placeholder="Ej. juan@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="password" class="control-label">Contraseña <i class="text-danger">*</i></label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" name="password" id="password" required placeholder="Tu contraseña">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default toggle-password" type="button" data-target="password" tabindex="-1">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group text-center">
+                    <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.querySelectorAll('.toggle-password').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        var targetId = btn.getAttribute('data-target');
+        var input = document.getElementById(targetId);
+        if (input.type === "password") {
+            input.type = "text";
+            btn.querySelector('span').classList.remove('glyphicon-eye-open');
+            btn.querySelector('span').classList.add('glyphicon-eye-close');
+        } else {
+            input.type = "password";
+            btn.querySelector('span').classList.remove('glyphicon-eye-close');
+            btn.querySelector('span').classList.add('glyphicon-eye-open');
+        }
+    });
+});
+</script>
+{% endblock %}
