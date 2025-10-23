@@ -3,18 +3,8 @@
 {% block content %}
 <div class="container-fluid">
   <div class="row">
-    <!-- Sidebar -->
-    <div class="col-sm-3 col-md-2 sidebar">
-      <ul class="nav nav-sidebar">
-        <li class="active"><a href="#">Resumen <span class="sr-only">(actual)</span></a></li>
-        <li><a href="#">Entradas</a></li>
-        <li><a href="#">Estadísticas</a></li>
-        <li><a href="#">Configuración</a></li>
-      </ul>
-    </div>
-    <!-- Main content -->
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-      <h1 class="page-header">Dashboard</h1>
+      <h1 class="page-header" id="greeting-header">Buenas, {{ user.first_name }}</h1>
       <div class="row placeholders">
         <div class="col-xs-6 col-sm-3 placeholder">
           <img src="https://placehold.co/200x200" class="img-responsive" alt="Placeholder">
@@ -37,8 +27,29 @@
           <span class="text-muted">Personaliza tu diario</span>
         </div>
       </div>
-      <!-- Puedes agregar más contenido aquí -->
     </div>
   </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  function getGreeting() {
+    const hour = new Date().getHours();
+    if (hour >= 6 && hour < 12) {
+      return "Buenos días";
+    } else if (hour >= 12 && hour < 20) {
+      return "Buenas tardes";
+    } else {
+      return "Buenas noches";
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", function() {
+    const header = document.getElementById("greeting-header");
+    if (header) {
+      header.textContent = getGreeting() + ", {{ user.first_name }}";
+    }
+  });
+</script>
 {% endblock %}
