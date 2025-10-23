@@ -10,29 +10,15 @@
         <a href="{{ url_for('settings.define_day_zero') }}" style="text-decoration: underline;">Haz click para definirlo aquí</a>.
       </div>
       {% endif %}
+
       <h1 class="page-header" id="greeting-header">Buenas, {{ user.first_name }}</h1>
-      <div class="row placeholders">
-        <div class="col-xs-6 col-sm-3 placeholder">
-          <img src="https://placehold.co/200x200" class="img-responsive" alt="Placeholder">
-          <h4>Entradas</h4>
-          <span class="text-muted">Total de entradas</span>
-        </div>
-        <div class="col-xs-6 col-sm-3 placeholder">
-          <img src="https://placehold.co/200x200" class="img-responsive" alt="Placeholder">
-          <h4>Reflexiones</h4>
-          <span class="text-muted">Últimas reflexiones</span>
-        </div>
-        <div class="col-xs-6 col-sm-3 placeholder">
-          <img src="https://placehold.co/200x200" class="img-responsive" alt="Placeholder">
-          <h4>Estadísticas</h4>
-          <span class="text-muted">Tus hábitos</span>
-        </div>
-        <div class="col-xs-6 col-sm-3 placeholder">
-          <img src="https://placehold.co/200x200" class="img-responsive" alt="Placeholder">
-          <h4>Configuración</h4>
-          <span class="text-muted">Personaliza tu diario</span>
-        </div>
-      </div>
+
+      {% if day_count is not none %}
+        <h4 class="h4 text-info" style="margin-bottom: 20px;">
+          Hoy es el día {{ day_count }} desde tu día cero. ¡Sigue adelante con tus reflexiones!
+        </h4>
+      {% endif %}
+
     </div>
   </div>
 </div>
