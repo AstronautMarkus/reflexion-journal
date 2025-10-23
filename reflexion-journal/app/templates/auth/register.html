@@ -13,28 +13,48 @@
             <form method="POST" action="{{ url_for('auth.register') }}">
                 <div class="form-group">
                     <label for="first_name" class="control-label">Nombre <i class="text-danger">*</i></label>
-                    <input type="text" class="form-control" id="first_name" name="first_name" required placeholder="Ej. Juan" value="{{ form_data.first_name if form_data.first_name is defined else '' }}">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-user"></span>
+                        </span>
+                        <input type="text" class="form-control" id="first_name" name="first_name" required placeholder="Ej. Juan" value="{{ form_data.first_name if form_data.first_name is defined else '' }}">
+                    </div>
                     {% if errors.first_name %}
                         <div class="alert alert-danger" style="margin-top:5px; padding:5px;">{{ errors.first_name }}</div>
                     {% endif %}
                 </div>
                 <div class="form-group">
                     <label for="last_name" class="control-label">Apellido <i class="text-danger">*</i></label>
-                    <input type="text" class="form-control" id="last_name" name="last_name" required placeholder="Ej. Pérez" value="{{ form_data.last_name if form_data.last_name is defined else '' }}">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-user"></span>
+                        </span>
+                        <input type="text" class="form-control" id="last_name" name="last_name" required placeholder="Ej. Pérez" value="{{ form_data.last_name if form_data.last_name is defined else '' }}">
+                    </div>
                     {% if errors.last_name %}
                         <div class="alert alert-danger" style="margin-top:5px; padding:5px;">{{ errors.last_name }}</div>
                     {% endif %}
                 </div>
                 <div class="form-group">
                     <label for="username" class="control-label">Nombre de usuario (opcional)</label>
-                    <input type="text" class="form-control" id="username" name="username" placeholder="Tu seudónimo, John Doe, Big Floppa, etc." value="{{ form_data.username if form_data.username is defined else '' }}">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-user"></span>
+                        </span>
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Tu seudónimo, John Doe, Big Floppa, etc." value="{{ form_data.username if form_data.username is defined else '' }}">
+                    </div>
                     {% if errors.username %}
                         <div class="alert alert-danger" style="margin-top:5px; padding:5px;">{{ errors.username }}</div>
                     {% endif %}
                 </div>
                 <div class="form-group">
                     <label for="email" class="control-label">Email <i class="text-danger">*</i></label>
-                    <input type="email" class="form-control" id="email" name="email" required placeholder="Ej. juan@email.com" value="{{ form_data.email if form_data.email is defined else '' }}">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-envelope"></span>
+                        </span>
+                        <input type="email" class="form-control" id="email" name="email" required placeholder="Ej. juan@email.com" value="{{ form_data.email if form_data.email is defined else '' }}">
+                    </div>
                     {% if errors.email %}
                         <div class="alert alert-danger" style="margin-top:5px; padding:5px;">{{ errors.email }}</div>
                     {% endif %}
@@ -42,6 +62,9 @@
                 <div class="form-group">
                     <label for="password" class="control-label">Contraseña <i class="text-danger">*</i></label>
                     <div class="input-group">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-lock"></span>
+                        </span>
                         <input type="password" class="form-control" id="password" name="password" required placeholder="Mínimo 8 caracteres">
                         <span class="input-group-btn">
                             <button class="btn btn-default toggle-password" type="button" data-target="password" tabindex="-1">
@@ -56,6 +79,9 @@
                 <div class="form-group">
                     <label for="confirm" class="control-label">Confirmar contraseña <i class="text-danger">*</i></label>
                     <div class="input-group">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-lock"></span>
+                        </span>
                         <input type="password" class="form-control" id="confirm" name="confirm" required placeholder="Repite tu contraseña">
                         <span class="input-group-btn">
                             <button class="btn btn-default toggle-password" type="button" data-target="confirm" tabindex="-1">
@@ -68,7 +94,9 @@
                     {% endif %}
                 </div>
                 <div class="form-group text-center">
-                    <button type="submit" class="btn btn-primary">Registrarse</button>
+                    <button type="submit" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-user"></span> Registrarse
+                    </button>
                 </div>
             </form>
             <a href="{{ url_for('auth.login') }}">¿Ya tienes una cuenta? Inicia sesión aquí</a>
