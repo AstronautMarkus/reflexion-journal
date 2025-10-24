@@ -4,10 +4,11 @@
 <div class="container">
     <div class="row">
         <div class="col-xs-12 text-center">
-            <h1>Iniciar sesión</h1>
-            <p>Ingresa tus datos para acceder a Reflexion Journal.</p>
+            <h1><span class="glyphicon glyphicon-log-in text-primary"></span> Iniciar sesión</h1>
+            <p><span class="glyphicon glyphicon-user text-info"></span> <strong>Por favor, ingresa tus credenciales para acceder a tu cuenta.</strong></p>
         </div>
     </div>
+
     <div class="row" style="margin-top:30px;">
         <div class="col-sm-6 col-sm-offset-3">
             <form method="POST" action="{{ url_for('auth.login') }}">
@@ -38,6 +39,10 @@
                     <button type="submit" class="btn btn-primary">
                         <span class="glyphicon glyphicon-log-in"></span> Iniciar sesión
                     </button>
+                    <br><br>
+                    <a href="{{ url_for('main.home') }}" class="btn btn-link" id="back-home">
+                        <span class="glyphicon glyphicon-home"></span> Volver a la página principal
+                    </a>
                 </div>
             </form>
             <a href="{{ url_for('auth.register') }}">¿No tienes una cuenta? Regístrate aquí</a>

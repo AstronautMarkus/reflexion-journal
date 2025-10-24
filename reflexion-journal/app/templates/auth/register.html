@@ -4,10 +4,11 @@
 <div class="container">
     <div class="row">
         <div class="col-xs-12 text-center">
-            <h1>Crear una cuenta</h1>
-            <p>Completa el formulario para registrarte en Reflexion Journal.</p>
+            <h1><span class="glyphicon glyphicon-user text-primary"></span> Crear una cuenta</h1>
+            <p><span class="glyphicon glyphicon-pencil text-info"></span> <strong>Completa el formulario para registrarte en Reflexion Journal.</strong></p>
         </div>
     </div>
+
     <div class="row" style="margin-top:30px;">
         <div class="col-sm-6 col-sm-offset-3">
             <form method="POST" action="{{ url_for('auth.register') }}">
