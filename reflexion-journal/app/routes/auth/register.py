@@ -1,5 +1,5 @@
 from . import auth
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request, current_app
 from app.models.models import User, UserActivationCode
 from flask_mail import Message
 from app import db, mail
@@ -33,9 +33,12 @@ def register():
         if username and User.query.filter_by(username=username).first():
             errors['username'] = 'El nombre de usuario ya está en uso.'
 
+        first_name_cap = first_name.title()
+        last_name_cap = last_name.title()
+
         form_data = {
-            'first_name': first_name,
-            'last_name': last_name,
+            'first_name': first_name_cap,
+            'last_name': last_name_cap,
             'username': username or '',
             'email': email
         }
@@ -45,14 +48,14 @@ def register():
 
         hashed_password = generate_password_hash(password)
         user = User(
-            first_name=first_name,
-            last_name=last_name,
+            first_name=first_name_cap,
+            last_name=last_name_cap,
             username=username,
             email=email,
             password=hashed_password
         )
 
-        name = f"{first_name} {last_name}"
+        name = f"{first_name_cap} {last_name_cap}"
 
         try:
             db.session.add(user)
@@ -73,10 +76,13 @@ def register():
                 subject="Código de activación de Reflexion Journal",
                 recipients=[email]
             )
+
+            activation_url = url_for('auth.activate_account', email=email, _external=True)
             msg.html = render_template(
                 'emails/auth-activation-code.html',
                 name=name,
-                activation_code=activation_code
+                activation_code=activation_code,
+                activation_url=activation_url
             )
             mail.send(msg)
 

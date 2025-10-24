@@ -32,7 +32,7 @@ def create_app():
         return User.query.get(int(user_id))
 
     app.register_blueprint(main_blueprint)
-    app.register_blueprint(auth_blueprint)
+    app.register_blueprint(auth_blueprint, url_prefix='/auth')
     app.register_blueprint(journal_blueprint)
     app.register_blueprint(settings_blueprint, url_prefix='/journal')
     app.register_blueprint(reflections_blueprint, url_prefix='/journal')
