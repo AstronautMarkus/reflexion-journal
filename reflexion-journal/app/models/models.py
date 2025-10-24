@@ -11,6 +11,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(150), unique=True, nullable=True)
     email = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(256), nullable=False)
+    is_active = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     def to_dict(self):
@@ -20,6 +21,7 @@ class User(UserMixin, db.Model):
             'last_name': self.last_name,
             'username': self.username,
             'email': self.email,
+            'is_active': self.is_active,
             'created_at': self.created_at.isoformat()
         }
 
@@ -33,6 +35,20 @@ class UserDayZero(db.Model):
             'id': self.id,
             'user_id': self.user_id,
             'date': self.date.isoformat()
+        }
+
+class UserActivationCode(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    activation_code = db.Column(db.String(100), unique=True, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'activation_code': self.activation_code,
+            'created_at': self.created_at.isoformat()
         }
     
 class ReflectionEntry(db.Model):

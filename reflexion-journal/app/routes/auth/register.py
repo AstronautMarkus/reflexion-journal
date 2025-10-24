@@ -1,8 +1,10 @@
 from . import auth
-from flask import Flask, render_template, flash, redirect, url_for, request
-from app.models.models import User
-from app import db
+from flask import render_template, flash, redirect, url_for, request
+from app.models.models import User, UserActivationCode
+from flask_mail import Message
+from app import db, mail
 from werkzeug.security import generate_password_hash
+import secrets
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
@@ -49,9 +51,42 @@ def register():
             email=email,
             password=hashed_password
         )
-        db.session.add(user)
-        db.session.commit()
-        flash('Registro exitoso. Ahora puedes iniciar sesión.', 'success')
-        return redirect(url_for('auth.login'))
+
+        name = f"{first_name} {last_name}"
+
+        try:
+            db.session.add(user)
+            db.session.flush()  
+
+            activation_code = secrets.token_urlsafe(8)
+            while UserActivationCode.query.filter_by(activation_code=activation_code).first():
+                activation_code = secrets.token_urlsafe(8)
+
+            activation = UserActivationCode(
+                user_id=user.id,
+                activation_code=activation_code
+            )
+            db.session.add(activation)
+            db.session.flush()
+
+            msg = Message(
+                subject="Código de activación de Reflexion Journal",
+                recipients=[email]
+            )
+            msg.html = render_template(
+                'emails/auth-activation-code.html',
+                name=name,
+                activation_code=activation_code
+            )
+            mail.send(msg)
+
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            flash('Ocurrió un error al enviar el email de activación. Intenta nuevamente.', 'danger')
+            return render_template('auth/register.html', errors=errors, form_data=form_data)
+
+        flash ('Registro exitoso. Revisa tu email para activar tu cuenta.', 'success')
+        return redirect(url_for('auth.activate_account', email=email))
 
     return render_template('auth/register.html', errors={}, form_data={})
