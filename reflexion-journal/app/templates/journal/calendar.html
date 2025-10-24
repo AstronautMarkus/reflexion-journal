@@ -75,7 +75,7 @@
         {% endif %}
         {% if day.reflection %}
           <div style="margin-top:8px;">
-            <strong>Reflexión:</strong> {{ day.reflection.text[:120] }}{% if day.reflection.text|length > 120 %}...{% endif %}
+            <strong>Reflexión:</strong> {{ day.reflection.reflection_text[:120] }}{% if day.reflection.reflection_text|length > 120 %}...{% endif %}
           </div>
         {% endif %}
       </div>
