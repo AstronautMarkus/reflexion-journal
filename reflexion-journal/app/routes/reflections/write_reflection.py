@@ -11,7 +11,7 @@ from datetime import datetime
 def write_reflection():
 
     user = current_user
-    current_date = datetime.now().strftime("%Y-%m-%d")
+    current_date = datetime.now()
 
     user_day_zero = UserDayZero.query.filter_by(user_id=user.id).first()
 

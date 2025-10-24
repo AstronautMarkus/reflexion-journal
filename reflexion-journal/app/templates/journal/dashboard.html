@@ -24,7 +24,7 @@
       {% if day_count is not none %}
         <h4 class="h4 text-info" style="margin-bottom: 20px;">
           <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
-          Hoy es el día {{ day_count }} desde tu día cero. ¡Sigue adelante con tus reflexiones!
+            Hoy es {{ today.strftime('%d-%m-%Y') }}, el día {{ day_count }} desde tu día cero. ¡Sigue adelante con tus reflexiones!
         </h4>
       {% endif %}
 

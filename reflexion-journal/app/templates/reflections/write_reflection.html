@@ -8,7 +8,7 @@
     </h2>
     <p class="h4" style="margin-bottom: 20px;">
       <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-      Hoy es {{ current_date }}, cuéntanos sobre tu día. Entre nosotros, ¿qué te gustaría compartir?
+      Hoy es {{ current_date.strftime('%d-%m-%Y') }}, cuéntanos sobre tu día. Entre nosotros, ¿qué te gustaría compartir?
     </p>
   <form method="post" action="{{ url_for('reflections.submit_reflection') }}">
     <div class="form-group">

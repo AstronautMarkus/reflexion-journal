@@ -29,5 +29,6 @@ def dashboard():
         user=user,
         show_day_zero_alert=show_day_zero_alert,
         day_count=day_count if user_day_zero else None,
-        today_reflection=today_reflection if today_reflection else None
+        today_reflection=today_reflection if today_reflection else None,
+        today=today
     )
