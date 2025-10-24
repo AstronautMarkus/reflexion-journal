@@ -11,32 +11,57 @@
       </h1>
 
       {% if show_day_zero_alert %}
-        <div class="alert alert-danger" role="alert" style="margin-bottom: 20px;">
-          <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-          Aún no has definido el día cero de tu Reflexion Journal.
-          <a href="{{ url_for('settings.define_day_zero') }}">
-            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-            Haz click para definirlo aquí
-          </a>.
-        </div>
+      <div class="alert alert-danger" role="alert" style="margin-bottom: 20px;">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        Aún no has definido el día cero de tu Reflexion Journal.
+        <a href="{{ url_for('settings.define_day_zero') }}">
+          <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+          Haz click para definirlo aquí
+        </a>.
+      </div>
       {% endif %}
 
       {% if day_count is not none %}
-        <h4 class="h4 text-info" style="margin-bottom: 20px;">
-          <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
-            Hoy es {{ today.strftime('%d-%m-%Y') }}, el día {{ day_count }} desde tu día cero. ¡Sigue adelante con tus reflexiones!
-        </h4>
+      <h4 class="h4 text-info" style="margin-bottom: 20px;">
+        <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
+        Hoy es {{ today.strftime('%d-%m-%Y') }}, el día {{ day_count }} desde tu día cero. ¡Sigue adelante con tus
+        reflexiones!
+      </h4>
       {% endif %}
 
       {% if today_reflection is none %}
-        <div class="alert alert-warning" role="alert">
-          <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-          Aún no has escrito ninguna reflexión para hoy. 
-          <a href="{{ url_for('reflections.write_reflection') }}">
-            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-            Es un buen momento para comenzar
-          </a>.
+      <div class="alert alert-warning" role="alert">
+        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+        Aún no has escrito ninguna reflexión para hoy.
+        <a href="{{ url_for('reflections.write_reflection') }}">
+          <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+          Es un buen momento para comenzar
+        </a>.
+      </div>
+      {% endif %}
+
+      {% if today_reflection %}
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+            Reflexión de hoy (Día {{ day_count }})
+          </h3>
         </div>
+        <div class="panel-body">
+            <h4>
+            "{{ today_reflection.user_mood[:30] }}{% if today_reflection.user_mood|length > 30 %}...{% endif %}"
+            </h4>
+            <p>
+            "{{ today_reflection.reflection_text[:150] }}{% if today_reflection.reflection_text|length > 150 %}...{% endif %}"
+            </p>
+          <a href="{{ url_for('reflections.reflection_detail', reflection_id=today_reflection.id) }}"
+            class="btn btn-primary" role="button">
+            <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+            Ver
+          </a>
+        </div>
+      </div>
       {% endif %}
 
     </div>
@@ -57,7 +82,7 @@
     }
   }
 
-  document.addEventListener("DOMContentLoaded", function() {
+  document.addEventListener("DOMContentLoaded", function () {
     const header = document.getElementById("greeting-header");
     if (header) {
       header.textContent = getGreeting() + ", {{ user.first_name }}";
