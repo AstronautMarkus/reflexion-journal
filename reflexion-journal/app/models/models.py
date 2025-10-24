@@ -36,6 +36,18 @@ class UserDayZero(db.Model):
             'user_id': self.user_id,
             'date': self.date.isoformat()
         }
+    
+class UserDaysGoal(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    days_ammount = db.Column(db.Integer, nullable=False)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'days_ammount': self.days_ammount
+        }
 
 class UserActivationCode(db.Model):
     id = db.Column(db.Integer, primary_key=True)
