@@ -74,6 +74,19 @@
       </div>
       {% endif %}
 
+      {% if progress_percent is not none and final_reflection_date %}
+      <div class="progress" style="margin-bottom: 20px;">
+        <div class="progress-bar progress-bar-striped {% if progress_percent < 100 %}active{% endif %}" role="progressbar"
+         aria-valuenow="{{ progress_percent }}" aria-valuemin="0" aria-valuemax="100"
+         style="width: {{ progress_percent }}%;">
+          <span class="sr-only">{{ progress_percent }}% Completado</span>
+        </div>
+      </div>
+      <div class="text-center" style="margin-bottom: 20px;">
+        <strong>{{ progress_percent }}% completado. ¡Sigue así!</strong>
+      </div>
+      {% endif %}
+
     </div>
   </div>
 </div>
