@@ -1,6 +1,6 @@
 from . import auth
 from flask import render_template, flash, redirect, url_for, request, current_app
-from app.models.models import User, UserActivationCode
+from app.models.models import User, UserAppCode
 from flask_mail import Message
 from app import db, mail
 from werkzeug.security import generate_password_hash
@@ -62,12 +62,13 @@ def register():
             db.session.flush()  
 
             activation_code = secrets.token_urlsafe(8)
-            while UserActivationCode.query.filter_by(activation_code=activation_code).first():
+            while UserAppCode.query.filter_by(code=activation_code).first():
                 activation_code = secrets.token_urlsafe(8)
 
-            activation = UserActivationCode(
+            activation = UserAppCode(
                 user_id=user.id,
-                activation_code=activation_code
+                code=activation_code,
+                type='activation'
             )
             db.session.add(activation)
             db.session.flush()

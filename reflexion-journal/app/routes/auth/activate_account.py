@@ -1,6 +1,6 @@
 from . import auth
 from flask import render_template, flash, redirect, url_for, request
-from app.models.models import User, UserActivationCode
+from app.models.models import User, UserAppCode
 from app import db
 
 @auth.route('/activate-account', methods=['GET', 'POST'])
@@ -26,7 +26,11 @@ def activate_account():
 
         code_entry = None
         if user and activation_code:
-            code_entry = UserActivationCode.query.filter_by(user_id=user.id, activation_code=activation_code).first()
+            code_entry = UserAppCode.query.filter_by(
+                user_id=user.id,
+                code=activation_code,
+                type='activation'
+            ).first()
             if not code_entry:
                 errors['activation_code'] = 'El código de activación es incorrecto.'
 
