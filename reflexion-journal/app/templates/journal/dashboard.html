@@ -3,7 +3,6 @@
 {% block content %}
 <div class="container-fluid">
   <div class="row">
-
     <div class="row">
       <div class="col-xs-12 text-center">
         <h1><span class="glyphicon glyphicon-book text-primary"></span> Panel de Reflexion Journal</h1>
@@ -58,9 +57,11 @@
           </h3>
         </div>
         <div class="panel-body">
+          <h2>Estado de ánimo:</h2>
           <h4>
             "{{ today_reflection.user_mood[:30] }}{% if today_reflection.user_mood|length > 30 %}...{% endif %}"
           </h4>
+          <h3>Reflexión:</h3>
           <p>
             "{{ today_reflection.reflection_text[:150] }}{% if today_reflection.reflection_text|length > 150 %}...{%
             endif %}"
@@ -76,9 +77,9 @@
 
       {% if progress_percent is not none and final_reflection_date %}
       <div class="progress" style="margin-bottom: 20px;">
-        <div class="progress-bar progress-bar-striped {% if progress_percent < 100 %}active{% endif %}" role="progressbar"
-         aria-valuenow="{{ progress_percent }}" aria-valuemin="0" aria-valuemax="100"
-         style="width: {{ progress_percent }}%;">
+        <div class="progress-bar progress-bar-striped {% if progress_percent < 100 %}active{% endif %}"
+          role="progressbar" aria-valuenow="{{ progress_percent }}" aria-valuemin="0" aria-valuemax="100"
+          style="width: {{ progress_percent }}%;">
           <span class="sr-only">{{ progress_percent }}% Completado</span>
         </div>
       </div>
