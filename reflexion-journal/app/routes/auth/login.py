@@ -9,6 +9,7 @@ def login():
     if request.method == 'POST':
         email = request.form.get('email', '').strip()
         password = request.form.get('password', '')
+        remember = bool(request.form.get('remember'))
 
         errors = []
         if not email:
@@ -29,7 +30,7 @@ def login():
             flash('Tu cuenta no está activada. Por favor, activa tu cuenta antes de iniciar sesión.', 'warning')
             return redirect(url_for('auth.activate_account', email=email))
 
-        login_user(user)
+        login_user(user, remember=remember)
         flash('Inicio de sesión exitoso. Bienvenido/a de nuevo, ' + user.first_name, 'success')
         return redirect(url_for('journal.dashboard'))
 
