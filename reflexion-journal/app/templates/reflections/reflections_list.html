@@ -1,9 +1,15 @@
 {% extends 'base/base.html' %}
 {% block title %}Mis Reflexiones - Reflexion Journal{% endblock %}
 {% block content %}
+<div class="row">
+  <div class="col-xs-12 text-center">
+    <h1><span class="glyphicon glyphicon-list-alt text-primary"></span> Lista de Reflexiones</h1>
+    <p><span class="glyphicon glyphicon-dashboard text-info"></span> Aquí puedes ver todas tus reflexiones registradas y acceder a cada una de ellas.</p>
+  </div>
+</div>
 <h1>
   <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
-  Mis reflexiones
+  Mis reflexiones 
 </h1>
 <div class="row">
   {% if reflection_entries|length == 0 %}

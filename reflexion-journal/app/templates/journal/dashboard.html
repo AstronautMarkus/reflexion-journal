@@ -3,6 +3,15 @@
 {% block content %}
 <div class="container-fluid">
   <div class="row">
+
+    <div class="row">
+      <div class="col-xs-12 text-center">
+        <h1><span class="glyphicon glyphicon-book text-primary"></span> Panel de Reflexion Journal</h1>
+        <p><span class="glyphicon glyphicon-dashboard text-info"></span> Bienvenido a tu panel principal. Aquí puedes
+          ver el resumen y acceder a tus reflexiones diarias.</p>
+      </div>
+    </div>
+
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
       <h1 class="page-header" id="greeting-header">
@@ -49,12 +58,13 @@
           </h3>
         </div>
         <div class="panel-body">
-            <h4>
+          <h4>
             "{{ today_reflection.user_mood[:30] }}{% if today_reflection.user_mood|length > 30 %}...{% endif %}"
-            </h4>
-            <p>
-            "{{ today_reflection.reflection_text[:150] }}{% if today_reflection.reflection_text|length > 150 %}...{% endif %}"
-            </p>
+          </h4>
+          <p>
+            "{{ today_reflection.reflection_text[:150] }}{% if today_reflection.reflection_text|length > 150 %}...{%
+            endif %}"
+          </p>
           <a href="{{ url_for('reflections.reflection_detail', reflection_id=today_reflection.id) }}"
             class="btn btn-primary" role="button">
             <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
