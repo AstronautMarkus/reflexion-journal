@@ -19,7 +19,7 @@
             <ul class="nav navbar-nav">
                 <li><a href="{{ url_for('main.home') }}"><span class="glyphicon glyphicon-home"></span> Inicio</a></li>
                 <li><a href="{{ url_for('reflections.reflections_list') }}"><span class="glyphicon glyphicon-list-alt"></span> Entradas</a></li>
-                <li><a href="#"><span class="glyphicon glyphicon-plus-sign"></span> Nueva Entrada</a></li>
+                <li><a href="{{ url_for('reflections.write_reflection') }}"><span class="glyphicon glyphicon-plus-sign"></span> Nueva Entrada</a></li>
             </ul>
             {% endif %}
 
