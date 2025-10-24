@@ -32,8 +32,10 @@ def calendar_view():
     ).all()
     reflections_by_date = {r.created_at.date(): r for r in reflections}
 
-    year = today.year
-    month = today.month
+    initial_month_date = day_zero_date if day_zero_date.month != last_day.month or day_zero_date.year != last_day.year else last_day
+    year = day_zero_date.year
+    month = day_zero_date.month
+
     cal = calendar.Calendar(firstweekday=0)
     month_days = list(cal.itermonthdates(year, month))
 
@@ -60,7 +62,15 @@ def calendar_view():
             'reflection': reflection
         })
 
-        if status == 'done':
+        if d == day_zero_date:
+            color = '#1976d2'
+            title = 'Día Cero'
+            url = None
+        elif d == last_day:
+            color = '#8e24aa' 
+            title = f'Último Día ({day_number})'
+            url = None
+        elif status == 'done':
             color = '#43a047'
             title = f'✔ Día {day_number}'
             url = None
@@ -98,5 +108,6 @@ def calendar_view():
         month_name=calendar.month_name[month],
         day_zero_date=day_zero_date,
         last_day=last_day,
-        calendar_events=json.dumps(events)
+        calendar_events=json.dumps(events),
+        initial_date=day_zero_date.isoformat()
     )
