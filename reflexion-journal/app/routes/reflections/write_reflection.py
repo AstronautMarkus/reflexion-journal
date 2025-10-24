@@ -2,15 +2,22 @@ from . import reflections
 from flask import render_template, request, redirect, url_for, flash
 from flask_login import current_user
 from app.middleware.check_user_auth import login_required_middleware
-from app.models.models import ReflectionEntry
+from app.models.models import ReflectionEntry, UserDayZero
 from app import db
 from datetime import datetime
 
 @reflections.route('/reflections/write', methods=['GET'])
 @login_required_middleware
 def write_reflection():
+
     user = current_user
     current_date = datetime.now().strftime("%Y-%m-%d")
+
+    user_day_zero = UserDayZero.query.filter_by(user_id=user.id).first()
+
+    if not user_day_zero:
+        flash('Por favor, establece tu Día Cero antes de escribir reflexiones.', 'danger')
+        return redirect(url_for('settings.define_day_zero'))
 
     return render_template(
         'reflections/write_reflection.html',
