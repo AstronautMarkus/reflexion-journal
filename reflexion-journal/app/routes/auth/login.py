@@ -25,6 +25,10 @@ def login():
                 flash(error, 'danger')
             return render_template('auth/login.html')
 
+        if not user.is_active:
+            flash('Tu cuenta no está activada. Por favor, activa tu cuenta antes de iniciar sesión.', 'warning')
+            return redirect(url_for('auth.activate_account', email=email))
+
         login_user(user)
         flash('Inicio de sesión exitoso. Bienvenido/a de nuevo, ' + user.first_name, 'success')
         return redirect(url_for('journal.dashboard'))
