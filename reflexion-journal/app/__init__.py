@@ -1,9 +1,11 @@
 from flask import Flask
 from flask_cors import CORS
+from flask_mail import Mail
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from .models.models import db, User
 
+mail = Mail()
 migrate = Migrate()
 login_manager = LoginManager()
 
@@ -20,6 +22,8 @@ def create_app():
 
     db.init_app(app)
     migrate.init_app(app, db)
+
+    mail.init_app(app)
 
     login_manager.init_app(app)
 
