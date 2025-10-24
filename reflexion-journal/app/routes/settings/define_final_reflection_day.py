@@ -4,7 +4,7 @@ from flask_login import current_user
 from app import db
 from flask import flash
 from app.middleware.check_user_auth import login_required_middleware
-from app.models.models import UserDaysGoal, UserDayZero
+from app.models.models import UserDaysGoal, UserDayZero, ReflectionEntry
 from datetime import datetime, timedelta
 
 MAX_DAYS_FREE_PLAN = 100
@@ -41,13 +41,34 @@ def define_final_reflection_day():
             return redirect(url_for('settings.define_final_reflection_day'))
 
         record = UserDaysGoal.query.filter_by(user_id=user.id).first()
+        old_days_ammount = record.days_ammount if record else None
+
+        deleted_count = 0
+        if old_days_ammount and old_days_ammount != days_ammount:
+
+            day_zero_date = datetime.strptime(str(user_day_zero.date), "%Y-%m-%d").date()
+            old_final_date = day_zero_date + timedelta(days=old_days_ammount-1)
+            new_final_date = day_zero_date + timedelta(days=days_ammount-1)
+
+            if new_final_date < old_final_date:
+                reflections_to_delete = ReflectionEntry.query.filter(
+                    ReflectionEntry.user_id == user.id,
+                    db.func.date(ReflectionEntry.created_at) > new_final_date
+                ).all()
+                deleted_count = len(reflections_to_delete)
+                for reflection in reflections_to_delete:
+                    db.session.delete(reflection)
+
         if record:
             record.days_ammount = days_ammount
         else:
             record = UserDaysGoal(user_id=user.id, days_ammount=days_ammount)
             db.session.add(record)
         db.session.commit()
-        flash('Día final actualizado con éxito.', 'success')
+        msg = 'Día final actualizado con éxito.'
+        if deleted_count > 0:
+            msg += f' Se eliminaron {deleted_count} reflexiones fuera del nuevo rango de días.'
+        flash(msg, 'success')
         return redirect(url_for('journal.dashboard'))
 
     return render_template(
