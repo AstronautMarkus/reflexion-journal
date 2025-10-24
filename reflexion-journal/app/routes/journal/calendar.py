@@ -1,5 +1,5 @@
 from . import journal
-from flask import render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for, flash, request
 from flask_login import current_user
 from app.middleware.check_user_auth import login_required_middleware
 from app.models.models import UserDayZero, ReflectionEntry, UserDaysGoal
@@ -22,33 +22,40 @@ def calendar_view():
 
     day_zero_date = user_day_zero.date
     today = date.today()
-    last_day = min(day_zero_date + timedelta(days=total_days - 1), today)
-    days_span = (last_day - day_zero_date).days + 1
+    last_possible_day = day_zero_date + timedelta(days=total_days - 1)
+    last_day = min(last_possible_day, today)
 
+    year = request.args.get('year', today.year, type=int)
+    month = request.args.get('month', today.month, type=int)
+
+    if today > last_possible_day:
+        year = last_possible_day.year
+        month = last_possible_day.month
+
+    cal = calendar.Calendar(firstweekday=0)
+    month_days = [d for d in cal.itermonthdates(year, month) if d.month == month]
+
+    start_month = date(year, month, 1)
+    end_month = date(year, month, calendar.monthrange(year, month)[1])
     reflections = ReflectionEntry.query.filter(
         ReflectionEntry.user_id == user.id,
-        ReflectionEntry.created_at >= datetime.combine(day_zero_date, datetime.min.time()),
-        ReflectionEntry.created_at <= datetime.combine(last_day, datetime.max.time())
+        ReflectionEntry.created_at >= datetime.combine(start_month, datetime.min.time()),
+        ReflectionEntry.created_at <= datetime.combine(end_month, datetime.max.time())
     ).all()
     reflections_by_date = {r.created_at.date(): r for r in reflections}
 
-    initial_month_date = day_zero_date if day_zero_date.month != last_day.month or day_zero_date.year != last_day.year else last_day
-    year = day_zero_date.year
-    month = day_zero_date.month
-
-    cal = calendar.Calendar(firstweekday=0)
-    month_days = list(cal.itermonthdates(year, month))
-
     calendar_days = []
-    events = []
     for d in month_days:
         if d < day_zero_date or d > last_day:
-            calendar_days.append({'date': d, 'in_range': False})
             continue
         day_number = (d - day_zero_date).days + 1
         reflection = reflections_by_date.get(d)
         status = 'no_reflection'
-        if reflection:
+        if d == day_zero_date:
+            status = 'day_zero'
+        elif d == last_possible_day:
+            status = 'last_day'
+        elif reflection:
             status = 'done'
         elif d < today:
             status = 'missed'
@@ -56,48 +63,23 @@ def calendar_view():
             status = 'pending'
         calendar_days.append({
             'date': d,
-            'in_range': True,
             'day_number': day_number,
             'status': status,
             'reflection': reflection
         })
 
-        if d == day_zero_date:
-            color = '#1976d2'
-            title = 'Día Cero'
-            url = None
-        elif d == last_day:
-            color = '#8e24aa' 
-            title = f'Último Día ({day_number})'
-            url = None
-        elif status == 'done':
-            color = '#43a047'
-            title = f'✔ Día {day_number}'
-            url = None
-        elif status == 'pending':
-            color = '#fbc02d'
-            title = f'Pendiente Día {day_number}'
-            url = url_for('reflections.write_reflection')
-        elif status == 'missed':
-            color = '#e53935'
-            title = f'Perdido Día {day_number}'
-            url = None
-        else:
-            color = '#bdbdbd'
-            title = f'Día {day_number}'
-            url = None
+    prev_month = (month - 1) or 12
+    prev_year = year if month > 1 else year - 1
+    next_month = (month + 1) if month < 12 else 1
+    next_year = year if month < 12 else year + 1
 
-        event = {
-            'title': title,
-            'start': d.isoformat(),
-            'allDay': True,
-            'backgroundColor': color,
-            'borderColor': color,
-            'textColor': '#fff'
-        }
-        if url:
-            event['url'] = url
-        events.append(event)
+    min_month = day_zero_date.month
+    min_year = day_zero_date.year
+    max_month = last_day.month
+    max_year = last_day.year
+
+    prev_enabled = (prev_year > min_year) or (prev_year == min_year and prev_month >= min_month)
+    next_enabled = (next_year < max_year) or (next_year == max_year and next_month <= max_month)
 
     return render_template(
         'journal/calendar.html',
@@ -108,6 +90,10 @@ def calendar_view():
         month_name=calendar.month_name[month],
         day_zero_date=day_zero_date,
         last_day=last_day,
-        calendar_events=json.dumps(events),
-        initial_date=day_zero_date.isoformat()
+        prev_year=prev_year,
+        prev_month=prev_month,
+        next_year=next_year,
+        next_month=next_month,
+        prev_enabled=prev_enabled,
+        next_enabled=next_enabled
     )

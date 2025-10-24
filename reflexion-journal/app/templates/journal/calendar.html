@@ -1,7 +1,15 @@
 {% extends 'base/base.html' %}
 {% block title %}Calendario - Reflexion Journal{% endblock %}
 {% block head %}
-<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css" rel="stylesheet" />
+<style>
+  .media-day { margin-bottom: 18px; border: 1px solid #eee; border-radius: 6px; padding: 12px; background: #fafafa; }
+  .media-day.day_zero { border-left: 6px solid #1976d2; }
+  .media-day.last_day { border-left: 6px solid #8e24aa; }
+  .media-day.done { border-left: 6px solid #43a047; }
+  .media-day.pending { border-left: 6px solid #fbc02d; }
+  .media-day.missed { border-left: 6px solid #e53935; }
+  .media-day .media-object { width: 48px; height: 48px; }
+</style>
 {% endblock %}
 {% block content %}
 <div class="container">
@@ -12,7 +20,68 @@
   <p class="text-center">
     Día cero: {{ day_zero_date.strftime('%d-%m-%Y') }}{% if last_day %} &mdash; Último día: {{ last_day.strftime('%d-%m-%Y') }}{% endif %}
   </p>
-  <div id="calendar"></div>
+
+  <div class="text-center" style="margin-bottom:24px;">
+    {% if prev_enabled %}
+      <a href="{{ url_for('journal.calendar_view', year=prev_year, month=prev_month) }}" class="btn btn-default">
+        <span class="glyphicon glyphicon-chevron-left"></span> Mes anterior
+      </a>
+    {% endif %}
+    {% if next_enabled %}
+      <a href="{{ url_for('journal.calendar_view', year=next_year, month=next_month) }}" class="btn btn-default">
+        Mes siguiente <span class="glyphicon glyphicon-chevron-right"></span>
+      </a>
+    {% endif %}
+  </div>
+
+  {% for day in calendar_days %}
+    <div class="media media-day {{ day.status }}">
+      <div class="media-left">
+        {% if day.status == 'day_zero' %}
+          <span class="glyphicon glyphicon-flag" style="font-size:32px;color:#1976d2;"></span>
+        {% elif day.status == 'last_day' %}
+          <span class="glyphicon glyphicon-flag" style="font-size:32px;color:#8e24aa;"></span>
+        {% elif day.status == 'done' %}
+          <span class="glyphicon glyphicon-ok" style="font-size:32px;color:#43a047;"></span>
+        {% elif day.status == 'pending' %}
+          <span class="glyphicon glyphicon-pencil" style="font-size:32px;color:#fbc02d;"></span>
+        {% elif day.status == 'missed' %}
+          <span class="glyphicon glyphicon-remove" style="font-size:32px;color:#e53935;"></span>
+        {% else %}
+          <span class="glyphicon glyphicon-calendar" style="font-size:32px;color:#bdbdbd;"></span>
+        {% endif %}
+      </div>
+      <div class="media-body">
+        <h4 class="media-heading">
+          {% if day.status == 'day_zero' %}
+            Día Cero ({{ day.date.strftime('%d-%m-%Y') }})
+          {% elif day.status == 'last_day' %}
+            Último Día ({{ day.day_number }}) - {{ day.date.strftime('%d-%m-%Y') }}
+          {% else %}
+            Día {{ day.day_number }} - {{ day.date.strftime('%d-%m-%Y') }}
+          {% endif %}
+        </h4>
+        {% if day.status == 'done' %}
+          <span class="label label-success">Reflexión completada</span>
+        {% elif day.status == 'pending' %}
+          <span class="label label-warning">Hoy, aún no has escrito</span>
+          <a href="{{ url_for('reflections.write_reflection') }}" class="btn btn-xs btn-primary">Escribir reflexión</a>
+        {% elif day.status == 'missed' %}
+          <span class="label label-danger">Día pasado sin reflexión</span>
+        {% elif day.status == 'day_zero' %}
+          <span class="label label-primary">Día Cero</span>
+        {% elif day.status == 'last_day' %}
+          <span class="label" style="background:#8e24aa;color:#fff;">Último Día</span>
+        {% endif %}
+        {% if day.reflection %}
+          <div style="margin-top:8px;">
+            <strong>Reflexión:</strong> {{ day.reflection.text[:120] }}{% if day.reflection.text|length > 120 %}...{% endif %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  {% endfor %}
+
   <div class="alert alert-info" style="margin-top:24px;">
     <span class="label label-primary" style="background:#1976d2;">
       <span class="glyphicon glyphicon-flag"></span>
@@ -31,25 +100,4 @@
     </span> Día pasado sin reflexión
   </div>
 </div>
-{% endblock %}
-
-{% block scripts %}
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
-    var events = {{ calendar_events|safe }};
-    var initialDate = "{{ initial_date }}";
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      initialView: 'dayGridMonth',
-      initialDate: initialDate,
-      locale: 'es',
-      height: 600,
-      events: events,
-      eventDisplay: 'block',
-      displayEventTime: false
-    });
-    calendar.render();
-  });
-</script>
 {% endblock %}
