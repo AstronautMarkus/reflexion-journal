@@ -2,4 +2,8 @@ from flask import Blueprint
 
 journal = Blueprint('journal', __name__)
 
-from . import dashboard, profile, calendar
+from . import (
+    dashboard,
+    profile,
+    calendar
+)
