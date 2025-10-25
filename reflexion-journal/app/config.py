@@ -26,3 +26,6 @@ class Config:
     MAIL_USERNAME = os.getenv('MAIL_USERNAME', 'your_email@example.com')
     MAIL_PASSWORD = os.getenv('MAIL_PASSWORD', 'your_password')
     MAIL_DEFAULT_SENDER = os.getenv('MAIL_USERNAME', 'your_email@example.com')
+
+    UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), '..', 'static', 'uploads')
+    UPLOAD_URL = '/static/uploads/'

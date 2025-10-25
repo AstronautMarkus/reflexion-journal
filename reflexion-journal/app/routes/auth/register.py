@@ -5,6 +5,8 @@ from flask_mail import Message
 from app import db, mail
 from werkzeug.security import generate_password_hash
 import secrets
+import os
+from werkzeug.utils import secure_filename
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
@@ -15,6 +17,7 @@ def register():
         email = request.form.get('email', '').strip()
         password = request.form.get('password', '')
         confirm = request.form.get('confirm', '')
+        profile_picture = request.files.get('profile_picture')
 
         errors = {}
         if not first_name:
@@ -36,6 +39,15 @@ def register():
         first_name_cap = first_name.title()
         last_name_cap = last_name.title()
 
+        if profile_picture and profile_picture.filename:
+            filename = secure_filename(profile_picture.filename)
+            ext = os.path.splitext(filename)[1].lower()
+            if ext not in ['.jpg', '.jpeg', '.png', '.gif']:
+                errors['profile_picture'] = 'Formato de imagen no permitido.'
+            else:
+                picture_filename = f"{secrets.token_hex(8)}{ext}"
+                picture_path = os.path.join(current_app.config['UPLOAD_FOLDER'], picture_filename)
+
         form_data = {
             'first_name': first_name_cap,
             'last_name': last_name_cap,
@@ -52,7 +64,8 @@ def register():
             last_name=last_name_cap,
             username=username,
             email=email,
-            password=hashed_password
+            password=hashed_password,
+            profile_picture=None
         )
 
         name = f"{first_name_cap} {last_name_cap}"
@@ -60,6 +73,11 @@ def register():
         try:
             db.session.add(user)
             db.session.flush()  
+
+            if profile_picture and profile_picture.filename and not errors.get('profile_picture'):
+                os.makedirs(current_app.config['UPLOAD_FOLDER'], exist_ok=True)
+                profile_picture.save(picture_path)
+                user.profile_picture = current_app.config['UPLOAD_URL'] + picture_filename
 
             activation_code = secrets.token_urlsafe(8)
             while UserAppCode.query.filter_by(code=activation_code).first():

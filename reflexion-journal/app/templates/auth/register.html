@@ -11,7 +11,7 @@
 
     <div class="row" style="margin-top:30px;">
         <div class="col-sm-6 col-sm-offset-3">
-            <form method="POST" action="{{ url_for('auth.register') }}">
+            <form method="POST" action="{{ url_for('auth.register') }}" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="first_name" class="control-label">Nombre <i class="text-danger">*</i></label>
                     <div class="input-group">
@@ -92,6 +92,13 @@
                     </div>
                     {% if errors.confirm %}
                         <div class="alert alert-danger" style="margin-top:5px; padding:5px;">{{ errors.confirm }}</div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="profile_picture" class="control-label">Foto de perfil (opcional)</label>
+                    <input type="file" class="form-control" id="profile_picture" name="profile_picture" accept="image/*">
+                    {% if errors.profile_picture %}
+                        <div class="alert alert-danger" style="margin-top:5px; padding:5px;">{{ errors.profile_picture }}</div>
                     {% endif %}
                 </div>
                 <div class="form-group text-center">
