@@ -189,7 +189,7 @@
                                         <td align="center" style="font-size:0px;padding:10px 25px;padding-bottom:40px;word-break:break-word;">
 
                                             <div style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:28px;font-weight:bold;line-height:1;text-align:center;color:#555;">
-                                                Cambio de contraseña
+                                                Eliminar cuenta
                                             </div>
 
                                         </td>
@@ -199,18 +199,14 @@
                                         <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
 
                                             <div style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:16px;line-height:22px;text-align:left;color:#555;">
-                                                Estimado/a {{ name }}!<br></br>
-                                                Has solicitado cambiar tu contraseña en Reflexion Journal.<br></br>
-                                                Utiliza el siguiente código para completar el proceso:<br></br>
-                                                <strong style="font-size: 20px;">{{ activation_code }}</strong><br></br>
-                                                Ingresa este código en la aplicación para establecer tu nueva contraseña.
+                                                Hola {{ name }},<br></br>
+                                                Has solicitado eliminar tu cuenta de Reflexion Journal.<br></br>
+                                                Tu código de confirmación es:<br></br>
+                                                <h2 style="font-size: 24px; margin: 10px 0;">{{ activation_code }}</h2>
+                                                Ingresa este código en la página de confirmación para eliminar tu cuenta y todos tus datos.<br></br>
+                                                Si no solicitaste esto, ignora este correo.
                                             </div>
                                             
-                                            <div style="text-align:center;margin:30px 0;">
-                                                <a href="{{ activation_url }}" style="background:#333957;color:#fff;padding:14px 32px;border-radius:4px;text-decoration:none;font-family:'Helvetica Neue',Arial,sans-serif;font-size:16px;display:inline-block;">
-                                                    Cambiar contraseña ahora
-                                                </a>
-                                            </div>
 
                                         </td>
                                     </tr>

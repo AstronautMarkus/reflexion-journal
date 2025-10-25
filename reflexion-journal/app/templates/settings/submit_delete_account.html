@@ -1,0 +1,46 @@
+{% extends 'base/base.html' %}
+{% block title %}Confirmar Eliminación de Cuenta - Reflexion Journal{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 text-center">
+            <h1><span class="glyphicon glyphicon-warning-sign text-danger"></span> Confirmar Eliminación de Cuenta</h1>
+            <p><span class="glyphicon glyphicon-lock text-warning"></span> <strong>Por favor, ingresa tu email y el código recibido para confirmar la eliminación.</strong></p>
+        </div>
+    </div>
+    <div class="row" style="margin-top:30px;">
+        <div class="col-sm-6 col-sm-offset-3">
+            <form method="post">
+                <div class="form-group">
+                    <label for="email" class="control-label">Tu Email <i class="text-danger">*</i></label>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-envelope"></span>
+                        </span>
+                        <input type="email" class="form-control" name="email" id="email" required placeholder="Ej. juan@email.com">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="code" class="control-label">Código recibido <i class="text-danger">*</i></label>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-barcode"></span>
+                        </span>
+                        <input type="text" class="form-control" name="code" id="code" required placeholder="Código de eliminación">
+                    </div>
+                </div>
+                <div class="form-group text-center">
+                    <button type="submit" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-remove-circle"></span> Eliminar cuenta
+                    </button>
+                    <br><br>
+                    <a href="{{ url_for('main.home') }}" class="btn btn-link" id="back-home">
+                        <span class="glyphicon glyphicon-home"></span> Volver a la página principal
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

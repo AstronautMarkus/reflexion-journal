@@ -1,0 +1,46 @@
+{% extends 'base/base.html' %}
+{% block title %}Eliminar Cuenta - Reflexion Journal{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 text-center">
+            <h1><span class="glyphicon glyphicon-remove-circle text-danger"></span> Eliminar Cuenta</h1>
+            <p><span class="glyphicon glyphicon-warning-sign text-warning"></span> <strong>¡Espera! Estás a punto de eliminar tu cuenta y todos tus datos de forma permanente.</strong></p>
+            <hr>
+            <div class="panel panel-danger" style="max-width:500px;margin:0 auto;">
+                <div class="panel-heading text-center">
+                    <h3 class="panel-title">
+                        <span class="glyphicon glyphicon-heart text-danger"></span> ¡Vas por buen camino!
+                    </h3>
+                </div>
+                <div class="panel-body text-center">
+                    <img src="{{ url_for('static', filename='img/supertux.png') }}" alt="Progreso"
+                        class="img-responsive center-block" style="max-height:120px;">
+                    <h4><span class="glyphicon glyphicon-star text-warning"></span> Progreso actual</h4>
+                    <p>Días escritos: <strong>{{ total_entries }}</strong></p>
+                    <p>Meta de días: <strong>{{ goal }}</strong></p>
+                    <p>Progreso: <strong>{{ progress }}%</strong></p>
+                    <p class="text-success"><span class="glyphicon glyphicon-thumbs-up"></span> ¡No te rindas ahora! Cada día cuenta en tu viaje de reflexión.</p>
+                    <p class="text-info"><span class="glyphicon glyphicon-info-sign"></span> Puedes exportar tus reflexiones o pausar tu cuenta si lo necesitas.</p>
+                </div>
+            </div>
+            <br>
+            <div class="well well-sm text-center" style="max-width:500px;margin:0 auto;">
+                <p>
+                    <span class="glyphicon glyphicon-console text-primary"></span>
+                    <strong>Recuerda:</strong> Reflexion Journal es privado y seguro. Tu bienestar es importante para nosotros.
+                </p>
+            </div>
+            <form method="post" style="margin-top:30px;">
+                <button type="submit" class="btn btn-danger">
+                    <span class="glyphicon glyphicon-remove-circle"></span> Solicitar código de eliminación
+                </button>
+                <a href="{{ url_for('main.home') }}" class="btn btn-link" id="back-home" style="margin-left:10px;">
+                    <span class="glyphicon glyphicon-home"></span> Volver a la página principal
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
