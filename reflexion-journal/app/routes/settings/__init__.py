@@ -9,5 +9,6 @@ from . import (
     send_change_password_code,
     submit_change_password,
     define_final_reflection_day,
-    delete_account
+    delete_account,
+    delete_account_submit_form
 )
