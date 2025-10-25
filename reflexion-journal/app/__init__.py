@@ -14,6 +14,7 @@ from app.routes.auth import auth as auth_blueprint
 from app.routes.journal import journal as journal_blueprint
 from app.routes.settings import settings as settings_blueprint
 from app.routes.reflections import reflections as reflections_blueprint
+from app.routes.utils import utils as utils_blueprint
 
 def create_app():
     app = Flask(__name__)
@@ -36,5 +37,6 @@ def create_app():
     app.register_blueprint(journal_blueprint)
     app.register_blueprint(settings_blueprint, url_prefix='/journal')
     app.register_blueprint(reflections_blueprint, url_prefix='/journal')
+    app.register_blueprint(utils_blueprint)
     
     return app
