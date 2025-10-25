@@ -1,5 +1,5 @@
 from . import journal
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import render_template, request, redirect, url_for, flash
 from flask_login import current_user
 from app.middleware.check_user_auth import login_required_middleware
 from app import db
@@ -11,12 +11,18 @@ def profile():
     user = current_user
     user_day_zero = UserDayZero.query.filter_by(user_id=user.id).first()
 
+    if user.profile_picture:
+        profile_picture_url = f"{request.host_url.rstrip('/')}{user.profile_picture}"
+    else:
+        profile_picture_url = f"{request.host_url.rstrip('/')}/static/img/astrotux.png"
+
     display_name = user.username if user.username else f"{user.first_name} {user.last_name}"
     return render_template(
         'journal/profile.html',
         user=user,
         display_name=display_name,
-        day_zero=user_day_zero.date if user_day_zero else None
+        day_zero=user_day_zero.date if user_day_zero else None,
+        profile_picture_url=profile_picture_url
     )
 
 @journal.route('/journal/profile', methods=['POST'])
