@@ -14,7 +14,8 @@
       {% if has_days_goal_set %}
       <div id="alerta-dia-final" class="alert alert-warning" role="alert" style="font-size:1.2em; padding:2em;">
         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-        Ya tienes un <strong>Día Final definido</strong> ({{ days_ammount }} días, termina el {{ final_date }}). Si lo cambias, es posible que los registros fuera del nuevo rango de fechas se eliminen.<br>
+        Ya tienes un <strong>Día Final definido</strong> ({{ days_ammount }} días, termina el {{ final_date }}). Si lo
+        cambias, es posible que los registros fuera del nuevo rango de fechas se eliminen.<br>
         ¿Desea continuar?
         <div class="text-center" style="margin-top:2em;">
           <button id="continuar-dia-final" class="btn btn-danger btn-sm"
@@ -35,7 +36,8 @@
               ¿Cuántos días quieres reflexionar? (Día Cero: {{ day_zero_date }})<br>
               <span class="text-muted" style="font-size:0.9em;">Máximo permitido en plan gratis: 100 días</span>
             </label>
-            <input type="number" class="form-control" id="days_ammount" name="days_ammount" min="1" max="100" required value="{{ days_ammount }}">
+            <input type="number" class="form-control" id="days_ammount" name="days_ammount" min="1" max="100" required
+              value="{{ days_ammount }}">
           </div>
           <div id="final-date-preview" style="margin-bottom:1em;">
             {% if final_date %}
@@ -68,7 +70,6 @@
           window.history.back();
         };
 
-        // Fetch para calcular fecha final
         var daysInput = document.getElementById('days_ammount');
         var preview = document.getElementById('final-date-preview');
         var spinner = document.getElementById('loading-spinner');
@@ -92,8 +93,8 @@
               },
               body: JSON.stringify({ days_ammount: val })
             })
-              .then(resp => resp.json().then(data => ({status: resp.status, body: data})))
-              .then(({status, body}) => {
+              .then(resp => resp.json().then(data => ({ status: resp.status, body: data })))
+              .then(({ status, body }) => {
                 spinner.style.display = 'none';
                 if (body.final_date) {
                   preview.innerHTML = '<div class="alert alert-info"><span class="glyphicon glyphicon-calendar"></span> Tu día final será: <strong>' + body.final_date + '</strong></div>';
@@ -130,12 +131,11 @@
       </form>
       <br><br>
       <div class="text-center">
-        <a href="{{ url_for('journal.dashboard') }}" class="btn btn-link" id="back-home">
-          <span class="glyphicon glyphicon-home"></span> Volver al Inicio
+        <a href="{{ url_for('settings.settings_page') }}" class="btn btn-default">
+          <span class="glyphicon glyphicon-arrow-left"></span> Volver a Configuración
         </a>
       </div>
       <script>
-        // Fetch para calcular fecha final
         var daysInput = document.getElementById('days_ammount');
         var preview = document.getElementById('final-date-preview');
         var spinner = document.getElementById('loading-spinner');
@@ -159,8 +159,8 @@
               },
               body: JSON.stringify({ days_ammount: val })
             })
-              .then(resp => resp.json().then(data => ({status: resp.status, body: data})))
-              .then(({status, body}) => {
+              .then(resp => resp.json().then(data => ({ status: resp.status, body: data })))
+              .then(({ status, body }) => {
                 spinner.style.display = 'none';
                 if (body.final_date) {
                   preview.innerHTML = '<div class="alert alert-info"><span class="glyphicon glyphicon-calendar"></span> Tu día final será: <strong>' + body.final_date + '</strong></div>';
