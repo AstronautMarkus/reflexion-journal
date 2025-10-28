@@ -13,6 +13,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(256), nullable=False)
     is_active = db.Column(db.Boolean, default=False)
+    is_new = db.Column(db.Boolean, default=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     def to_dict(self):
@@ -24,6 +25,7 @@ class User(UserMixin, db.Model):
             'profile_picture': self.profile_picture,
             'email': self.email,
             'is_active': self.is_active,
+            'is_new': self.is_new,
             'created_at': self.created_at.isoformat()
         }
 
