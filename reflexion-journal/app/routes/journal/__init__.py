@@ -5,5 +5,6 @@ journal = Blueprint('journal', __name__)
 from . import (
     dashboard,
     profile,
-    calendar
+    calendar,
+    tutorial,
 )
