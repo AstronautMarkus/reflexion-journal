@@ -1,375 +1,288 @@
 {% extends 'base/base.html' %}
 {% block title %}Escribir Reflexión - Reflexion Journal{% endblock %}
 {% block content %}
-<div class="row">
-  <div class="col-xs-12 text-center">
-    <h1><span class="glyphicon glyphicon-pencil text-primary"></span> Escribir Reflexión</h1>
-    <p><span class="glyphicon glyphicon-dashboard text-info"></span> Comparte tus pensamientos y experiencias del día en tu diario personal.</p>
-  </div>
-</div>
-<div class="container">
-  <div class="row">
-    <div class="col-sm-9 col-md-9 main">
-      <h2 class="page-header">
-        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-        Escribir Reflexión
-      </h2>
-      <p class="h4" style="margin-bottom: 20px;">
-        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-        Hoy es {{ current_date.strftime('%d-%m-%Y') }}, cuéntanos sobre tu día. Entre nosotros, ¿qué te gustaría
-        compartir?
-      </p>
-      <form method="post" action="{{ url_for('reflections.submit_reflection') }}">
-        <div class="form-group">
-          <label for="user_mood">
-            <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
-            Estado de ánimo
-          </label>
-          <textarea placeholder="Como te sientes? te gustaría escribirlo? máx 2048." class="form-control" id="user_mood"
-            name="user_mood" rows="2" required></textarea>
-        </div>
-        <div class="form-group">
-          <label for="reflection_text">
-            <span class="glyphicon glyphicon-book" aria-hidden="true"></span>
-            Reflexión
-          </label>
-          <textarea placeholder="Alguna cosa que te dejó pensando? máx 2048" class="form-control" id="reflection_text"
-            name="reflection_text" rows="4" required></textarea>
-        </div>
-        <div class="form-group">
-          <label for="interactions">
-            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-            Interacciones
-          </label>
-          <textarea placeholder="Hablaste con alguien relevante hoy? máx 2048" class="form-control" id="interactions"
-            name="interactions" rows="2"></textarea>
-        </div>
-        <div class="form-group">
-          <label for="flashbacks">
-            <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
-            Recuerdos/Flashbacks
-          </label>
-          <textarea placeholder="Tal vez, un momento específico que recordaste o te hizo sentir algo? máx 2048"
-            class="form-control" id="flashbacks" name="flashbacks" rows="2"></textarea>
-        </div>
-        <div class="form-group">
-          <label for="emotions">
-            <span class="glyphicon glyphicon-fire" aria-hidden="true"></span>
-            Emociones
-          </label>
-          <textarea
-            placeholder="Si tuvieras que describir este día en emociones? separadas por comas, por favor. máx 2048"
-            class="form-control" id="emotions" name="emotions" rows="2"></textarea>
-        </div>
-        <div class="form-group">
-          <label for="friendship_talk">
-            <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
-            Conversaciones con amigos / seres queridos
-          </label>
-          <textarea placeholder="¿Qué hablaste con ellos? ¿Tienes amigos, familiares? máx 2048" class="form-control"
-            id="friendship_talk" name="friendship_talk" rows="2"></textarea>
-        </div>
-        <div class="form-group">
-          <label for="experiments">
-            <span class="glyphicon glyphicon-flask" aria-hidden="true"></span>
-            Experimentos
-          </label>
-          <textarea placeholder="¿Hiciste algún experimento? algo nuevo que hayas probado? máx 2048"
-            class="form-control" id="experiments" name="experiments" rows="2"></textarea>
-        </div>
-        <div class="form-group">
-          <label for="events">
-            <span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
-            Eventos
-          </label>
-          <textarea placeholder="¿Hubo algún evento significativo hoy? máx 2048" class="form-control" id="events"
-            name="events" rows="2"></textarea>
-        </div>
-        <div class="form-group">
-          <label for="rapid_notes">
-            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
-            Notas rápidas
-          </label>
-          <textarea placeholder="Escribe aquí tus notas rápidas. Cositas que se te vengan a la mente. máx 2048"
-            class="form-control" id="rapid_notes" name="rapid_notes" rows="2"></textarea>
-        </div>
-        <div style="margin-bottom: 20px">
-          <button type="submit" class="btn btn-primary">
-            <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
-            Guardar Reflexión
-          </button>
-          <button type="button" class="btn btn-secondary" id="cancel-btn">
-            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-            Cancelar
-          </button>
-        </div>
-      </form>
-    </div>
-
-    <div class="col-sm-3 col-md-3" style="display: flex; align-items: flex-start;">
-      <div
-        style="width: 100%; margin-top: 30px; padding: 15px; border: 1px solid #eee; border-radius: 8px; background: #fafbfc;">
-        <div style="font-weight: bold; margin-bottom: 10px;">
-          <span class="glyphicon glyphicon-import" aria-hidden="true"></span>
-          Importar JSON
-        </div>
-        <p class="">Rellena este formulario a través de la carga de un archivo .json con tu reflexión del día.</p>
-        <button type="button" class="btn btn-info btn-block" id="import-json-btn">
-          <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
-          Importar
-        </button>
-      </div>
-    </div>
-  </div>
+<div class="text-center" style="margin-bottom: 16px;">
+    <h1>✎ Escribir Reflexión</h1>
+    <p>Comparte tus pensamientos y experiencias del día en tu diario personal.</p>
 </div>
 
-<div class="modal fade" id="importJsonModal" tabindex="-1" role="dialog" aria-labelledby="importJsonModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <form id="import-json-form">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span
-              aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="importJsonModalLabel">
-            <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
-            Importar reflexión desde JSON
-          </h4>
+<div class="rj-grid-main-side">
+    <div>
+        <h2 class="page-header">✎ Escribir Reflexión</h2>
+        <p class="lead" style="margin-bottom: 20px;">
+            ▦ Hoy es {{ current_date.strftime('%d-%m-%Y') }}, cuéntanos sobre tu día.
+            Entre nosotros, ¿qué te gustaría compartir?
+        </p>
+        <form method="post" action="{{ url_for('reflections.submit_reflection') }}">
+            <div class="form-group">
+                <label for="user_mood">♥ Estado de ánimo</label>
+                <textarea class="form-control" id="user_mood" name="user_mood" rows="2" required
+                    placeholder="¿Cómo te sientes? ¿Te gustaría escribirlo? máx 2048."></textarea>
+            </div>
+            <div class="form-group">
+                <label for="reflection_text">☷ Reflexión</label>
+                <textarea class="form-control" id="reflection_text" name="reflection_text" rows="4" required
+                    placeholder="¿Alguna cosa que te dejó pensando? máx 2048"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="interactions">◉ Interacciones</label>
+                <textarea class="form-control" id="interactions" name="interactions" rows="2"
+                    placeholder="¿Hablaste con alguien relevante hoy? máx 2048"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="flashbacks">⌚ Recuerdos/Flashbacks</label>
+                <textarea class="form-control" id="flashbacks" name="flashbacks" rows="2"
+                    placeholder="¿Un momento específico que recordaste o te hizo sentir algo? máx 2048"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="emotions">✦ Emociones</label>
+                <textarea class="form-control" id="emotions" name="emotions" rows="2"
+                    placeholder="¿Cómo describirías este día en emociones? separadas por comas. máx 2048"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="friendship_talk">§ Conversaciones con amigos / seres queridos</label>
+                <textarea class="form-control" id="friendship_talk" name="friendship_talk" rows="2"
+                    placeholder="¿Qué hablaste con ellos? ¿Tienes amigos, familiares? máx 2048"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="experiments">⚗ Experimentos</label>
+                <textarea class="form-control" id="experiments" name="experiments" rows="2"
+                    placeholder="¿Hiciste algún experimento? algo nuevo que hayas probado? máx 2048"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="events">◆ Eventos</label>
+                <textarea class="form-control" id="events" name="events" rows="2"
+                    placeholder="¿Hubo algún evento significativo hoy? máx 2048"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="rapid_notes">☰ Notas rápidas</label>
+                <textarea class="form-control" id="rapid_notes" name="rapid_notes" rows="2"
+                    placeholder="Escribe aquí tus notas rápidas. Cositas que se te vengan a la mente. máx 2048"></textarea>
+            </div>
+            <div style="margin-bottom: 20px;">
+                <button type="submit" class="btn btn-primary">▣ Guardar Reflexión</button>
+                <button type="button" class="btn btn-default" id="cancel-btn">✗ Cancelar</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="import-sidebar">
+        <div class="import-title">↓ Importar JSON</div>
+        <p>Rellena este formulario a través de la carga de un archivo .json con tu reflexión del día.</p>
+        <button type="button" class="btn btn-default btn-block" id="import-json-btn">↑ Importar</button>
+    </div>
+</div>
+
+<!-- Modal: Importar JSON -->
+<div class="modal-overlay" id="importJsonModal">
+    <div class="modal-box" style="max-width:600px;">
+        <form id="import-json-form">
+            <div class="modal-head">
+                <span>↑ Importar reflexión desde JSON</span>
+                <button type="button" class="modal-close-btn" data-modal-close aria-label="Cerrar">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Selecciona un archivo <strong>.json</strong> con tu reflexión del día.<br>
+                    Asegúrate de que el archivo siga la estructura correcta para una importación exitosa.
+                </p>
+                <div class="form-group">
+                    <label for="import-json-input">Archivo JSON:</label>
+                    <input type="file" id="import-json-input" accept="application/json" class="form-control">
+                </div>
+                <div class="well" style="margin-top:12px;">
+                    <strong>Estructura esperada del JSON:</strong>
+                    <pre>
+{
+  "user_mood": "string",
+  "reflection_text": "string",
+  "interactions": "string",
+  "flashbacks": "string",
+  "emotions": ["string", "string", ...],
+  "friendship_talk": "string",
+  "experiments": "string",
+  "events": "string",
+  "rapid_notes": "string"
+}</pre>
+                </div>
+            </div>
+            <div class="modal-foot">
+                <button type="button" class="btn btn-default" data-modal-close>Cancelar</button>
+                <button type="submit" class="btn btn-primary">Importar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal: Cancelar -->
+<div class="modal-overlay" id="cancelModal">
+    <div class="modal-box">
+        <div class="modal-head">
+            <span>[⚠] ¿Estás seguro?</span>
+            <button type="button" class="modal-close-btn" data-modal-close aria-label="Cerrar">&times;</button>
         </div>
         <div class="modal-body">
-          <p>
-            Selecciona un archivo <strong>.json</strong> con tu reflexión del día.<br>
-            Asegúrate de que el archivo siga la estructura correcta para una importación exitosa.
-          </p>
-          <div class="form-group">
-            <label for="import-json-input">Archivo JSON:</label>
-            <input type="file" id="import-json-input" accept="application/json" class="form-control">
-          </div>
-          <div class="well" style="margin-top:15px;">
-            <strong>Estructura esperada del JSON:</strong>
-            <pre style="font-size:13px; background: #23272e; color: #e3eaf2; border-radius: 6px; border:1px solid #222; margin:0; padding: 14px 16px; overflow-x: auto; box-shadow: 0 2px 8px rgba(30,34,40,0.08);">
-<span style="color:#7ec699;">&#123;</span>
-  <span style="color:#6ab0f3;">"user_mood"</span><span style="color:#e3eaf2;">: </span><span style="color:#e7c664;">"string"</span><span style="color:#7ec699;">,</span>
-  <span style="color:#6ab0f3;">"reflection_text"</span><span style="color:#e3eaf2;">: </span><span style="color:#e7c664;">"string"</span><span style="color:#7ec699;">,</span>
-  <span style="color:#6ab0f3;">"interactions"</span><span style="color:#e3eaf2;">: </span><span style="color:#e7c664;">"string"</span><span style="color:#7ec699;">,</span>
-  <span style="color:#6ab0f3;">"flashbacks"</span><span style="color:#e3eaf2;">: </span><span style="color:#e7c664;">"string"</span><span style="color:#7ec699;">,</span>
-  <span style="color:#6ab0f3;">"emotions"</span><span style="color:#e3eaf2;">: </span><span style="color:#7ec699;">[</span><span style="color:#e7c664;">"string"</span><span style="color:#7ec699;">, </span><span style="color:#e7c664;">"string"</span><span style="color:#7ec699;">, ...]</span><span style="color:#7ec699;">,</span>
-  <span style="color:#6ab0f3;">"friendship_talk"</span><span style="color:#e3eaf2;">: </span><span style="color:#e7c664;">"string"</span><span style="color:#7ec699;">,</span>
-  <span style="color:#6ab0f3;">"experiments"</span><span style="color:#e3eaf2;">: </span><span style="color:#e7c664;">"string"</span><span style="color:#7ec699;">,</span>
-  <span style="color:#6ab0f3;">"events"</span><span style="color:#e3eaf2;">: </span><span style="color:#e7c664;">"string"</span><span style="color:#7ec699;">,</span>
-  <span style="color:#6ab0f3;">"rapid_notes"</span><span style="color:#e3eaf2;">: </span><span style="color:#e7c664;">"string"</span>
-<span style="color:#7ec699;">&#125;</span>
-            </pre>
-          </div>
+            Se perderán los cambios no guardados. ¿Deseas salir?
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-          <button type="submit" class="btn btn-primary">Importar</button>
+        <div class="modal-foot">
+            <button type="button" class="btn btn-default" data-modal-close>◄ No, quedarme</button>
+            <button type="button" class="btn btn-danger" id="confirm-exit">← Sí, salir</button>
         </div>
-      </form>
     </div>
-  </div>
-</div>
-
-<div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="cancelModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="cancelModalLabel">
-          <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
-          ¿Estás seguro?
-        </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        Se perderán los cambios no guardados. ¿Deseas salir?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-          <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
-          No, quedarme
-        </button>
-        <button type="button" class="btn btn-danger" id="confirm-exit">
-          <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
-          Sí, salir
-        </button>
-      </div>
-    </div>
-  </div>
 </div>
 {% endblock %}
 
 {% block scripts %}
 <script>
-  document.querySelector('.btn-secondary').removeEventListener('click', function () { });
-  document.getElementById('cancel-btn').addEventListener('click', function () {
-    $('#cancelModal').modal('show');
-  });
-  document.getElementById('confirm-exit').addEventListener('click', function () {
-    window.history.back();
-  });
-  document.getElementById('import-json-btn').addEventListener('click', function () {
-    $('#importJsonModal').modal('show');
-  });
-
-  function showProgress() {
-    const modalBody = document.querySelector('#importJsonModal .modal-body');
-    let progressDiv = document.getElementById('import-progress');
-    if (!progressDiv) {
-      progressDiv = document.createElement('div');
-      progressDiv.id = 'import-progress';
-      progressDiv.innerHTML = `
-        <div class="progress" style="margin-top:15px;">
-          <div class="progress-bar progress-bar-striped progress-bar-animated" id="import-progress-bar" role="progressbar"
-            aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%"></div>
-        </div>
-        <div style="text-align:center;margin-top:8px;" id="import-progress-msg">Procesando archivo...</div>
-      `;
-      modalBody.appendChild(progressDiv);
-    } else {
-      progressDiv.style.display = '';
-      document.getElementById('import-progress-msg').textContent = 'Procesando archivo...';
-    }
-    const bar = document.getElementById('import-progress-bar');
-    if (bar) {
-      bar.style.width = '50%';
-      bar.setAttribute('aria-valuenow', '50');
-    }
-  }
-  function setProgressTo100() {
-    const bar = document.getElementById('import-progress-bar');
-    if (bar) {
-      bar.style.width = '100%';
-      bar.setAttribute('aria-valuenow', '100');
-    }
-  }
-  function hideProgress() {
-    const progressDiv = document.getElementById('import-progress');
-    if (progressDiv) progressDiv.style.display = 'none';
-  }
-  function showImportMessage(msg, type = 'info') {
-    let msgDiv = document.getElementById('import-msg');
-    if (!msgDiv) {
-      msgDiv = document.createElement('div');
-      msgDiv.id = 'import-msg';
-      msgDiv.style.marginTop = '12px';
-      document.querySelector('#importJsonModal .modal-body').appendChild(msgDiv);
-    }
-    msgDiv.innerHTML = `<div class="alert alert-${type}" style="margin-bottom:0;">${msg}</div>`;
-  }
-  function hideImportMessage() {
-    const msgDiv = document.getElementById('import-msg');
-    if (msgDiv) msgDiv.innerHTML = '';
-  }
-
-  const fieldMap = {
-    user_mood: 'user_mood',
-    reflection_text: 'reflection_text',
-    interactions: 'interactions',
-    flashbacks: 'flashbacks',
-    emotions: 'emotions',
-    friendship_talk: 'friendship_talk',
-    experiments: 'experiments',
-    events: 'events',
-    rapid_notes: 'rapid_notes'
-  };
-  function fillFormFields(data, validFields) {
-    Object.keys(fieldMap).forEach(key => {
-      if (validFields && !validFields.includes(key)) return;
-      let val = data[key];
-      if (key === 'emotions' && Array.isArray(val)) {
-        val = val.join(',');
-      }
-      if (typeof val === 'string' || Array.isArray(val)) {
-        document.getElementById(fieldMap[key]).value = val;
-      }
+    document.getElementById('cancel-btn').addEventListener('click', function () {
+        RJ.openModal('cancelModal');
     });
-  }
+    document.getElementById('confirm-exit').addEventListener('click', function () {
+        window.history.back();
+    });
+    document.getElementById('import-json-btn').addEventListener('click', function () {
+        RJ.openModal('importJsonModal');
+    });
 
-  function validateJsonFields(data) {
-    const errors = [];
-    const valid = [];
-    Object.keys(fieldMap).forEach(key => {
-      if (!(key in data)) {
-        errors.push(`Falta el campo <b>${key}</b>`);
-      } else if (key === 'emotions') {
-        if (!Array.isArray(data[key])) {
-          errors.push(`El campo <b>emotions</b> debe ser un array de strings`);
-        } else if (!data[key].every(e => typeof e === 'string')) {
-          errors.push(`Todos los elementos de <b>emotions</b> deben ser strings`);
+    function showProgress() {
+        var modalBody = document.querySelector('#importJsonModal .modal-body');
+        var progressDiv = document.getElementById('import-progress');
+        if (!progressDiv) {
+            progressDiv = document.createElement('div');
+            progressDiv.id = 'import-progress';
+            progressDiv.innerHTML =
+                '<div class="progress" style="margin-top:12px;">' +
+                '  <div class="progress-bar progress-bar-striped active" id="import-progress-bar"' +
+                '    role="progressbar" style="width:50%">50%</div>' +
+                '</div>' +
+                '<div style="text-align:center;margin-top:6px;" id="import-progress-msg">Procesando archivo...</div>';
+            modalBody.appendChild(progressDiv);
         } else {
-          valid.push(key);
+            progressDiv.style.display = '';
+            document.getElementById('import-progress-msg').textContent = 'Procesando archivo...';
         }
-      } else if (typeof data[key] !== 'string') {
-        errors.push(`El campo <b>${key}</b> debe ser un string`);
-      } else {
-        valid.push(key);
-      }
-    });
-    return { errors, valid };
-  }
-
-  document.getElementById('import-json-form').addEventListener('submit', function (event) {
-    event.preventDefault();
-    hideImportMessage();
-    showProgress();
-    var fileInput = document.getElementById('import-json-input');
-    var file = fileInput.files[0];
-    if (!file) {
-      hideProgress();
-      showImportMessage('Por favor selecciona un archivo JSON.', 'warning');
-      return;
+        var bar = document.getElementById('import-progress-bar');
+        if (bar) { bar.style.width = '50%'; bar.textContent = '50%'; }
     }
-    var reader = new FileReader();
-    reader.onload = function (e) {
-      try {
-        var data = JSON.parse(e.target.result);
-        const { errors, valid } = validateJsonFields(data);
-        setProgressTo100();
-        setTimeout(() => {
-          hideProgress();
-          if (errors.length === 0) {
-            fillFormFields(data);
-            showImportMessage('JSON importado correctamente. Los campos han sido rellenados.', 'success');
-            setTimeout(() => {
-              $('#importJsonModal').modal('hide');
-              hideImportMessage();
-            }, 1200);
-          } else if (valid.length > 0) {
-            showImportMessage(
-              `Se encontraron errores:<br>${errors.join('<br>')}<br><br>
-              ¿Deseas copiar los campos válidos al formulario?<br>
-              Si existen datos en el formulario, <strong>serán sobrescritos por los datos importados.</strong> <br><br>
-              <button type="button" class="btn btn-success btn-xs" id="copy-valid-btn">Sí, copiar válidos</button>
-              <button type="button" class="btn btn-default btn-xs" id="no-copy-btn">No, cancelar</button>`,
-              'warning'
-            );
-            document.getElementById('copy-valid-btn').onclick = function () {
-              fillFormFields(data, valid);
-              showImportMessage('Campos válidos copiados al formulario.', 'success');
-              setTimeout(() => {
-                $('#importJsonModal').modal('hide');
-                hideImportMessage();
-              }, 1200);
-            };
-            document.getElementById('no-copy-btn').onclick = function () {
-              hideImportMessage();
-            };
-          } else {
-            showImportMessage('El archivo JSON no contiene campos válidos.<br>' + errors.join('<br>'), 'danger');
-          }
-        }, 350);
-      } catch (err) {
-        setProgressTo100();
-        setTimeout(() => {
-          hideProgress();
-          showImportMessage('El archivo no es un JSON válido.', 'danger');
-        }, 350);
-      }
+    function setProgressTo100() {
+        var bar = document.getElementById('import-progress-bar');
+        if (bar) { bar.style.width = '100%'; bar.textContent = '100%'; }
+    }
+    function hideProgress() {
+        var d = document.getElementById('import-progress');
+        if (d) d.style.display = 'none';
+    }
+    function showImportMessage(msg, type) {
+        type = type || 'info';
+        var msgDiv = document.getElementById('import-msg');
+        if (!msgDiv) {
+            msgDiv = document.createElement('div');
+            msgDiv.id = 'import-msg';
+            msgDiv.style.marginTop = '10px';
+            document.querySelector('#importJsonModal .modal-body').appendChild(msgDiv);
+        }
+        msgDiv.innerHTML = '<div class="alert alert-' + type + '" style="margin-bottom:0;">' + msg + '</div>';
+    }
+    function hideImportMessage() {
+        var msgDiv = document.getElementById('import-msg');
+        if (msgDiv) msgDiv.innerHTML = '';
+    }
+
+    var fieldMap = {
+        user_mood: 'user_mood', reflection_text: 'reflection_text',
+        interactions: 'interactions', flashbacks: 'flashbacks',
+        emotions: 'emotions', friendship_talk: 'friendship_talk',
+        experiments: 'experiments', events: 'events', rapid_notes: 'rapid_notes'
     };
-    reader.readAsText(file);
-  });
+
+    function fillFormFields(data, validFields) {
+        Object.keys(fieldMap).forEach(function (key) {
+            if (validFields && validFields.indexOf(key) === -1) return;
+            var val = data[key];
+            if (key === 'emotions' && Array.isArray(val)) val = val.join(',');
+            if (typeof val === 'string' || Array.isArray(val)) {
+                document.getElementById(fieldMap[key]).value = val;
+            }
+        });
+    }
+
+    function validateJsonFields(data) {
+        var errors = [], valid = [];
+        Object.keys(fieldMap).forEach(function (key) {
+            if (!(key in data)) {
+                errors.push('Falta el campo <b>' + key + '</b>');
+            } else if (key === 'emotions') {
+                if (!Array.isArray(data[key])) {
+                    errors.push('El campo <b>emotions</b> debe ser un array de strings');
+                } else if (!data[key].every(function (e) { return typeof e === 'string'; })) {
+                    errors.push('Todos los elementos de <b>emotions</b> deben ser strings');
+                } else { valid.push(key); }
+            } else if (typeof data[key] !== 'string') {
+                errors.push('El campo <b>' + key + '</b> debe ser un string');
+            } else { valid.push(key); }
+        });
+        return { errors: errors, valid: valid };
+    }
+
+    document.getElementById('import-json-form').addEventListener('submit', function (event) {
+        event.preventDefault();
+        hideImportMessage();
+        showProgress();
+        var fileInput = document.getElementById('import-json-input');
+        var file = fileInput.files[0];
+        if (!file) {
+            hideProgress();
+            showImportMessage('Por favor selecciona un archivo JSON.', 'warning');
+            return;
+        }
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            try {
+                var data = JSON.parse(e.target.result);
+                var result = validateJsonFields(data);
+                setProgressTo100();
+                setTimeout(function () {
+                    hideProgress();
+                    if (result.errors.length === 0) {
+                        fillFormFields(data);
+                        showImportMessage('[✓] JSON importado correctamente. Los campos han sido rellenados.', 'success');
+                        setTimeout(function () {
+                            RJ.closeModal('importJsonModal');
+                            hideImportMessage();
+                        }, 1200);
+                    } else if (result.valid.length > 0) {
+                        showImportMessage(
+                            'Se encontraron errores:<br>' + result.errors.join('<br>') + '<br><br>' +
+                            '¿Deseas copiar los campos válidos al formulario?<br>' +
+                            'Si existen datos en el formulario, <strong>serán sobrescritos.</strong><br><br>' +
+                            '<button type="button" class="btn btn-success btn-sm" id="copy-valid-btn">Sí, copiar válidos</button> ' +
+                            '<button type="button" class="btn btn-default btn-sm" id="no-copy-btn">No, cancelar</button>',
+                            'warning'
+                        );
+                        document.getElementById('copy-valid-btn').onclick = function () {
+                            fillFormFields(data, result.valid);
+                            showImportMessage('[✓] Campos válidos copiados al formulario.', 'success');
+                            setTimeout(function () {
+                                RJ.closeModal('importJsonModal');
+                                hideImportMessage();
+                            }, 1200);
+                        };
+                        document.getElementById('no-copy-btn').onclick = function () {
+                            hideImportMessage();
+                        };
+                    } else {
+                        showImportMessage('[✗] El archivo JSON no contiene campos válidos.<br>' + result.errors.join('<br>'), 'danger');
+                    }
+                }, 350);
+            } catch (err) {
+                setProgressTo100();
+                setTimeout(function () {
+                    hideProgress();
+                    showImportMessage('[✗] El archivo no es un JSON válido.', 'danger');
+                }, 350);
+            }
+        };
+        reader.readAsText(file);
+    });
 </script>
 {% endblock %}

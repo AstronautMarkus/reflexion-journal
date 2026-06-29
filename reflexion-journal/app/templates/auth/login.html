@@ -1,78 +1,44 @@
 {% extends 'base/base.html' %}
 {% block title %}Iniciar sesión - Reflexion Journal{% endblock %}
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-xs-12 text-center">
-            <h1><span class="glyphicon glyphicon-log-in text-primary"></span> Iniciar sesión</h1>
-            <p><span class="glyphicon glyphicon-user text-info"></span> <strong>Por favor, ingresa tus credenciales para acceder a tu cuenta.</strong></p>
-        </div>
-    </div>
-
-    <div class="row" style="margin-top:30px;">
-        <div class="col-sm-6 col-sm-offset-3">
-            <form method="POST" action="{{ url_for('auth.login') }}">
-                <div class="form-group">
-                    <label for="email" class="control-label">Email <i class="text-danger">*</i></label>
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-envelope"></span>
-                        </span>
-                        <input type="email" class="form-control" name="email" id="email" required placeholder="Ej. juan@email.com">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="password" class="control-label">Contraseña <i class="text-danger">*</i></label>
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-lock"></span>
-                        </span>
-                        <input type="password" class="form-control" name="password" id="password" required placeholder="Tu contraseña">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default toggle-password" type="button" data-target="password" tabindex="-1">
-                                <span class="glyphicon glyphicon-eye-open"></span>
-                            </button>
-                        </span>
-                    </div>
-                </div>
-                <div class="checkbox text-center">
-                    <label>
-                        <input type="checkbox" name="remember" id="remember">
-                        Recuérdame
-                    </label>
-                </div>
-                <div class="form-group text-center">
-                    <button type="submit" class="btn btn-primary">
-                        <span class="glyphicon glyphicon-log-in"></span> Iniciar sesión
-                    </button>
-                    <br><br>
-                    <a href="{{ url_for('main.home') }}" class="btn btn-link" id="back-home">
-                        <span class="glyphicon glyphicon-home"></span> Volver a la página principal
-                    </a>
-                </div>
-            </form>
-            <a href="{{ url_for('auth.register') }}">¿No tienes una cuenta? Regístrate aquí</a>
-        </div>
-    </div>
+<div class="text-center" style="margin-bottom: 20px;">
+    <h1>→ Iniciar sesión</h1>
+    <p><strong>Por favor, ingresa tus credenciales para acceder a tu cuenta.</strong></p>
 </div>
-{% endblock %}
 
-{% block scripts %}
-<script>
-document.querySelectorAll('.toggle-password').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-        var targetId = btn.getAttribute('data-target');
-        var input = document.getElementById(targetId);
-        if (input.type === "password") {
-            input.type = "text";
-            btn.querySelector('span').classList.remove('glyphicon-eye-open');
-            btn.querySelector('span').classList.add('glyphicon-eye-close');
-        } else {
-            input.type = "password";
-            btn.querySelector('span').classList.remove('glyphicon-eye-close');
-            btn.querySelector('span').classList.add('glyphicon-eye-open');
-        }
-    });
-});
-</script>
+<div class="form-narrow">
+    <form method="POST" action="{{ url_for('auth.login') }}">
+        <div class="form-group">
+            <label for="email" class="control-label">Email <i class="text-danger">*</i></label>
+            <div class="input-group">
+                <span class="input-group-addon">✉</span>
+                <input type="email" class="form-control" name="email" id="email" required placeholder="Ej. juan@email.com">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="password" class="control-label">Contraseña <i class="text-danger">*</i></label>
+            <div class="input-group">
+                <span class="input-group-addon">§</span>
+                <input type="password" class="form-control" name="password" id="password" required placeholder="Tu contraseña">
+                <span class="input-group-btn">
+                    <button class="btn btn-default toggle-password" type="button" data-target="password" tabindex="-1">[ver]</button>
+                </span>
+            </div>
+        </div>
+        <div class="form-group text-center">
+            <label class="checkbox">
+                <input type="checkbox" name="remember" id="remember">
+                Recuérdame
+            </label>
+        </div>
+        <div class="form-group text-center">
+            <button type="submit" class="btn btn-primary">→ Iniciar sesión</button>
+            <br><br>
+            <a href="{{ url_for('main.home') }}" class="btn btn-link">⌂ Volver a la página principal</a>
+        </div>
+    </form>
+    <p class="text-center">
+        <a href="{{ url_for('auth.register') }}">¿No tienes una cuenta? Regístrate aquí</a>
+    </p>
+</div>
 {% endblock %}

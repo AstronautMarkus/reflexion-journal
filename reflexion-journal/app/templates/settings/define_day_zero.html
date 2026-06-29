@@ -1,81 +1,60 @@
 {% extends 'base/base.html' %}
 {% block title %}Definir Día Cero - Reflexion Journal{% endblock %}
-
 {% block content %}
-<div class="container">
-  <div class="row">
-    <div class="col-xs-12 text-center">
-      <h1><span class="glyphicon glyphicon-calendar text-primary"></span> Definir Día Cero</h1>
-      <p><span class="glyphicon glyphicon-info-sign text-info"></span> <strong>Selecciona la fecha que marcará el inicio
-          de tu registro.</strong></p>
-    </div>
-    <div class="col-md-8 col-md-offset-2">
-      {% if has_day_zero_set %}
-      <div id="alerta-dia-zero" class="alert alert-warning" role="alert" style="font-size:1.2em; padding:2em;">
-        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-        Ya tienes un <strong>Día Cero definido</strong> ({{ day_zero_date }}). Si lo cambias, es posible que los
-        registros fuera del nuevo rango de fechas se eliminen.<br>
+<div class="text-center" style="margin-bottom: 20px;">
+    <h1>▦ Definir Día Cero</h1>
+    <p><strong>Selecciona la fecha que marcará el inicio de tu registro.</strong></p>
+</div>
+
+<div style="max-width:600px; margin:0 auto;">
+    {% if has_day_zero_set %}
+    <div id="alerta-dia-zero" class="alert alert-warning" style="font-size:1.05em; padding:1.6em;">
+        [⚠] Ya tienes un <strong>Día Cero definido</strong> ({{ day_zero_date }}).
+        Si lo cambias, es posible que los registros fuera del nuevo rango de fechas se eliminen.<br>
         ¿Desea continuar?
-        <div class="text-center" style="margin-top:2em;">
-          <button id="continuar-dia-zero" class="btn btn-danger btn-sm"
-            style="margin-right:1em; padding-left:2em; padding-right:2em;">
-            <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> Sí, continuar
-          </button>
-          <button id="cancelar-dia-zero" class="btn btn-success btn-sm" style="padding-left:2em; padding-right:2em;">
-            <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Cancelar
-          </button>
+        <div class="text-center" style="margin-top:1.4em;">
+            <button id="continuar-dia-zero" class="btn btn-danger btn-sm" style="margin-right:8px;">
+                [✓] Sí, continuar
+            </button>
+            <button id="cancelar-dia-zero" class="btn btn-success btn-sm">
+                [✗] Cancelar
+            </button>
         </div>
-      </div>
-      <div id="form-dia-zero" style="display:none;">
+    </div>
+    <div id="form-dia-zero" style="display:none;">
         <form method="post">
-          <div class="form-group">
-            <label for="day_zero">
-              <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-              Selecciona el Día Cero:
-            </label>
-            <input type="date" class="form-control" id="day_zero" name="day_zero" required>
-          </div>
-          <button type="submit" class="btn btn-primary">
-            <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar
-          </button>
-          <button type="button" class="btn btn-secondary" id="cancelar-form-dia-zero">
-            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancelar
-          </button>
+            <div class="form-group">
+                <label for="day_zero">▦ Selecciona el Día Cero:</label>
+                <input type="date" class="form-control" id="day_zero" name="day_zero" required>
+            </div>
+            <button type="submit" class="btn btn-primary">▣ Guardar</button>
+            <button type="button" class="btn btn-default" id="cancelar-form-dia-zero">✗ Cancelar</button>
         </form>
-      </div>
-      <script>
+    </div>
+    <script>
         document.getElementById('continuar-dia-zero').onclick = function () {
-          document.getElementById('alerta-dia-zero').style.display = 'none';
-          document.getElementById('form-dia-zero').style.display = 'block';
+            document.getElementById('alerta-dia-zero').style.display = 'none';
+            document.getElementById('form-dia-zero').style.display = 'block';
         };
         document.getElementById('cancelar-dia-zero').onclick = function () {
-          window.history.back();
+            window.history.back();
         };
         document.getElementById('cancelar-form-dia-zero').onclick = function () {
-          window.history.back();
+            window.history.back();
         };
-      </script>
-      {% else %}
-      <form method="post">
+    </script>
+    {% else %}
+    <form method="post">
         <div class="form-group">
-          <label for="day_zero">
-            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-            Selecciona el Día Cero:
-          </label>
-          <input type="date" class="form-control" id="day_zero" name="day_zero" required>
+            <label for="day_zero">▦ Selecciona el Día Cero:</label>
+            <input type="date" class="form-control" id="day_zero" name="day_zero" required>
         </div>
-        <button type="submit" class="btn btn-primary">
-          <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar
-        </button>
-      </form>
-      <br><br>
-      <div class="text-center">
-        <a href="{{ url_for('settings.settings_page') }}" class="btn btn-default">
-          <span class="glyphicon glyphicon-arrow-left"></span> Volver a Configuración
-        </a>
-      </div>
-      {% endif %}
+        <button type="submit" class="btn btn-primary">▣ Guardar</button>
+    </form>
+    <br>
+    <div class="text-center">
+        <a href="{{ url_for('settings.settings_page') }}" class="btn btn-default">← Volver a Configuración</a>
     </div>
-  </div>
+    {% endif %}
 </div>
 {% endblock %}

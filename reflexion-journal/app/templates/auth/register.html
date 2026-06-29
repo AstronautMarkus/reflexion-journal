@@ -1,134 +1,100 @@
 {% extends 'base/base.html' %}
 {% block title %}Registro - Reflexion Journal{% endblock %}
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-xs-12 text-center">
-            <h1><span class="glyphicon glyphicon-user text-primary"></span> Crear una cuenta</h1>
-            <p><span class="glyphicon glyphicon-pencil text-info"></span> <strong>Completa el formulario para registrarte en Reflexion Journal.</strong></p>
-        </div>
-    </div>
-
-    <div class="row" style="margin-top:30px;">
-        <div class="col-sm-6 col-sm-offset-3">
-            <form method="POST" action="{{ url_for('auth.register') }}" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="first_name" class="control-label">Nombre <i class="text-danger">*</i></label>
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-user"></span>
-                        </span>
-                        <input type="text" class="form-control" id="first_name" name="first_name" required placeholder="Ej. Juan" value="{{ form_data.first_name if form_data.first_name is defined else '' }}">
-                    </div>
-                    {% if errors.first_name %}
-                        <div class="alert alert-danger" style="margin-top:5px; padding:5px;">{{ errors.first_name }}</div>
-                    {% endif %}
-                </div>
-                <div class="form-group">
-                    <label for="last_name" class="control-label">Apellido <i class="text-danger">*</i></label>
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-user"></span>
-                        </span>
-                        <input type="text" class="form-control" id="last_name" name="last_name" required placeholder="Ej. Pérez" value="{{ form_data.last_name if form_data.last_name is defined else '' }}">
-                    </div>
-                    {% if errors.last_name %}
-                        <div class="alert alert-danger" style="margin-top:5px; padding:5px;">{{ errors.last_name }}</div>
-                    {% endif %}
-                </div>
-                <div class="form-group">
-                    <label for="username" class="control-label">Nombre de usuario (opcional)</label>
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-user"></span>
-                        </span>
-                        <input type="text" class="form-control" id="username" name="username" placeholder="Tu seudónimo, John Doe, Big Floppa, etc." value="{{ form_data.username if form_data.username is defined else '' }}">
-                    </div>
-                    {% if errors.username %}
-                        <div class="alert alert-danger" style="margin-top:5px; padding:5px;">{{ errors.username }}</div>
-                    {% endif %}
-                </div>
-                <div class="form-group">
-                    <label for="email" class="control-label">Email <i class="text-danger">*</i></label>
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-envelope"></span>
-                        </span>
-                        <input type="email" class="form-control" id="email" name="email" required placeholder="Ej. juan@email.com" value="{{ form_data.email if form_data.email is defined else '' }}">
-                    </div>
-                    {% if errors.email %}
-                        <div class="alert alert-danger" style="margin-top:5px; padding:5px;">{{ errors.email }}</div>
-                    {% endif %}
-                </div>
-                <div class="form-group">
-                    <label for="password" class="control-label">Contraseña <i class="text-danger">*</i></label>
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-lock"></span>
-                        </span>
-                        <input type="password" class="form-control" id="password" name="password" required placeholder="Mínimo 8 caracteres">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default toggle-password" type="button" data-target="password" tabindex="-1">
-                                <span class="glyphicon glyphicon-eye-open"></span>
-                            </button>
-                        </span>
-                    </div>
-                    {% if errors.password %}
-                        <div class="alert alert-danger" style="margin-top:5px; padding:5px;">{{ errors.password }}</div>
-                    {% endif %}
-                </div>
-                <div class="form-group">
-                    <label for="confirm" class="control-label">Confirmar contraseña <i class="text-danger">*</i></label>
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-lock"></span>
-                        </span>
-                        <input type="password" class="form-control" id="confirm" name="confirm" required placeholder="Repite tu contraseña">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default toggle-password" type="button" data-target="confirm" tabindex="-1">
-                                <span class="glyphicon glyphicon-eye-open"></span>
-                            </button>
-                        </span>
-                    </div>
-                    {% if errors.confirm %}
-                        <div class="alert alert-danger" style="margin-top:5px; padding:5px;">{{ errors.confirm }}</div>
-                    {% endif %}
-                </div>
-                <div class="form-group">
-                    <label for="profile_picture" class="control-label">Foto de perfil (opcional)</label>
-                    <input type="file" class="form-control" id="profile_picture" name="profile_picture" accept="image/*">
-                    {% if errors.profile_picture %}
-                        <div class="alert alert-danger" style="margin-top:5px; padding:5px;">{{ errors.profile_picture }}</div>
-                    {% endif %}
-                </div>
-                <div class="form-group text-center">
-                    <button type="submit" class="btn btn-primary">
-                        <span class="glyphicon glyphicon-user"></span> Registrarse
-                    </button>
-                </div>
-            </form>
-            <a href="{{ url_for('auth.login') }}">¿Ya tienes una cuenta? Inicia sesión aquí</a>
-        </div>
-    </div>
+<div class="text-center" style="margin-bottom: 20px;">
+    <h1>◉ Crear una cuenta</h1>
+    <p><strong>Completa el formulario para registrarte en Reflexion Journal.</strong></p>
 </div>
-{% endblock %}
 
-{% block scripts %}
-<script>
-document.querySelectorAll('.toggle-password').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-        var targetId = btn.getAttribute('data-target');
-        var input = document.getElementById(targetId);
-        if (input.type === "password") {
-            input.type = "text";
-            btn.querySelector('span').classList.remove('glyphicon-eye-open');
-            btn.querySelector('span').classList.add('glyphicon-eye-close');
-        } else {
-            input.type = "password";
-            btn.querySelector('span').classList.remove('glyphicon-eye-close');
-            btn.querySelector('span').classList.add('glyphicon-eye-open');
-        }
-    });
-});
-</script>
+<div class="form-narrow">
+    <form method="POST" action="{{ url_for('auth.register') }}" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="first_name" class="control-label">Nombre <i class="text-danger">*</i></label>
+            <div class="input-group">
+                <span class="input-group-addon">◉</span>
+                <input type="text" class="form-control" id="first_name" name="first_name" required
+                    placeholder="Ej. Juan"
+                    value="{{ form_data.first_name if form_data.first_name is defined else '' }}">
+            </div>
+            {% if errors.first_name %}
+                <div class="alert alert-danger" style="margin-top:5px; padding:6px 10px;">{{ errors.first_name }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="last_name" class="control-label">Apellido <i class="text-danger">*</i></label>
+            <div class="input-group">
+                <span class="input-group-addon">◉</span>
+                <input type="text" class="form-control" id="last_name" name="last_name" required
+                    placeholder="Ej. Pérez"
+                    value="{{ form_data.last_name if form_data.last_name is defined else '' }}">
+            </div>
+            {% if errors.last_name %}
+                <div class="alert alert-danger" style="margin-top:5px; padding:6px 10px;">{{ errors.last_name }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="username" class="control-label">Nombre de usuario (opcional)</label>
+            <div class="input-group">
+                <span class="input-group-addon">#</span>
+                <input type="text" class="form-control" id="username" name="username"
+                    placeholder="Tu seudónimo, John Doe, Big Floppa, etc."
+                    value="{{ form_data.username if form_data.username is defined else '' }}">
+            </div>
+            {% if errors.username %}
+                <div class="alert alert-danger" style="margin-top:5px; padding:6px 10px;">{{ errors.username }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="email" class="control-label">Email <i class="text-danger">*</i></label>
+            <div class="input-group">
+                <span class="input-group-addon">✉</span>
+                <input type="email" class="form-control" id="email" name="email" required
+                    placeholder="Ej. juan@email.com"
+                    value="{{ form_data.email if form_data.email is defined else '' }}">
+            </div>
+            {% if errors.email %}
+                <div class="alert alert-danger" style="margin-top:5px; padding:6px 10px;">{{ errors.email }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="password" class="control-label">Contraseña <i class="text-danger">*</i></label>
+            <div class="input-group">
+                <span class="input-group-addon">§</span>
+                <input type="password" class="form-control" id="password" name="password" required placeholder="Mínimo 8 caracteres">
+                <span class="input-group-btn">
+                    <button class="btn btn-default toggle-password" type="button" data-target="password" tabindex="-1">[ver]</button>
+                </span>
+            </div>
+            {% if errors.password %}
+                <div class="alert alert-danger" style="margin-top:5px; padding:6px 10px;">{{ errors.password }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="confirm" class="control-label">Confirmar contraseña <i class="text-danger">*</i></label>
+            <div class="input-group">
+                <span class="input-group-addon">§</span>
+                <input type="password" class="form-control" id="confirm" name="confirm" required placeholder="Repite tu contraseña">
+                <span class="input-group-btn">
+                    <button class="btn btn-default toggle-password" type="button" data-target="confirm" tabindex="-1">[ver]</button>
+                </span>
+            </div>
+            {% if errors.confirm %}
+                <div class="alert alert-danger" style="margin-top:5px; padding:6px 10px;">{{ errors.confirm }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="profile_picture" class="control-label">Foto de perfil (opcional)</label>
+            <input type="file" class="form-control" id="profile_picture" name="profile_picture" accept="image/*">
+            {% if errors.profile_picture %}
+                <div class="alert alert-danger" style="margin-top:5px; padding:6px 10px;">{{ errors.profile_picture }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group text-center">
+            <button type="submit" class="btn btn-primary">◉ Registrarme</button>
+        </div>
+    </form>
+    <p class="text-center">
+        <a href="{{ url_for('auth.login') }}">¿Ya tienes una cuenta? Inicia sesión aquí</a>
+    </p>
+</div>
 {% endblock %}

@@ -1,184 +1,154 @@
 {% extends 'base/base.html' %}
 {% block title %}Definir Día Final - Reflexion Journal{% endblock %}
-
 {% block content %}
-<div class="container">
-  <div class="row">
-    <div class="col-xs-12 text-center">
-      <h1><span class="glyphicon glyphicon-calendar text-primary"></span> Definir Día Final</h1>
-      <p><span class="glyphicon glyphicon-info-sign text-info"></span>
-        <strong>Indica cuántos días durará tu registro de reflexiones.</strong>
-      </p>
-    </div>
-    <div class="col-md-8 col-md-offset-2">
-      {% if has_days_goal_set %}
-      <div id="alerta-dia-final" class="alert alert-warning" role="alert" style="font-size:1.2em; padding:2em;">
-        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-        Ya tienes un <strong>Día Final definido</strong> ({{ days_ammount }} días, termina el {{ final_date }}). Si lo
-        cambias, es posible que los registros fuera del nuevo rango de fechas se eliminen.<br>
+<div class="text-center" style="margin-bottom: 20px;">
+    <h1>▦ Definir Día Final</h1>
+    <p><strong>Indica cuántos días durará tu registro de reflexiones.</strong></p>
+</div>
+
+<div style="max-width:600px; margin:0 auto;">
+    {% if has_days_goal_set %}
+    <div id="alerta-dia-final" class="alert alert-warning" style="font-size:1.05em; padding:1.6em;">
+        [⚠] Ya tienes un <strong>Día Final definido</strong>
+        ({{ days_ammount }} días, termina el {{ final_date }}).
+        Si lo cambias, es posible que los registros fuera del nuevo rango de fechas se eliminen.<br>
         ¿Desea continuar?
-        <div class="text-center" style="margin-top:2em;">
-          <button id="continuar-dia-final" class="btn btn-danger btn-sm"
-            style="margin-right:1em; padding-left:2em; padding-right:2em;">
-            <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> Sí, continuar
-          </button>
-          <button id="cancelar-dia-final" class="btn btn-success btn-sm" style="padding-left:2em; padding-right:2em;">
-            <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Cancelar
-          </button>
+        <div class="text-center" style="margin-top:1.4em;">
+            <button id="continuar-dia-final" class="btn btn-danger btn-sm" style="margin-right:8px;">
+                [✓] Sí, continuar
+            </button>
+            <button id="cancelar-dia-final" class="btn btn-success btn-sm">
+                [✗] Cancelar
+            </button>
         </div>
-      </div>
-      <div id="form-dia-final" style="display:none;">
-        <!-- Formulario -->
+    </div>
+    <div id="form-dia-final" style="display:none;">
         <form method="post" id="days-goal-form">
-          <div class="form-group">
-            <label for="days_ammount">
-              <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-              ¿Cuántos días quieres reflexionar? (Día Cero: {{ day_zero_date }})<br>
-              <span class="text-muted" style="font-size:0.9em;">Máximo permitido en plan gratis: 100 días</span>
-            </label>
-            <input type="number" class="form-control" id="days_ammount" name="days_ammount" min="1" max="100" required
-              value="{{ days_ammount }}">
-          </div>
-          <div id="final-date-preview" style="margin-bottom:1em;">
-            {% if final_date %}
-            <div class="alert alert-info">
-              <span class="glyphicon glyphicon-calendar"></span>
-              Tu día final será: <strong>{{ final_date }}</strong>
+            <div class="form-group">
+                <label for="days_ammount">
+                    ▦ ¿Cuántos días quieres reflexionar? (Día Cero: {{ day_zero_date }})<br>
+                    <span class="text-muted" style="font-size:0.9em;">Máximo permitido en plan gratis: 100 días</span>
+                </label>
+                <input type="number" class="form-control" id="days_ammount" name="days_ammount"
+                    min="1" max="100" required value="{{ days_ammount }}">
             </div>
-            {% endif %}
-          </div>
-          <div id="loading-spinner" style="display:none;">
-            <span class="glyphicon glyphicon-refresh glyphicon-spin"></span> Calculando fecha final...
-          </div>
-          <button type="submit" class="btn btn-primary">
-            <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar
-          </button>
-          <button type="button" class="btn btn-secondary" id="cancelar-form-dia-final">
-            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancelar
-          </button>
+            <div id="final-date-preview" style="margin-bottom:1em;">
+                {% if final_date %}
+                <div class="alert alert-info">
+                    ▦ Tu día final será: <strong>{{ final_date }}</strong>
+                </div>
+                {% endif %}
+            </div>
+            <div id="loading-spinner" style="display:none;">
+                <span class="spinner">↻</span> Calculando fecha final...
+            </div>
+            <button type="submit" class="btn btn-primary">▣ Guardar</button>
+            <button type="button" class="btn btn-default" id="cancelar-form-dia-final">✗ Cancelar</button>
         </form>
-      </div>
-      <script>
+    </div>
+    <script>
         document.getElementById('continuar-dia-final').onclick = function () {
-          document.getElementById('alerta-dia-final').style.display = 'none';
-          document.getElementById('form-dia-final').style.display = 'block';
+            document.getElementById('alerta-dia-final').style.display = 'none';
+            document.getElementById('form-dia-final').style.display = 'block';
         };
         document.getElementById('cancelar-dia-final').onclick = function () {
-          window.history.back();
+            window.history.back();
         };
         document.getElementById('cancelar-form-dia-final').onclick = function () {
-          window.history.back();
+            window.history.back();
         };
 
         var daysInput = document.getElementById('days_ammount');
         var preview = document.getElementById('final-date-preview');
         var spinner = document.getElementById('loading-spinner');
         if (daysInput) {
-          daysInput.addEventListener('input', function () {
-            var val = daysInput.value;
-            if (!val || parseInt(val) < 1) {
-              preview.innerHTML = '';
-              return;
-            }
-            if (parseInt(val) > 100) {
-              preview.innerHTML = '<div class="alert alert-danger">El máximo permitido en el plan gratis es 100 días.</div>';
-              return;
-            }
-            spinner.style.display = 'block';
-            fetch('{{ url_for("settings.calculate_final_date") }}', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': '{{ csrf_token() if csrf_token }}'
-              },
-              body: JSON.stringify({ days_ammount: val })
-            })
-              .then(resp => resp.json().then(data => ({ status: resp.status, body: data })))
-              .then(({ status, body }) => {
-                spinner.style.display = 'none';
-                if (body.final_date) {
-                  preview.innerHTML = '<div class="alert alert-info"><span class="glyphicon glyphicon-calendar"></span> Tu día final será: <strong>' + body.final_date + '</strong></div>';
-                } else if (body.error) {
-                  preview.innerHTML = '<div class="alert alert-danger">' + body.error + '</div>';
-                } else {
-                  preview.innerHTML = '<div class="alert alert-danger">No se pudo calcular la fecha.</div>';
+            daysInput.addEventListener('input', function () {
+                var val = daysInput.value;
+                if (!val || parseInt(val) < 1) { preview.innerHTML = ''; return; }
+                if (parseInt(val) > 100) {
+                    preview.innerHTML = '<div class="alert alert-danger">[✗] El máximo permitido en el plan gratis es 100 días.</div>';
+                    return;
                 }
-              })
-              .catch(() => {
-                spinner.style.display = 'none';
-                preview.innerHTML = '<div class="alert alert-danger">No se pudo calcular la fecha.</div>';
-              });
-          });
+                spinner.style.display = 'block';
+                fetch('{{ url_for("settings.calculate_final_date") }}', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ days_ammount: val })
+                })
+                .then(function (resp) { return resp.json().then(function (data) { return { status: resp.status, body: data }; }); })
+                .then(function (r) {
+                    spinner.style.display = 'none';
+                    if (r.body.final_date) {
+                        preview.innerHTML = '<div class="alert alert-info">▦ Tu día final será: <strong>' + r.body.final_date + '</strong></div>';
+                    } else if (r.body.error) {
+                        preview.innerHTML = '<div class="alert alert-danger">[✗] ' + r.body.error + '</div>';
+                    } else {
+                        preview.innerHTML = '<div class="alert alert-danger">[✗] No se pudo calcular la fecha.</div>';
+                    }
+                })
+                .catch(function () {
+                    spinner.style.display = 'none';
+                    preview.innerHTML = '<div class="alert alert-danger">[✗] No se pudo calcular la fecha.</div>';
+                });
+            });
         }
-      </script>
-      {% else %}
-      <form method="post" id="days-goal-form">
+    </script>
+    {% else %}
+    <form method="post" id="days-goal-form">
         <div class="form-group">
-          <label for="days_ammount">
-            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-            ¿Cuántos días quieres reflexionar? (Día Cero: {{ day_zero_date }})<br>
-            <span class="text-muted" style="font-size:0.9em;">Máximo permitido en plan gratis: 100 días</span>
-          </label>
-          <input type="number" class="form-control" id="days_ammount" name="days_ammount" min="1" max="100" required>
+            <label for="days_ammount">
+                ▦ ¿Cuántos días quieres reflexionar? (Día Cero: {{ day_zero_date }})<br>
+                <span class="text-muted" style="font-size:0.9em;">Máximo permitido en plan gratis: 100 días</span>
+            </label>
+            <input type="number" class="form-control" id="days_ammount" name="days_ammount"
+                min="1" max="100" required>
         </div>
         <div id="final-date-preview" style="margin-bottom:1em;"></div>
         <div id="loading-spinner" style="display:none;">
-          <span class="glyphicon glyphicon-refresh glyphicon-spin"></span> Calculando fecha final...
+            <span class="spinner">↻</span> Calculando fecha final...
         </div>
-        <button type="submit" class="btn btn-primary">
-          <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar
-        </button>
-      </form>
-      <br><br>
-      <div class="text-center">
-        <a href="{{ url_for('settings.settings_page') }}" class="btn btn-default">
-          <span class="glyphicon glyphicon-arrow-left"></span> Volver a Configuración
-        </a>
-      </div>
-      <script>
+        <button type="submit" class="btn btn-primary">▣ Guardar</button>
+    </form>
+    <br>
+    <div class="text-center">
+        <a href="{{ url_for('settings.settings_page') }}" class="btn btn-default">← Volver a Configuración</a>
+    </div>
+    <script>
         var daysInput = document.getElementById('days_ammount');
         var preview = document.getElementById('final-date-preview');
         var spinner = document.getElementById('loading-spinner');
         if (daysInput) {
-          daysInput.addEventListener('input', function () {
-            var val = daysInput.value;
-            if (!val || parseInt(val) < 1) {
-              preview.innerHTML = '';
-              return;
-            }
-            if (parseInt(val) > 100) {
-              preview.innerHTML = '<div class="alert alert-danger">El máximo permitido en el plan gratis es 100 días.</div>';
-              return;
-            }
-            spinner.style.display = 'block';
-            fetch('{{ url_for("settings.calculate_final_date") }}', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': '{{ csrf_token() if csrf_token }}'
-              },
-              body: JSON.stringify({ days_ammount: val })
-            })
-              .then(resp => resp.json().then(data => ({ status: resp.status, body: data })))
-              .then(({ status, body }) => {
-                spinner.style.display = 'none';
-                if (body.final_date) {
-                  preview.innerHTML = '<div class="alert alert-info"><span class="glyphicon glyphicon-calendar"></span> Tu día final será: <strong>' + body.final_date + '</strong></div>';
-                } else if (body.error) {
-                  preview.innerHTML = '<div class="alert alert-danger">' + body.error + '</div>';
-                } else {
-                  preview.innerHTML = '<div class="alert alert-danger">No se pudo calcular la fecha.</div>';
+            daysInput.addEventListener('input', function () {
+                var val = daysInput.value;
+                if (!val || parseInt(val) < 1) { preview.innerHTML = ''; return; }
+                if (parseInt(val) > 100) {
+                    preview.innerHTML = '<div class="alert alert-danger">[✗] El máximo permitido en el plan gratis es 100 días.</div>';
+                    return;
                 }
-              })
-              .catch(() => {
-                spinner.style.display = 'none';
-                preview.innerHTML = '<div class="alert alert-danger">No se pudo calcular la fecha.</div>';
-              });
-          });
+                spinner.style.display = 'block';
+                fetch('{{ url_for("settings.calculate_final_date") }}', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ days_ammount: val })
+                })
+                .then(function (resp) { return resp.json().then(function (data) { return { status: resp.status, body: data }; }); })
+                .then(function (r) {
+                    spinner.style.display = 'none';
+                    if (r.body.final_date) {
+                        preview.innerHTML = '<div class="alert alert-info">▦ Tu día final será: <strong>' + r.body.final_date + '</strong></div>';
+                    } else if (r.body.error) {
+                        preview.innerHTML = '<div class="alert alert-danger">[✗] ' + r.body.error + '</div>';
+                    } else {
+                        preview.innerHTML = '<div class="alert alert-danger">[✗] No se pudo calcular la fecha.</div>';
+                    }
+                })
+                .catch(function () {
+                    spinner.style.display = 'none';
+                    preview.innerHTML = '<div class="alert alert-danger">[✗] No se pudo calcular la fecha.</div>';
+                });
+            });
         }
-      </script>
-      {% endif %}
-    </div>
-  </div>
+    </script>
+    {% endif %}
 </div>
 {% endblock %}

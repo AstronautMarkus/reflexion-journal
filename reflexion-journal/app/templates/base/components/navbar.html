@@ -1,84 +1,71 @@
-<nav class="navbar navbar-default navbar-fixed-top" style="z-index: 1030;">
-    <div class="container-fluid">
-        <div class="navbar-header">
+<nav class="navbar">
+    <a class="navbar-brand" href="{{ url_for('main.home') }}">
+        ☷ Reflexion Journal
+    </a>
 
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-main"
-                aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="{{ url_for('main.home') }}">
-                <span class="glyphicon glyphicon-book" aria-hidden="true"></span>
-                Reflexion Journal
-            </a>
-        </div>
-        <div class="collapse navbar-collapse" id="navbar-main">
-            {% if current_user.is_authenticated %}
-            <ul class="nav navbar-nav">
-                <li><a href="{{ url_for('main.home') }}"><span class="glyphicon glyphicon-home"></span> Inicio</a></li>
-                <li><a href="{{ url_for('reflections.reflections_list') }}"><span class="glyphicon glyphicon-list-alt"></span> Entradas</a></li>
-                <li><a href="{{ url_for('journal.calendar_view') }}"><span class="glyphicon glyphicon-calendar"></span> Calendario</a></li>
-                <li><a href="{{ url_for('reflections.write_reflection') }}"><span class="glyphicon glyphicon-plus-sign"></span> Nueva Entrada</a></li>
-            </ul>
-            {% endif %}
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                        aria-expanded="false">
-                        <span class="glyphicon glyphicon-user"></span>
-                        {% if current_user.is_authenticated %}
+    <button class="navbar-toggle" data-target="#navbar-main" type="button" aria-label="Menú">
+        ☰
+    </button>
+
+    <div class="navbar-collapse" id="navbar-main">
+        {% if current_user.is_authenticated %}
+        <ul class="navbar-nav">
+            <li><a href="{{ url_for('main.home') }}">⌂ Inicio</a></li>
+            <li><a href="{{ url_for('reflections.reflections_list') }}">☰ Entradas</a></li>
+            <li><a href="{{ url_for('journal.calendar_view') }}">▦ Calendario</a></li>
+            <li><a href="{{ url_for('reflections.write_reflection') }}">✎ Nueva Entrada</a></li>
+        </ul>
+        {% else %}
+        <ul class="navbar-nav"></ul>
+        {% endif %}
+
+        <ul class="navbar-nav">
+            <li class="dropdown">
+                <a class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
+                    ◉
+                    {% if current_user.is_authenticated %}
                         {% if current_user.username %}
-                        {{ current_user.username }}
+                            {{ current_user.username }}
                         {% else %}
-                        {{ current_user.first_name }} {{ current_user.last_name }}
+                            {{ current_user.first_name }} {{ current_user.last_name }}
                         {% endif %}
-                        {% else %}
+                    {% else %}
                         Acceder
-                        {% endif %}
-                        <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        {% if current_user.is_authenticated %}
-                        <li><a href="{{ url_for('journal.profile') }}"><span class="glyphicon glyphicon-user"></span>
-                                Perfil</a></li>
-                        <li><a href="{{ url_for('settings.settings_page') }}"><span
-                                    class="glyphicon glyphicon-cog"></span> Configuración</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li>
-                            <a href="#" data-toggle="modal" data-target="#logoutModal">
-                                <span class="glyphicon glyphicon-log-out"></span> Cerrar sesión
-                            </a>
-                        </li>
-                        {% else %}
-                        <li><a href="{{ url_for('auth.login') }}"><span class="glyphicon glyphicon-log-in"></span>
-                                Iniciar sesión</a></li>
-                        <li><a href="{{ url_for('auth.register') }}"><span class="glyphicon glyphicon-plus"></span>
-                                Registrarme</a></li>
-                        {% endif %}
-                    </ul>
-                </li>
-            </ul>
-        </div>
+                    {% endif %}
+                    ▾
+                </a>
+                <ul class="dropdown-menu">
+                    {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for('journal.profile') }}">◉ Perfil</a></li>
+                    <li><a href="{{ url_for('settings.settings_page') }}">⚙ Configuración</a></li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="#" data-modal-open="#logoutModal">← Cerrar sesión</a>
+                    </li>
+                    {% else %}
+                    <li><a href="{{ url_for('auth.login') }}">→ Iniciar sesión</a></li>
+                    <li><a href="{{ url_for('auth.register') }}">+ Registrarme</a></li>
+                    {% endif %}
+                </ul>
+            </li>
+        </ul>
     </div>
 </nav>
 
-<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span
-                        aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="logoutModalLabel">¿Cerrar sesión?</h4>
-            </div>
-            <div class="modal-body">
-                ¿Ya te vas? ¡Te esperamos pronto de vuelta!
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                <a href="{{ url_for('auth.logout') }}" class="btn btn-danger">Cerrar sesión</a>
-            </div>
+{% if current_user.is_authenticated %}
+<div class="modal-overlay" id="logoutModal">
+    <div class="modal-box">
+        <div class="modal-head">
+            <span>¿Cerrar sesión?</span>
+            <button class="modal-close-btn" data-modal-close type="button" aria-label="Cerrar">&times;</button>
+        </div>
+        <div class="modal-body">
+            ¿Ya te vas? ¡Te esperamos pronto de vuelta!
+        </div>
+        <div class="modal-foot">
+            <button type="button" class="btn btn-default" data-modal-close>Cancelar</button>
+            <a href="{{ url_for('auth.logout') }}" class="btn btn-danger">← Cerrar sesión</a>
         </div>
     </div>
 </div>
+{% endif %}
