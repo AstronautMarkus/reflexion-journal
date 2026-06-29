@@ -3,14 +3,43 @@
 {% block content %}
 <div class="text-center" style="margin-bottom: 18px;">
     <h1><i class="fa-solid fa-eye"></i> Detalle de Reflexión</h1>
-    <p>Consulta la información completa de tu reflexión seleccionada.</p>
+    <p>Día <strong>{{ day_number if day_number else '?' }}</strong> &mdash; {{ date }}</p>
 </div>
 
-<h2 class="page-header"><i class="fa-solid fa-eye"></i> Detalle de Reflexión</h2>
-<p class="lead" style="margin-bottom:18px;">
-    <i class="fa-solid fa-calendar-days"></i> Fecha: <strong>{{ date }}</strong>
-</p>
+<!-- Acciones -->
+<div style="margin-bottom: 18px; display:flex; gap:8px; flex-wrap:wrap;">
+    <a href="{{ url_for('reflections.reflections_list') }}" class="btn btn-default btn-sm">
+        <i class="fa-solid fa-arrow-left"></i> Volver a la lista
+    </a>
+    <a href="{{ url_for('reflections.edit_reflection', reflection_id=reflection.id) }}" class="btn btn-default btn-sm">
+        <i class="fa-solid fa-pencil"></i> Editar
+    </a>
+    <button class="btn btn-info btn-sm" id="btn-ai-reflection">
+        <i class="fa-solid fa-robot"></i> Reflexión IA del día
+    </button>
+    <form method="POST" action="{{ url_for('reflections.delete_reflection', reflection_id=reflection.id) }}"
+          style="display:inline;" onsubmit="return confirm('¿Eliminar esta reflexión? Esta acción no se puede deshacer.');">
+        <button type="submit" class="btn btn-danger btn-sm">
+            <i class="fa-solid fa-trash"></i> Eliminar
+        </button>
+    </form>
+</div>
 
+<!-- Panel IA -->
+<div id="ai-panel" class="panel panel-info hidden" style="margin-bottom:18px;">
+    <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa-solid fa-robot"></i> Reflexión IA del día</h3>
+    </div>
+    <div class="panel-body">
+        <div id="ai-loading" class="hidden text-center" style="padding:20px 0;">
+            <i class="fa-solid fa-spinner spinner" style="font-size:2em; color:#2a5db0;"></i>
+            <p style="margin-top:10px; color:#555;">Analizando tu reflexión...</p>
+        </div>
+        <div id="ai-content" style="white-space:pre-wrap; font-size:0.9em; line-height:1.7;"></div>
+    </div>
+</div>
+
+<!-- Contenido de la reflexión -->
 <div class="panel">
     <div class="panel-heading"><i class="fa-solid fa-heart text-danger"></i> <strong>Estado de ánimo</strong></div>
     <div class="panel-body">{{ reflection.user_mood or 'No escrito' }}</div>
@@ -18,17 +47,7 @@
 
 <div class="panel">
     <div class="panel-heading"><i class="fa-solid fa-book text-primary"></i> <strong>Reflexión</strong></div>
-    <div class="panel-body">{{ reflection.reflection_text or 'No escrito' }}</div>
-</div>
-
-<div class="panel">
-    <div class="panel-heading"><i class="fa-solid fa-user text-info"></i> <strong>Interacciones</strong></div>
-    <div class="panel-body">{{ reflection.interactions or 'No escrito' }}</div>
-</div>
-
-<div class="panel">
-    <div class="panel-heading"><i class="fa-solid fa-clock text-warning"></i> <strong>Recuerdos/Flashbacks</strong></div>
-    <div class="panel-body">{{ reflection.flashbacks or 'No escrito' }}</div>
+    <div class="panel-body" style="white-space:pre-wrap;">{{ reflection.reflection_text or 'No escrito' }}</div>
 </div>
 
 <div class="panel">
@@ -36,39 +55,98 @@
     <div class="panel-body">
         {% if reflection.emotions %}
             {% for emotion in reflection.emotions.split(',') %}
-                <span class="label label-info" style="margin-right:4px; margin-bottom:4px;">
+                <span class="label label-info" style="margin-right:4px; margin-bottom:4px; font-size:0.88em;">
                     {{ emotion.strip().capitalize() }}
                 </span>
             {% endfor %}
         {% else %}
-            No escrito
+            <span class="text-muted">No escrito</span>
         {% endif %}
     </div>
 </div>
 
 <div class="panel">
-    <div class="panel-heading"><i class="fa-solid fa-comment text-success"></i> <strong>Conversaciones con amigos / seres queridos</strong></div>
-    <div class="panel-body">{{ reflection.friendship_talk or 'No escrito' }}</div>
+    <div class="panel-heading"><i class="fa-solid fa-user text-info"></i> <strong>Interacciones</strong></div>
+    <div class="panel-body" style="white-space:pre-wrap;">{{ reflection.interactions or 'No escrito' }}</div>
+</div>
+
+<div class="panel">
+    <div class="panel-heading"><i class="fa-solid fa-clock text-warning"></i> <strong>Recuerdos / Flashbacks</strong></div>
+    <div class="panel-body" style="white-space:pre-wrap;">{{ reflection.flashbacks or 'No escrito' }}</div>
+</div>
+
+<div class="panel">
+    <div class="panel-heading"><i class="fa-solid fa-comment text-success"></i> <strong>Conversaciones</strong></div>
+    <div class="panel-body" style="white-space:pre-wrap;">{{ reflection.friendship_talk or 'No escrito' }}</div>
 </div>
 
 <div class="panel">
     <div class="panel-heading"><i class="fa-solid fa-flask text-info"></i> <strong>Experimentos</strong></div>
-    <div class="panel-body">{{ reflection.experiments or 'No escrito' }}</div>
+    <div class="panel-body" style="white-space:pre-wrap;">{{ reflection.experiments or 'No escrito' }}</div>
 </div>
 
 <div class="panel">
     <div class="panel-heading"><i class="fa-solid fa-bell text-warning"></i> <strong>Eventos</strong></div>
-    <div class="panel-body">{{ reflection.events or 'No escrito' }}</div>
+    <div class="panel-body" style="white-space:pre-wrap;">{{ reflection.events or 'No escrito' }}</div>
 </div>
 
 <div class="panel">
     <div class="panel-heading"><i class="fa-solid fa-list text-primary"></i> <strong>Notas rápidas</strong></div>
-    <div class="panel-body">{{ reflection.rapid_notes or 'No escrito' }}</div>
+    <div class="panel-body" style="white-space:pre-wrap;">{{ reflection.rapid_notes or 'No escrito' }}</div>
 </div>
 
-<div style="margin-bottom:40px;">
-    <a href="{{ url_for('reflections.reflections_list') }}" class="btn btn-primary">
-        <i class="fa-solid fa-arrow-left"></i> Volver a la lista de reflexiones
+<div style="margin-bottom:40px; display:flex; gap:8px; flex-wrap:wrap;">
+    <a href="{{ url_for('reflections.reflections_list') }}" class="btn btn-default">
+        <i class="fa-solid fa-arrow-left"></i> Volver a la lista
+    </a>
+    <a href="{{ url_for('reflections.edit_reflection', reflection_id=reflection.id) }}" class="btn btn-default">
+        <i class="fa-solid fa-pencil"></i> Editar
     </a>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function() {
+    var aiUrl = "{{ url_for('reflections.generate_ai_reflection', reflection_id=reflection.id) }}";
+    var loaded = false;
+
+    document.getElementById('btn-ai-reflection').addEventListener('click', function() {
+        var panel = document.getElementById('ai-panel');
+        var loading = document.getElementById('ai-loading');
+        var content = document.getElementById('ai-content');
+
+        panel.classList.remove('hidden');
+
+        if (loaded) return;
+        loaded = true;
+
+        loading.classList.remove('hidden');
+        content.textContent = '';
+
+        fetch(aiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' } })
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                loading.classList.add('hidden');
+                if (data.error) {
+                    content.textContent = 'Error: ' + data.error;
+                    loaded = false;
+                    return;
+                }
+                content.textContent = data.content;
+                if (data.cached) {
+                    var badge = document.createElement('small');
+                    badge.style.cssText = 'color:#888;display:block;margin-top:6px;';
+                    badge.innerHTML = '<i class="fa-solid fa-clock"></i> Reflexión guardada anteriormente';
+                    content.appendChild(badge);
+                }
+            })
+            .catch(function() {
+                loading.classList.add('hidden');
+                content.textContent = 'Error de red. Intenta de nuevo.';
+                loaded = false;
+            });
+    });
+})();
+</script>
 {% endblock %}

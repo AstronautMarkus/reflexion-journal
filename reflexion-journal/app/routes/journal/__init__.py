@@ -7,4 +7,5 @@ from . import (
     profile,
     calendar,
     tutorial,
+    final_reflection,
 )

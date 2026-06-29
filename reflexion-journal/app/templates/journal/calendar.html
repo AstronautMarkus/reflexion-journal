@@ -1,79 +1,251 @@
 {% extends 'base/base.html' %}
 {% block title %}Calendario - Reflexion Journal{% endblock %}
+{% block head %}
+<style>
+/* ===== GRID CALENDARIO ===== */
+.rj-cal-wrap { overflow-x: auto; }
+
+.rj-cal {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    margin-bottom: 20px;
+    min-width: 500px;
+}
+
+.rj-cal th {
+    background: linear-gradient(to bottom, #2a5db0, #1a3d82);
+    color: #fff;
+    text-align: center;
+    padding: 8px 4px;
+    font-size: 0.8em;
+    font-weight: bold;
+    border: 1px solid #1a3d82;
+}
+
+.rj-cal td {
+    border: 1px solid #cccccc;
+    vertical-align: top;
+    padding: 0;
+    height: 90px;
+    background: #fff;
+}
+
+.rj-cal td.empty {
+    background: #f0f0f0;
+    border-color: #ddd;
+}
+
+.rj-cell {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 5px;
+    cursor: default;
+}
+
+.rj-cell-num {
+    font-size: 0.78em;
+    font-weight: bold;
+    color: #888;
+    line-height: 1;
+    margin-bottom: 3px;
+}
+
+.rj-cell-day {
+    font-size: 0.72em;
+    color: #aaa;
+    margin-bottom: 4px;
+}
+
+.rj-cell-icon {
+    font-size: 1.3em;
+    text-align: center;
+    margin: auto 0;
+}
+
+.rj-cell-label {
+    font-size: 0.65em;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 3px;
+    line-height: 1.1;
+}
+
+/* Variantes por estado */
+td.day_zero   { background: #e8f0ff !important; border-color: #2a5db0 !important; }
+td.last_day   { background: #f0e8ff !important; border-color: #8b2abc !important; }
+td.done       { background: #edf7ea !important; border-color: #3d8830 !important; }
+td.pending    { background: #fffaf0 !important; border-color: #c07010 !important; }
+td.missed     { background: #fff5f5 !important; border-color: #c01818 !important; }
+td.future     { background: #f9f9f9 !important; border-color: #ddd !important; }
+td.out_of_range { background: #f5f5f5 !important; border-color: #e0e0e0 !important; }
+
+.rj-cell.day_zero   .rj-cell-icon { color: #2a5db0; }
+.rj-cell.last_day   .rj-cell-icon { color: #8b2abc; }
+.rj-cell.done       .rj-cell-icon { color: #3d8830; }
+.rj-cell.pending    .rj-cell-icon { color: #c07010; }
+.rj-cell.missed     .rj-cell-icon { color: #c01818; }
+.rj-cell.future     .rj-cell-icon { color: #cccccc; }
+.rj-cell.out_of_range .rj-cell-icon { color: #dddddd; }
+
+.rj-cell.day_zero   .rj-cell-label { color: #2a5db0; }
+.rj-cell.last_day   .rj-cell-label { color: #8b2abc; }
+.rj-cell.done       .rj-cell-label { color: #3d8830; }
+.rj-cell.pending    .rj-cell-label { color: #c07010; }
+.rj-cell.missed     .rj-cell-label { color: #c01818; }
+
+td.done .rj-cell, td.pending .rj-cell { cursor: pointer; }
+td.done:hover { background: #d8f0d0 !important; }
+td.pending:hover { background: #fff0d8 !important; }
+
+.rj-month-stats {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+}
+.rj-stat-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.82em;
+    font-weight: bold;
+}
+.chip-done    { background: #edf7ea; color: #3d8830; border: 1px solid #3d8830; }
+.chip-missed  { background: #fff5f5; color: #c01818; border: 1px solid #c01818; }
+.chip-total   { background: #e8f0ff; color: #2a5db0; border: 1px solid #2a5db0; }
+</style>
+{% endblock %}
 {% block content %}
-<h1 class="text-center">
-    <i class="fa-solid fa-calendar-days"></i> Calendario de Reflexiones &mdash; {{ month_name }} {{ year }}
-</h1>
-<p class="text-center" style="margin-bottom: 18px;">
-    Día cero: <strong>{{ day_zero_date.strftime('%d-%m-%Y') }}</strong>
-    {% if last_day %} &mdash; Último día: <strong>{{ last_day.strftime('%d-%m-%Y') }}</strong>{% endif %}
-</p>
 
-<div class="text-center" style="margin-bottom: 20px;">
+<div class="text-center" style="margin-bottom: 14px;">
+    <h1><i class="fa-solid fa-calendar-days"></i> Calendario de Reflexiones</h1>
+    <p>
+        Día cero: <strong>{{ day_zero_date.strftime('%d/%m/%Y') }}</strong>
+        &mdash;
+        Día final: <strong>{{ last_possible_day.strftime('%d/%m/%Y') }}</strong>
+        &mdash;
+        <strong>{{ total_days }} días</strong>
+    </p>
+</div>
+
+<!-- Navegación de mes -->
+<div class="text-center" style="margin-bottom:14px; display:flex; align-items:center; justify-content:center; gap:20px;">
     {% if prev_enabled %}
-        <a href="{{ url_for('journal.calendar_view', year=prev_year, month=prev_month) }}" class="btn btn-default">
-            <i class="fa-solid fa-chevron-left"></i> Mes anterior
+        <a href="{{ url_for('journal.calendar_view', year=prev_year, month=prev_month) }}" class="btn btn-default btn-sm">
+            <i class="fa-solid fa-chevron-left"></i>
         </a>
+    {% else %}
+        <span class="btn btn-default btn-sm" style="opacity:0.35; cursor:not-allowed;"><i class="fa-solid fa-chevron-left"></i></span>
     {% endif %}
+
+    <h2 style="margin:0; font-size:1.25em; min-width:160px; text-align:center;">
+        {{ month_name }} {{ year }}
+    </h2>
+
     {% if next_enabled %}
-        <a href="{{ url_for('journal.calendar_view', year=next_year, month=next_month) }}" class="btn btn-default">
-            Mes siguiente <i class="fa-solid fa-chevron-right"></i>
+        <a href="{{ url_for('journal.calendar_view', year=next_year, month=next_month) }}" class="btn btn-default btn-sm">
+            <i class="fa-solid fa-chevron-right"></i>
         </a>
+    {% else %}
+        <span class="btn btn-default btn-sm" style="opacity:0.35; cursor:not-allowed;"><i class="fa-solid fa-chevron-right"></i></span>
     {% endif %}
 </div>
 
-{% for day in calendar_days %}
-<div class="cal-day {{ day.status }}">
-    <div class="cal-day-icon">
-        {% if day.status == 'day_zero' %}<i class="fa-solid fa-flag"></i>
-        {% elif day.status == 'last_day' %}<i class="fa-solid fa-flag"></i>
-        {% elif day.status == 'done' %}<i class="fa-solid fa-check"></i>
-        {% elif day.status == 'pending' %}<i class="fa-solid fa-pencil"></i>
-        {% elif day.status == 'missed' %}<i class="fa-solid fa-xmark"></i>
-        {% else %}<i class="fa-regular fa-calendar"></i>
-        {% endif %}
-    </div>
-    <div class="cal-day-body">
-        <div class="cal-day-title">
-            {% if day.status == 'day_zero' %}
-                Día Cero ({{ day.date.strftime('%d-%m-%Y') }})
-            {% elif day.status == 'last_day' %}
-                Último Día ({{ day.day_number }}) &mdash; {{ day.date.strftime('%d-%m-%Y') }}
-            {% else %}
-                Día {{ day.day_number }} &mdash; {{ day.date.strftime('%d-%m-%Y') }}
-            {% endif %}
-        </div>
-        {% if day.status == 'done' %}
-            <span class="label label-success"><i class="fa-solid fa-check"></i> Reflexión completada</span>
-        {% elif day.status == 'pending' %}
-            <span class="label label-warning"><i class="fa-solid fa-pencil"></i> Hoy, aún no has escrito</span>
-            <a href="{{ url_for('reflections.write_reflection') }}" class="btn btn-sm btn-primary" style="margin-left:8px;">
-                <i class="fa-solid fa-pen-to-square"></i> Escribir reflexión
-            </a>
-        {% elif day.status == 'missed' %}
-            <span class="label label-danger"><i class="fa-solid fa-xmark"></i> Día pasado sin reflexión</span>
-        {% elif day.status == 'day_zero' %}
-            <span class="label label-primary"><i class="fa-solid fa-flag"></i> Día Cero</span>
-        {% elif day.status == 'last_day' %}
-            <span class="label" style="color:#fff; background:#8b2abc; border-color:#8b2abc;">
-                <i class="fa-solid fa-flag"></i> Último Día
-            </span>
-        {% endif %}
-        {% if day.reflection %}
-            <div style="margin-top:7px; font-size:0.85em; color:#555;">
-                <strong>Reflexión:</strong>
-                {{ day.reflection.reflection_text[:120] }}{% if day.reflection.reflection_text|length > 120 %}...{% endif %}
-            </div>
-        {% endif %}
-    </div>
+<!-- Stats del mes -->
+<div class="rj-month-stats">
+    <span class="rj-stat-chip chip-done"><i class="fa-solid fa-check"></i> {{ done_count }} completados</span>
+    <span class="rj-stat-chip chip-missed"><i class="fa-solid fa-xmark"></i> {{ missed_count }} sin reflexión</span>
+    <span class="rj-stat-chip chip-total"><i class="fa-solid fa-calendar"></i> {{ month_name }}</span>
 </div>
-{% endfor %}
 
-<div class="alert alert-info cal-legend" style="margin-top: 20px;">
-    <span class="label label-primary"><i class="fa-solid fa-flag"></i></span> Día Cero &nbsp;
-    <span class="label" style="color:#fff;background:#8b2abc;border-color:#8b2abc;"><i class="fa-solid fa-flag"></i></span> Último Día &nbsp;
-    <span class="label label-success"><i class="fa-solid fa-check"></i></span> Reflexión completada &nbsp;
-    <span class="label label-warning"><i class="fa-solid fa-pencil"></i></span> Hoy, sin escribir &nbsp;
-    <span class="label label-danger"><i class="fa-solid fa-xmark"></i></span> Día sin reflexión
+<!-- Tabla calendario -->
+<div class="rj-cal-wrap">
+<table class="rj-cal">
+    <thead>
+        <tr>
+            <th>Lun</th><th>Mar</th><th>Mié</th><th>Jue</th><th>Vie</th>
+            <th style="background:linear-gradient(to bottom,#1a4a96,#0e2d70);">Sáb</th>
+            <th style="background:linear-gradient(to bottom,#1a4a96,#0e2d70);">Dom</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for week in grid_weeks %}
+    <tr>
+        {% for cell in week %}
+        {% if cell is none %}
+            <td class="empty"></td>
+        {% else %}
+            <td class="{{ cell.status }}"
+                {% if cell.status == 'done' and cell.reflection %}
+                    onclick="window.location='{{ url_for('reflections.reflection_detail', reflection_id=cell.reflection.id) }}'"
+                    title="Día {{ cell.day_number }} — Ver reflexión"
+                {% elif cell.status == 'pending' %}
+                    onclick="window.location='{{ url_for('reflections.write_reflection') }}'"
+                    title="Escribe tu reflexión de hoy"
+                {% else %}
+                    title="{{ cell.date.strftime('%d/%m/%Y') }}{% if cell.day_number %} — Día {{ cell.day_number }}{% endif %}"
+                {% endif %}
+            >
+                <div class="rj-cell {{ cell.status }}">
+                    <div class="rj-cell-num">{{ cell.date.day }}</div>
+                    {% if cell.day_number %}
+                        <div class="rj-cell-day">D.{{ cell.day_number }}</div>
+                    {% endif %}
+                    <div class="rj-cell-icon">
+                        {% if cell.status == 'day_zero' %}
+                            <i class="fa-solid fa-flag"></i>
+                        {% elif cell.status == 'last_day' %}
+                            <i class="fa-solid fa-trophy"></i>
+                        {% elif cell.status == 'done' %}
+                            <i class="fa-solid fa-check-circle"></i>
+                        {% elif cell.status == 'pending' %}
+                            <i class="fa-solid fa-pencil"></i>
+                        {% elif cell.status == 'missed' %}
+                            <i class="fa-solid fa-xmark"></i>
+                        {% elif cell.status == 'future' %}
+                            <i class="fa-regular fa-circle"></i>
+                        {% endif %}
+                    </div>
+                    {% if cell.status in ['day_zero', 'last_day', 'pending'] %}
+                        <div class="rj-cell-label">
+                            {% if cell.status == 'day_zero' %}Inicio
+                            {% elif cell.status == 'last_day' %}Final
+                            {% elif cell.status == 'pending' %}Hoy
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+            </td>
+        {% endif %}
+        {% endfor %}
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
 </div>
+
+<!-- Leyenda -->
+<div class="alert alert-info" style="font-size:0.82em; display:flex; flex-wrap:wrap; gap:14px; align-items:center;">
+    <strong><i class="fa-solid fa-circle-info"></i> Leyenda:</strong>
+    <span style="color:#2a5db0;"><i class="fa-solid fa-flag"></i> Día Cero</span>
+    <span style="color:#8b2abc;"><i class="fa-solid fa-trophy"></i> Día Final</span>
+    <span style="color:#3d8830;"><i class="fa-solid fa-check-circle"></i> Completado <small>(clic para ver)</small></span>
+    <span style="color:#c07010;"><i class="fa-solid fa-pencil"></i> Hoy</span>
+    <span style="color:#c01818;"><i class="fa-solid fa-xmark"></i> Sin reflexión</span>
+    <span style="color:#aaa;"><i class="fa-regular fa-circle"></i> Futuro</span>
+</div>
+
+<div style="margin-top:14px; margin-bottom:30px; text-align:center;">
+    <a href="{{ url_for('journal.dashboard') }}" class="btn btn-default">
+        <i class="fa-solid fa-house"></i> Volver al Dashboard
+    </a>
+    <a href="{{ url_for('reflections.write_reflection') }}" class="btn btn-primary" style="margin-left:8px;">
+        <i class="fa-solid fa-pen-to-square"></i> Escribir reflexión
+    </a>
+</div>
+
 {% endblock %}

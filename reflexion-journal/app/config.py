@@ -29,3 +29,5 @@ class Config:
 
     UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), '..', 'static', 'uploads')
     UPLOAD_URL = '/static/uploads/'
+
+    ANTHROPIC_API_KEY = os.getenv('ANTHROPIC_API_KEY', '')

@@ -8,6 +8,7 @@ from app.models.models import UserDaysGoal, UserDayZero, ReflectionEntry
 from datetime import datetime, timedelta
 
 MAX_DAYS_FREE_PLAN = 100
+MIN_DAYS = 5
 
 @settings.route('/settings/define_final_reflection_day', methods=['GET', 'POST'])
 @login_required_middleware
@@ -34,10 +35,10 @@ def define_final_reflection_day():
         days_ammount = request.form.get('days_ammount')
         try:
             days_ammount = int(days_ammount)
-            if days_ammount < 1 or days_ammount > MAX_DAYS_FREE_PLAN:
+            if days_ammount < MIN_DAYS or days_ammount > MAX_DAYS_FREE_PLAN:
                 raise ValueError()
         except Exception:
-            flash(f'El número de días debe ser un número entero positivo y no mayor a {MAX_DAYS_FREE_PLAN}.', 'danger')
+            flash(f'El número de días debe ser al menos {MIN_DAYS} y no mayor a {MAX_DAYS_FREE_PLAN}.', 'danger')
             return redirect(url_for('settings.define_final_reflection_day'))
 
         record = UserDaysGoal.query.filter_by(user_id=user.id).first()
@@ -88,8 +89,8 @@ def calculate_final_date():
         return jsonify({'error': 'No day zero set'}), 400
     try:
         days_ammount = int(request.json.get('days_ammount'))
-        if days_ammount < 1 or days_ammount > MAX_DAYS_FREE_PLAN:
-            return jsonify({'error': f'El máximo permitido en el plan gratis es {MAX_DAYS_FREE_PLAN} días.'}), 400
+        if days_ammount < MIN_DAYS or days_ammount > MAX_DAYS_FREE_PLAN:
+            return jsonify({'error': f'El mínimo es {MIN_DAYS} días y el máximo es {MAX_DAYS_FREE_PLAN} días.'}), 400
         day_zero_date = datetime.strptime(str(user_day_zero.date), "%Y-%m-%d")
         final_date = (day_zero_date + timedelta(days=days_ammount-1)).strftime("%Y-%m-%d")
         return jsonify({'final_date': final_date})

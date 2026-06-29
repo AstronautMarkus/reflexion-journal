@@ -32,7 +32,7 @@
                     <span class="text-muted" style="font-size:0.88em;">Máximo permitido en plan gratis: 100 días</span>
                 </label>
                 <input type="number" class="form-control" id="days_ammount" name="days_ammount"
-                    min="1" max="100" required value="{{ days_ammount }}">
+                    min="5" max="100" required value="{{ days_ammount }}">
             </div>
             <div id="final-date-preview" style="margin-bottom:1em;">
                 {% if final_date %}
@@ -66,7 +66,7 @@
         if (daysInput) {
             daysInput.addEventListener('input', function() {
                 var val = daysInput.value;
-                if (!val || parseInt(val) < 1) { preview.innerHTML = ''; return; }
+                if (!val || parseInt(val) < 5) { preview.innerHTML = ''; return; }
                 if (parseInt(val) > 100) {
                     preview.innerHTML = '<div class="alert alert-danger"><i class="fa-solid fa-circle-xmark"></i> El máximo permitido en el plan gratis es 100 días.</div>';
                     return;
@@ -101,7 +101,7 @@
                 ¿Cuántos días quieres reflexionar? (Día Cero: {{ day_zero_date }})<br>
                 <span class="text-muted" style="font-size:0.88em;">Máximo permitido en plan gratis: 100 días</span>
             </label>
-            <input type="number" class="form-control" id="days_ammount" name="days_ammount" min="1" max="100" required>
+            <input type="number" class="form-control" id="days_ammount" name="days_ammount" min="5" max="100" required>
         </div>
         <div id="final-date-preview" style="margin-bottom:1em;"></div>
         <div id="loading-spinner" style="display:none; margin-bottom:10px;">
@@ -124,7 +124,7 @@
         if (daysInput) {
             daysInput.addEventListener('input', function() {
                 var val = daysInput.value;
-                if (!val || parseInt(val) < 1) { preview.innerHTML = ''; return; }
+                if (!val || parseInt(val) < 5) { preview.innerHTML = ''; return; }
                 if (parseInt(val) > 100) {
                     preview.innerHTML = '<div class="alert alert-danger"><i class="fa-solid fa-circle-xmark"></i> El máximo permitido en el plan gratis es 100 días.</div>';
                     return;

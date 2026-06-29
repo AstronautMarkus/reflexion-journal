@@ -1,0 +1,199 @@
+{% extends 'base/base.html' %}
+{% block title %}Reflexión Final - Reflexion Journal{% endblock %}
+{% block content %}
+
+<div class="text-center" style="margin-bottom: 18px;">
+    <h1><i class="fa-solid fa-star" style="color:#f0a030;"></i> Reflexión Final</h1>
+    <p>Has completado tu journey de <strong>{{ total_days }} días</strong>. ¡Felicidades, {{ user.first_name }}!</p>
+</div>
+
+<!-- Stats banner -->
+<div class="rj-grid-3" style="margin-bottom: 22px;">
+    <div class="panel panel-primary">
+        <div class="panel-heading"><i class="fa-solid fa-calendar-check"></i> Días totales</div>
+        <div class="panel-body text-center">
+            <span style="font-size:2.2em; font-weight:bold; color:#2a5db0;">{{ total_days }}</span>
+            <div class="text-muted" style="font-size:0.82em;">días del journey</div>
+        </div>
+    </div>
+    <div class="panel panel-success">
+        <div class="panel-heading"><i class="fa-solid fa-book-open"></i> Reflexiones escritas</div>
+        <div class="panel-body text-center">
+            <span style="font-size:2.2em; font-weight:bold; color:#3d8830;">{{ all_entries|length }}</span>
+            <div class="text-muted" style="font-size:0.82em;">entradas del diario</div>
+        </div>
+    </div>
+    <div class="panel panel-warning">
+        <div class="panel-heading"><i class="fa-solid fa-percent"></i> Completitud</div>
+        <div class="panel-body text-center">
+            <span style="font-size:2.2em; font-weight:bold; color:#c07010;">{{ completion_rate }}%</span>
+            <div class="text-muted" style="font-size:0.82em;">días con reflexión</div>
+        </div>
+    </div>
+</div>
+
+<!-- Reflexión IA existente o botón para generar -->
+<div class="panel panel-primary" id="ai-panel">
+    <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa-solid fa-robot"></i> Reflexión Final con Inteligencia Artificial</h3>
+    </div>
+    <div class="panel-body">
+        {% if existing_final %}
+            <div id="ai-content">
+                <div class="well" style="white-space:pre-wrap; font-size:0.9em; line-height:1.7;">{{ existing_final.content }}</div>
+                <div class="text-muted" style="font-size:0.8em; margin-top:8px;">
+                    <i class="fa-solid fa-clock"></i> Generada el {{ existing_final.created_at.strftime('%d/%m/%Y a las %H:%M') }}
+                </div>
+                <div style="margin-top:14px;">
+                    <button class="btn btn-default" id="btn-regenerate">
+                        <i class="fa-solid fa-rotate"></i> Regenerar reflexión
+                    </button>
+                    <button class="btn btn-success" id="btn-export-ai" style="margin-left:8px;">
+                        <i class="fa-solid fa-download"></i> Exportar como TXT
+                    </button>
+                </div>
+            </div>
+        {% else %}
+            <div id="ai-placeholder">
+                <p>La IA analizará todas tus <strong>{{ all_entries|length }} reflexiones</strong> y generará un análisis profundo y personalizado de tu journey de {{ total_days }} días.</p>
+                <p class="text-muted" style="font-size:0.85em;"><i class="fa-solid fa-triangle-exclamation"></i> Esto puede tomar 20–40 segundos.</p>
+                <button class="btn btn-primary" id="btn-generate-final" style="margin-top:8px;">
+                    <i class="fa-solid fa-robot"></i> Generar Reflexión Final con IA
+                </button>
+            </div>
+            <div id="ai-loading" class="hidden">
+                <div class="text-center" style="padding:30px 0;">
+                    <i class="fa-solid fa-spinner spinner" style="font-size:2.5em; color:#2a5db0;"></i>
+                    <p style="margin-top:14px; color:#555;">Analizando tus reflexiones... esto puede tomar un momento.</p>
+                </div>
+            </div>
+            <div id="ai-content" class="hidden"></div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Listado de reflexiones del journey -->
+<h2 class="page-header"><i class="fa-solid fa-list"></i> Resumen de reflexiones del journey</h2>
+<div class="panel">
+    <div class="panel-body">
+        {% if all_entries %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Día</th>
+                    <th>Fecha</th>
+                    <th>Ánimo</th>
+                    <th>Emociones</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for entry in all_entries %}
+            <tr>
+                <td><strong>Día {{ (entry.created_at.date() - day_zero_date).days + 1 }}</strong></td>
+                <td>{{ entry.created_at.strftime('%d/%m/%Y') }}</td>
+                <td>{{ entry.user_mood[:60] }}{% if entry.user_mood|length > 60 %}...{% endif %}</td>
+                <td>
+                    {% if entry.emotions %}
+                        {% for em in entry.emotions.split(',')[:3] %}
+                            <span class="label label-info">{{ em.strip() }}</span>
+                        {% endfor %}
+                    {% else %}<span class="text-muted">—</span>{% endif %}
+                </td>
+                <td>
+                    <a href="{{ url_for('reflections.reflection_detail', reflection_id=entry.id) }}" class="btn btn-sm btn-default">
+                        <i class="fa-solid fa-eye"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="text-muted text-center">No hay reflexiones registradas.</p>
+        {% endif %}
+    </div>
+</div>
+
+<div style="margin-bottom:30px;">
+    <a href="{{ url_for('journal.dashboard') }}" class="btn btn-default">
+        <i class="fa-solid fa-arrow-left"></i> Volver al Dashboard
+    </a>
+    <a href="{{ url_for('settings.export_reflections') }}" class="btn btn-primary" style="margin-left:8px;">
+        <i class="fa-solid fa-file-export"></i> Exportar todo
+    </a>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function() {
+    var generateUrl = "{{ url_for('journal.generate_final_reflection') }}";
+    var exportTxtUrl = "{{ url_for('settings.export_txt') }}";
+
+    function showAIContent(text) {
+        var container = document.getElementById('ai-content');
+        if (!container) return;
+        container.innerHTML =
+            '<div class="well" style="white-space:pre-wrap;font-size:0.9em;line-height:1.7;">' +
+            escapeHtml(text) + '</div>' +
+            '<div style="margin-top:14px;">' +
+            '<button class="btn btn-default" id="btn-regenerate"><i class="fa-solid fa-rotate"></i> Regenerar reflexión</button>' +
+            '<a href="' + exportTxtUrl + '" class="btn btn-success" style="margin-left:8px;"><i class="fa-solid fa-download"></i> Exportar como TXT</a>' +
+            '</div>';
+        container.classList.remove('hidden');
+        attachRegenerate();
+    }
+
+    function escapeHtml(text) {
+        return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    function attachRegenerate() {
+        var btn = document.getElementById('btn-regenerate');
+        if (btn) btn.addEventListener('click', triggerGenerate);
+    }
+
+    function triggerGenerate() {
+        var placeholder = document.getElementById('ai-placeholder');
+        var loading = document.getElementById('ai-loading');
+        var content = document.getElementById('ai-content');
+        var btnGen = document.getElementById('btn-generate-final');
+
+        if (placeholder) placeholder.classList.add('hidden');
+        if (loading) loading.classList.remove('hidden');
+        if (content) content.classList.add('hidden');
+        if (btnGen) btnGen.disabled = true;
+
+        fetch(generateUrl, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({})
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            if (loading) loading.classList.add('hidden');
+            if (data.error) {
+                alert('Error: ' + data.error);
+                if (placeholder) placeholder.classList.remove('hidden');
+                if (btnGen) btnGen.disabled = false;
+                return;
+            }
+            showAIContent(data.content);
+        })
+        .catch(function() {
+            if (loading) loading.classList.add('hidden');
+            alert('Error de red. Intenta de nuevo.');
+            if (placeholder) placeholder.classList.remove('hidden');
+            if (btnGen) btnGen.disabled = false;
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var btnGen = document.getElementById('btn-generate-final');
+        if (btnGen) btnGen.addEventListener('click', triggerGenerate);
+        attachRegenerate();
+    });
+})();
+</script>
+{% endblock %}

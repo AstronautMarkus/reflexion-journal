@@ -3,25 +3,56 @@
 {% block content %}
 <div class="text-center" style="margin-bottom: 18px;">
     <h1><i class="fa-solid fa-file-export"></i> Exportar Reflexiones</h1>
-    <p>Elige una opción para exportar tus reflexiones.</p>
+    <p>Descarga tus <strong>{{ total }}</strong> reflexión(es) en el formato que prefieras.</p>
 </div>
 
-<h2 class="page-header"><i class="fa-solid fa-list"></i> Opciones de exportación</h2>
+<h2 class="page-header"><i class="fa-solid fa-download"></i> Opciones de exportación</h2>
 
-<ul class="list-group" style="margin-bottom:26px;">
-    <li class="list-group-item">
-        <h5><i class="fa-solid fa-list text-primary"></i> Exportar todas las reflexiones</h5>
-        <p class="mb-1 text-muted">Descarga un archivo con todas tus reflexiones guardadas.</p>
-    </li>
-    <li class="list-group-item">
-        <h5><i class="fa-solid fa-calendar-days text-primary"></i> Exportar por rango de fechas</h5>
-        <p class="mb-1 text-muted">Selecciona un periodo específico para exportar solo las reflexiones de esas fechas.</p>
-    </li>
-    <li class="list-group-item">
-        <h5><i class="fa-solid fa-magnifying-glass text-primary"></i> Exportar reflexión específica</h5>
-        <p class="mb-1 text-muted">Busca y exporta una reflexión individual de tu historial.</p>
-    </li>
-</ul>
+<div class="rj-grid-2" style="margin-bottom:26px;">
+    <!-- JSON -->
+    <div class="panel">
+        <div class="panel-heading" style="background:linear-gradient(to bottom,#5b8cd6,#2a5db0);color:#fff;border-color:#1a4a96;">
+            <h3 class="panel-title"><i class="fa-solid fa-code"></i> Exportar como JSON</h3>
+        </div>
+        <div class="panel-body">
+            <p>Descarga todas tus reflexiones en formato JSON estructurado. Ideal para importar a otras aplicaciones o hacer backups.</p>
+            <ul style="font-size:0.85em; color:#555; margin-bottom:12px;">
+                <li>Datos completos de todas las reflexiones</li>
+                <li>Incluye información del usuario y día cero</li>
+                <li>Formato legible por máquinas</li>
+            </ul>
+            <a href="{{ url_for('settings.export_json') }}" class="btn btn-primary btn-block">
+                <i class="fa-solid fa-download"></i> Descargar JSON ({{ total }} reflexiones)
+            </a>
+        </div>
+    </div>
+
+    <!-- TXT -->
+    <div class="panel">
+        <div class="panel-heading" style="background:linear-gradient(to bottom,#68b258,#3d8830);color:#fff;border-color:#2a6020;">
+            <h3 class="panel-title"><i class="fa-solid fa-file-lines"></i> Exportar como TXT</h3>
+        </div>
+        <div class="panel-body">
+            <p>Descarga todas tus reflexiones como texto plano, fácil de leer. Incluye la reflexión final con IA si la has generado.</p>
+            <ul style="font-size:0.85em; color:#555; margin-bottom:12px;">
+                <li>Texto legible y formateado</li>
+                <li>Incluye reflexión final con IA (si existe)</li>
+                <li>Compatible con cualquier editor de texto</li>
+            </ul>
+            <a href="{{ url_for('settings.export_txt') }}" class="btn btn-success btn-block">
+                <i class="fa-solid fa-download"></i> Descargar TXT ({{ total }} reflexiones)
+            </a>
+        </div>
+    </div>
+</div>
+
+{% if total == 0 %}
+<div class="alert alert-warning">
+    <i class="fa-solid fa-triangle-exclamation"></i>
+    Aún no tienes reflexiones guardadas.
+    <a href="{{ url_for('reflections.write_reflection') }}">Escribe tu primera reflexión</a>.
+</div>
+{% endif %}
 
 <div class="text-center" style="margin-bottom:26px;">
     <a href="{{ url_for('settings.settings_page') }}" class="btn btn-default">

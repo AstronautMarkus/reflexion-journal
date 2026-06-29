@@ -19,16 +19,15 @@ def reflection_detail(reflection_id):
     user_day_zero = UserDayZero.query.filter_by(user_id=user.id).first()
     day_zero = user_day_zero.date if user_day_zero else None
 
+    day_number = None
     if day_zero:
         entry_date = entry.created_at.date() if hasattr(entry.created_at, 'date') else entry.created_at
-        day_number = (entry_date - day_zero).days
-    else:
-        day_number = None
+        day_number = (entry_date - day_zero).days + 1
 
     return render_template(
         'reflections/reflection_detail.html',
         user=user,
         reflection=entry,
-        date=entry.created_at.strftime("%Y-%m-%d"),
-        day=day_number
+        date=entry.created_at.strftime('%d/%m/%Y'),
+        day_number=day_number
     )

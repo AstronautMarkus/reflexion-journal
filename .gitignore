@@ -209,3 +209,5 @@ __marimo__/
 # Upload images folder
 
 reflexion-journal/static/
+
+reflexion-journal/migrations

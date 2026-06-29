@@ -31,11 +31,10 @@ def login():
             return redirect(url_for('auth.activate_account', email=email))
 
         login_user(user, remember=remember)
-        
+
         if getattr(user, 'is_new', True):
-            flash('Bienvenido/a a Reflexion Journal, ' + user.first_name + '! Te recomendamos que completes el tutorial para aprovechar al máximo la aplicación.', 'info')
-            return redirect(url_for('journal.tutorial'))
-        
+            return redirect(url_for('journal.dashboard', tour='1'))
+
         flash('Inicio de sesión exitoso. Bienvenido/a de nuevo, ' + user.first_name, 'success')
         return redirect(url_for('journal.dashboard'))
 

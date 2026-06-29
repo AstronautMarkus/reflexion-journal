@@ -1,64 +1,204 @@
 {% extends 'base/base.html' %}
-{% block title %}Diario - Reflexion Journal{% endblock %}
+{% block title %}Dashboard - Reflexion Journal{% endblock %}
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.3.1/dist/driver.css"/>
+<script src="https://cdn.jsdelivr.net/npm/driver.js@1.3.1/dist/driver.js.iife.js"></script>
+<style>
+/* Onboarding setup card */
+.rj-setup-card {
+    background: linear-gradient(135deg, #f0f4ff 0%, #e8f0ff 100%);
+    border: 2px solid #2a5db0;
+    border-radius: 10px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 16px rgba(42,93,176,0.12);
+}
+.rj-setup-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #1a3d82;
+    margin-bottom: 6px;
+}
+.rj-setup-subtitle {
+    color: #555;
+    font-size: 0.9em;
+    margin-bottom: 20px;
+}
+.rj-setup-steps {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+.rj-step {
+    flex: 1;
+    min-width: 200px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: #fff;
+    border: 1px solid #ccd8f0;
+    border-radius: 8px;
+    padding: 14px 16px;
+}
+.rj-step.done { opacity: 0.55; border-color: #3d8830; background: #f5faf3; }
+.rj-step-num {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: linear-gradient(to bottom, #5b8cd6, #2a5db0);
+    color: #fff;
+    font-weight: bold;
+    font-size: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.rj-step.done .rj-step-num { background: linear-gradient(to bottom, #68b258, #3d8830); }
+.rj-step-body h4 { font-size: 0.92em; margin-bottom: 3px; color: #222; }
+.rj-step-body p { font-size: 0.82em; color: #666; margin: 0; }
+.driver-popover { font-family: Verdana, Geneva, sans-serif !important; }
+</style>
+{% endblock %}
 {% block content %}
-<div class="text-center" style="margin-bottom: 18px;">
-    <h1><i class="fa-solid fa-book-open"></i> Panel de Reflexion Journal</h1>
-    <p><i class="fa-solid fa-gauge"></i> Bienvenido a tu panel principal. Aquí puedes ver el resumen y acceder a tus reflexiones diarias.</p>
+
+<!-- Encabezado -->
+<div class="text-center" style="margin-bottom: 14px;">
+    <h1 id="rj-welcome-title"><i class="fa-solid fa-book-open"></i> Panel de Reflexion Journal</h1>
 </div>
 
 <h2 class="page-header" id="greeting-header">
-    <i class="fa-solid fa-user"></i> Buenas, {{ user.first_name }}
+    <i class="fa-solid fa-user"></i> Hola, {{ user.first_name }}
 </h2>
 
-{% if show_day_zero_alert %}
-<div class="alert alert-danger" role="alert" style="margin-bottom: 18px;">
-    <i class="fa-solid fa-circle-exclamation"></i>
-    Aún no has definido el día cero de tu Reflexion Journal.
-    <a href="{{ url_for('settings.define_day_zero') }}">
-        <i class="fa-solid fa-calendar-days"></i> Haz click para definirlo aquí
-    </a>.
+<!-- ==============================
+     ONBOARDING: configuración inicial
+     ============================== -->
+{% if show_day_zero_alert or show_final_day_alert %}
+<div class="rj-setup-card" id="rj-setup-card">
+    <div class="rj-setup-title">
+        <i class="fa-solid fa-rocket"></i> Configura tu Journey — primeros pasos
+    </div>
+    <div class="rj-setup-subtitle">
+        Completa estos 2 pasos para empezar a reflexionar y desbloquear todas las funciones.
+    </div>
+
+    <div class="rj-setup-steps">
+        <!-- Paso 1: Día Cero -->
+        <div class="rj-step {% if not show_day_zero_alert %}done{% endif %}">
+            <div class="rj-step-num">
+                {% if not show_day_zero_alert %}<i class="fa-solid fa-check"></i>{% else %}1{% endif %}
+            </div>
+            <div class="rj-step-body">
+                <h4><i class="fa-solid fa-flag"></i> Define tu Día Cero</h4>
+                <p>El punto de partida de tu diario personal.</p>
+                {% if show_day_zero_alert %}
+                <a href="{{ url_for('settings.define_day_zero') }}" class="btn btn-primary btn-sm" style="margin-top:8px;">
+                    <i class="fa-solid fa-arrow-right"></i> Definir ahora
+                </a>
+                {% else %}
+                <span class="label label-success" style="margin-top:6px;display:inline-block;"><i class="fa-solid fa-check"></i> Completado</span>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Paso 2: Día Final -->
+        <div class="rj-step {% if not show_final_day_alert and not show_day_zero_alert %}done{% endif %} {% if show_day_zero_alert %}{% endif %}">
+            <div class="rj-step-num">
+                {% if not show_final_day_alert and not show_day_zero_alert %}<i class="fa-solid fa-check"></i>{% else %}2{% endif %}
+            </div>
+            <div class="rj-step-body">
+                <h4><i class="fa-solid fa-trophy"></i> Define tu Día Final</h4>
+                <p>¿Cuántos días durará tu journey? (mín. 5, máx. 100)</p>
+                {% if show_final_day_alert %}
+                <a href="{{ url_for('settings.define_final_reflection_day') }}" class="btn btn-primary btn-sm" style="margin-top:8px;">
+                    <i class="fa-solid fa-arrow-right"></i> Definir ahora
+                </a>
+                {% elif show_day_zero_alert %}
+                <span class="text-muted" style="font-size:0.82em; display:block; margin-top:6px;">Disponible tras el paso 1</span>
+                {% else %}
+                <span class="label label-success" style="margin-top:6px;display:inline-block;"><i class="fa-solid fa-check"></i> Completado</span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <p style="font-size:0.82em; color:#888; margin:0;">
+        <i class="fa-solid fa-circle-info"></i>
+        Una vez configurados, podrás escribir reflexiones diarias, ver tu calendario y obtener análisis con IA.
+    </p>
 </div>
 {% endif %}
 
+<!-- BANNER: Día final alcanzado -->
+{% if final_day_reached %}
+<div class="panel" style="border:2px solid #8b2abc; background:linear-gradient(135deg,#f8f0ff,#ede0ff); margin-bottom:22px;" id="rj-final-banner">
+    <div class="panel-heading" style="background:linear-gradient(to bottom,#a050d0,#6a1a9a); color:#fff; border-color:#6a1a9a;">
+        <h3 class="panel-title"><i class="fa-solid fa-trophy"></i> ¡Completaste tu journey de {{ total_days }} días!</h3>
+    </div>
+    <div class="panel-body text-center">
+        <p style="font-size:1.05em; margin-bottom:12px;">Has llegado al día final. ¡Es un gran logro!</p>
+        {% if has_final_ai %}
+            <a href="{{ url_for('journal.final_reflection_page') }}" class="btn btn-primary">
+                <i class="fa-solid fa-star"></i> Ver tu Reflexión Final con IA
+            </a>
+        {% else %}
+            <a href="{{ url_for('journal.final_reflection_page') }}" class="btn btn-primary">
+                <i class="fa-solid fa-robot"></i> Generar tu Reflexión Final con IA
+            </a>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+
+<!-- Info día actual -->
 {% if day_count is not none %}
-<p class="lead text-info" style="margin-bottom: 18px;">
+<p class="lead text-info" style="margin-bottom: 18px;" id="rj-day-count">
     <i class="fa-solid fa-clock"></i>
-    Hoy es {{ today.strftime('%d-%m-%Y') }}, el día <strong>{{ day_count }}</strong> desde tu día cero.
-    ¡Sigue adelante con tus reflexiones!
+    Hoy es {{ today.strftime('%d/%m/%Y') }}, el día <strong>{{ day_count }}</strong> desde tu día cero.
 </p>
 {% endif %}
 
-{% if today_reflection is none %}
-<div class="alert alert-warning" role="alert">
-    <i class="fa-solid fa-pen-to-square"></i>
-    Aún no has escrito ninguna reflexión para hoy.
-    <a href="{{ url_for('reflections.write_reflection') }}">
-        Es un buen momento para comenzar
-    </a>.
+<!-- Stats cards -->
+{% if total_reflections is not none %}
+<div class="rj-grid-3" style="margin-bottom: 22px;" id="rj-stats">
+    <div class="panel">
+        <div class="panel-heading" style="background:linear-gradient(to bottom,#5b8cd6,#2a5db0);color:#fff;border-color:#1a4a96;">
+            <i class="fa-solid fa-book-open"></i> Reflexiones escritas
+        </div>
+        <div class="panel-body text-center">
+            <span style="font-size:2.4em; font-weight:bold; color:#2a5db0;">{{ total_reflections }}</span>
+            {% if total_days %}
+            <div class="text-muted" style="font-size:0.82em;">de {{ total_days }} días posibles</div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="panel">
+        <div class="panel-heading" style="background:linear-gradient(to bottom,#68b258,#3d8830);color:#fff;border-color:#2a6020;">
+            <i class="fa-solid fa-fire"></i> Racha actual
+        </div>
+        <div class="panel-body text-center">
+            <span style="font-size:2.4em; font-weight:bold; color:#3d8830;">{{ streak }}</span>
+            <div class="text-muted" style="font-size:0.82em;">días consecutivos</div>
+        </div>
+    </div>
+    <div class="panel">
+        <div class="panel-heading" style="background:linear-gradient(to bottom,#f0a030,#c07010);color:#fff;border-color:#9a5500;">
+            <i class="fa-solid fa-chart-line"></i> Progreso
+        </div>
+        <div class="panel-body text-center">
+            <span style="font-size:2.4em; font-weight:bold; color:#c07010;">{{ progress_percent if progress_percent is not none else '—' }}{% if progress_percent is not none %}%{% endif %}</span>
+            <div class="text-muted" style="font-size:0.82em;">del journey completado</div>
+        </div>
+    </div>
 </div>
 {% endif %}
 
-{% if today_reflection %}
-<div class="panel panel-success">
-    <div class="panel-heading">
-        <h3 class="panel-title">
-            <i class="fa-solid fa-circle-check"></i> Reflexión de hoy (Día {{ day_count }})
-        </h3>
-    </div>
-    <div class="panel-body">
-        <h4>Estado de ánimo:</h4>
-        <p><em>"{{ today_reflection.user_mood[:30] }}{% if today_reflection.user_mood|length > 30 %}...{% endif %}"</em></p>
-        <h4>Reflexión:</h4>
-        <p>"{{ today_reflection.reflection_text[:150] }}{% if today_reflection.reflection_text|length > 150 %}...{% endif %}"</p>
-        <a href="{{ url_for('reflections.reflection_detail', reflection_id=today_reflection.id) }}" class="btn btn-primary">
-            <i class="fa-solid fa-eye"></i> Ver completa
-        </a>
-    </div>
-</div>
-{% endif %}
-
+<!-- Barra de progreso -->
 {% if progress_percent is not none and final_reflection_date %}
-<div class="progress" style="margin-bottom: 6px;">
+<div class="progress" style="margin-bottom: 6px;" id="rj-progress">
     <div class="progress-bar progress-bar-striped {% if progress_percent < 100 %}active{% endif %}"
         role="progressbar"
         aria-valuenow="{{ progress_percent }}" aria-valuemin="0" aria-valuemax="100"
@@ -66,25 +206,204 @@
         {{ progress_percent }}%
     </div>
 </div>
-<p class="text-center" style="margin-bottom: 18px;">
-    <strong>{{ progress_percent }}% completado. ¡Sigue así!</strong>
+<p class="text-center" style="margin-bottom: 22px; font-size:0.88em; color:#666;">
+    Día final: <strong>{{ final_reflection_date.strftime('%d/%m/%Y') }}</strong>
 </p>
 {% endif %}
+
+<!-- Reflexión de hoy -->
+{% if today_reflection is none and not final_day_reached and day_count is not none %}
+<div class="alert alert-warning" role="alert" id="rj-today-alert">
+    <i class="fa-solid fa-pen-to-square"></i>
+    Aún no has escrito ninguna reflexión para hoy.
+    <a href="{{ url_for('reflections.write_reflection') }}">Es un buen momento para comenzar</a>.
+</div>
+{% endif %}
+
+{% if today_reflection %}
+<div class="panel panel-success" id="rj-today-reflection">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <i class="fa-solid fa-circle-check"></i> Reflexión de hoy{% if day_count %} (Día {{ day_count }}){% endif %}
+        </h3>
+    </div>
+    <div class="panel-body">
+        <h4>Estado de ánimo:</h4>
+        <p><em>"{{ today_reflection.user_mood[:80] }}{% if today_reflection.user_mood|length > 80 %}...{% endif %}"</em></p>
+        <h4>Reflexión:</h4>
+        <p>"{{ today_reflection.reflection_text[:200] }}{% if today_reflection.reflection_text|length > 200 %}...{% endif %}"</p>
+        <a href="{{ url_for('reflections.reflection_detail', reflection_id=today_reflection.id) }}" class="btn btn-primary btn-sm">
+            <i class="fa-solid fa-eye"></i> Ver completa
+        </a>
+    </div>
+</div>
+{% endif %}
+
+<!-- Gráfico de actividad semanal -->
+{% if chart_labels %}
+<div class="panel" style="margin-bottom:22px;" id="rj-chart">
+    <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa-solid fa-chart-bar"></i> Actividad semanal</h3>
+    </div>
+    <div class="panel-body">
+        <canvas id="activityChart" height="80"></canvas>
+    </div>
+</div>
+{% endif %}
+
+<!-- Top emociones -->
+{% if top_emotions %}
+<div class="panel" style="margin-bottom:22px;" id="rj-emotions">
+    <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa-solid fa-heart"></i> Emociones más frecuentes</h3>
+    </div>
+    <div class="panel-body">
+        {% for emotion, count in top_emotions %}
+        <div style="margin-bottom:8px; display:flex; align-items:center; gap:10px;">
+            <span style="width:120px; font-weight:bold; text-transform:capitalize; flex-shrink:0;">{{ emotion }}</span>
+            <div style="flex:1; background:#e0e8ff; border-radius:4px; height:14px;">
+                <div style="background:linear-gradient(to right,#5b8cd6,#2a5db0); height:14px; border-radius:4px;
+                    width:{{ [(count * 100 // top_emotions[0][1]), 100]|min }}%;">
+                </div>
+            </div>
+            <span style="color:#666; font-size:0.85em; flex-shrink:0;">{{ count }}x</span>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+<!-- Accesos rápidos -->
+<div class="rj-grid-2" style="margin-bottom:22px;" id="rj-quick-actions">
+    <a href="{{ url_for('reflections.write_reflection') }}" class="btn btn-primary btn-block" style="padding:14px; font-size:1em;">
+        <i class="fa-solid fa-pen-to-square"></i> Escribir reflexión de hoy
+    </a>
+    <a href="{{ url_for('journal.calendar_view') }}" class="btn btn-default btn-block" style="padding:14px; font-size:1em;">
+        <i class="fa-solid fa-calendar-days"></i> Ver calendario
+    </a>
+</div>
+
 {% endblock %}
 
 {% block scripts %}
 <script>
-    function getGreeting() {
+document.addEventListener("DOMContentLoaded", function () {
+
+    // Saludo dinámico
+    var header = document.getElementById("greeting-header");
+    if (header) {
         var h = new Date().getHours();
-        if (h >= 6 && h < 12) return "Buenos días";
-        if (h >= 12 && h < 20) return "Buenas tardes";
-        return "Buenas noches";
+        var greeting = h >= 6 && h < 12 ? "Buenos días" : h >= 12 && h < 20 ? "Buenas tardes" : "Buenas noches";
+        header.innerHTML = '<i class="fa-solid fa-user"></i> ' + greeting + ', {{ user.first_name }}';
     }
-    document.addEventListener("DOMContentLoaded", function () {
-        var header = document.getElementById("greeting-header");
-        if (header) {
-            header.innerHTML = '<i class="fa-solid fa-user"></i> ' + getGreeting() + ", {{ user.first_name }}";
+
+    // Chart.js
+    {% if chart_labels %}
+    var ctx = document.getElementById('activityChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: {{ chart_labels | tojson }},
+            datasets: [{
+                label: 'Reflexiones',
+                data: {{ chart_data | tojson }},
+                backgroundColor: 'rgba(42,93,176,0.6)',
+                borderColor: 'rgba(42,93,176,1)',
+                borderWidth: 1,
+                borderRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true, ticks: { stepSize: 1 }, max: 7 } }
         }
     });
+    {% endif %}
+
+    // ---- Driver.js tour ----
+    function launchTour() {
+        var driver = window.driver.js.driver;
+
+        var steps = [
+            {
+                element: '#rj-welcome-title',
+                popover: {
+                    title: '👋 ¡Bienvenido/a a Reflexion Journal!',
+                    description: 'Este es tu panel principal. Aquí verás tu progreso, reflexiones y estadísticas del journey. Hagamos un recorrido rápido.',
+                    side: 'bottom', align: 'center'
+                }
+            }
+        ];
+
+        {% if show_day_zero_alert or show_final_day_alert %}
+        steps.push({
+            element: '#rj-setup-card',
+            popover: {
+                title: '🚀 Paso 1: Configura tu Journey',
+                description: 'Antes de empezar, define tu <strong>Día Cero</strong> (cuándo empieza tu diario) y tu <strong>Día Final</strong> (cuántos días durará). ¡Solo lleva un minuto!',
+                side: 'bottom', align: 'start'
+            }
+        });
+        {% endif %}
+
+        {% if not show_day_zero_alert %}
+        {% if progress_percent is not none %}
+        steps.push({
+            element: '#rj-progress',
+            popover: {
+                title: '📊 Tu progreso',
+                description: 'Esta barra muestra qué tan avanzado estás en tu journey. Tu meta es llegar al 100% escribiendo cada día.',
+                side: 'top', align: 'start'
+            }
+        });
+        {% endif %}
+
+        {% if total_reflections is not none %}
+        steps.push({
+            element: '#rj-stats',
+            popover: {
+                title: '📈 Tus estadísticas',
+                description: 'Aquí ves cuántas reflexiones has escrito, tu racha de días consecutivos y el porcentaje completado.',
+                side: 'bottom', align: 'start'
+            }
+        });
+        {% endif %}
+        {% endif %}
+
+        steps.push({
+            element: '#rj-quick-actions',
+            popover: {
+                title: '✍️ Acciones rápidas',
+                description: 'Escribe tu reflexión de hoy o revisa el calendario para ver qué días has completado.',
+                side: 'top', align: 'start'
+            }
+        });
+
+        steps.push({
+            popover: {
+                title: '🎉 ¡Listo para empezar!',
+                description: 'Ya conoces lo básico. Puedes relanzar este tour en cualquier momento desde el botón <strong>? Tour</strong> en la barra superior. ¡Buena suerte en tu journey!',
+            }
+        });
+
+        driver({
+            showProgress: true,
+            progressText: '{step} de {total}',
+            nextBtnText: 'Siguiente →',
+            prevBtnText: '← Anterior',
+            doneBtnText: '¡Entendido!',
+            steps: steps
+        }).drive();
+    }
+
+    {% if show_tour %}
+    setTimeout(launchTour, 600);
+    {% endif %}
+
+    // Botón de relanzar tour (en navbar, ver abajo)
+    var tourBtn = document.getElementById('rj-tour-btn');
+    if (tourBtn) tourBtn.addEventListener('click', launchTour);
+});
 </script>
 {% endblock %}

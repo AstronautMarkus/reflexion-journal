@@ -1,0 +1,79 @@
+{% extends 'base/base.html' %}
+{% block title %}Editar Reflexión - Reflexion Journal{% endblock %}
+{% block content %}
+<div class="text-center" style="margin-bottom: 18px;">
+    <h1><i class="fa-solid fa-pencil"></i> Editar Reflexión</h1>
+    <p>Modifica los campos de tu reflexión del día <strong>{{ entry.created_at.strftime('%d/%m/%Y') }}</strong>.</p>
+</div>
+
+<form method="POST" action="{{ url_for('reflections.update_reflection', reflection_id=entry.id) }}">
+    <div class="rj-grid-main-side">
+        <div>
+            <div class="form-group">
+                <label for="user_mood"><i class="fa-solid fa-heart text-danger"></i> Estado de ánimo <i class="text-danger">*</i></label>
+                <textarea class="form-control" id="user_mood" name="user_mood" rows="3" required>{{ entry.user_mood }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="reflection_text"><i class="fa-solid fa-book text-primary"></i> Reflexión del día <i class="text-danger">*</i></label>
+                <textarea class="form-control" id="reflection_text" name="reflection_text" rows="6" required>{{ entry.reflection_text }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="interactions"><i class="fa-solid fa-user text-info"></i> Interacciones con personas</label>
+                <textarea class="form-control" id="interactions" name="interactions" rows="3">{{ entry.interactions or '' }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="flashbacks"><i class="fa-solid fa-clock text-warning"></i> Recuerdos / Flashbacks</label>
+                <textarea class="form-control" id="flashbacks" name="flashbacks" rows="3">{{ entry.flashbacks or '' }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="emotions"><i class="fa-solid fa-fire text-danger"></i> Emociones <small class="text-muted">(separadas por coma)</small></label>
+                <input type="text" class="form-control" id="emotions" name="emotions" value="{{ entry.emotions or '' }}" placeholder="alegría, calma, tristeza...">
+            </div>
+
+            <div class="form-group">
+                <label for="friendship_talk"><i class="fa-solid fa-comment text-success"></i> Conversaciones con amigos / seres queridos</label>
+                <textarea class="form-control" id="friendship_talk" name="friendship_talk" rows="3">{{ entry.friendship_talk or '' }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="experiments"><i class="fa-solid fa-flask text-info"></i> Experimentos / cosas nuevas</label>
+                <textarea class="form-control" id="experiments" name="experiments" rows="3">{{ entry.experiments or '' }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="events"><i class="fa-solid fa-bell text-warning"></i> Eventos significativos</label>
+                <textarea class="form-control" id="events" name="events" rows="3">{{ entry.events or '' }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="rapid_notes"><i class="fa-solid fa-list text-primary"></i> Notas rápidas</label>
+                <textarea class="form-control" id="rapid_notes" name="rapid_notes" rows="3">{{ entry.rapid_notes or '' }}</textarea>
+            </div>
+
+            <div style="margin-top: 18px; margin-bottom: 30px;">
+                <button type="submit" class="btn btn-success">
+                    <i class="fa-solid fa-floppy-disk"></i> Guardar cambios
+                </button>
+                <a href="{{ url_for('reflections.reflection_detail', reflection_id=entry.id) }}" class="btn btn-default" style="margin-left:8px;">
+                    <i class="fa-solid fa-xmark"></i> Cancelar
+                </a>
+            </div>
+        </div>
+
+        <div>
+            <div class="import-sidebar">
+                <div class="import-title"><i class="fa-solid fa-circle-info"></i> Información</div>
+                <p style="color:#555;">Estás editando la reflexión del:</p>
+                <p><strong>{{ entry.created_at.strftime('%A, %d de %B de %Y') }}</strong></p>
+                <hr>
+                <p style="color:#888; font-size:0.85em;">Los campos con <span style="color:#c0392b;">*</span> son obligatorios.</p>
+                <p style="color:#888; font-size:0.85em;">La IA que generaste para esta reflexión seguirá disponible.</p>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}
