@@ -1,8 +1,8 @@
 {% extends 'base/base.html' %}
 {% block title %}Mi Perfil - Reflexion Journal{% endblock %}
 {% block content %}
-<div class="text-center" style="margin-bottom: 20px;">
-    <h1>◉ Mi Perfil</h1>
+<div class="text-center" style="margin-bottom: 18px;">
+    <h1><i class="fa-solid fa-user"></i> Mi Perfil</h1>
     <p>Aquí puedes ver y editar la información de tu perfil.</p>
 </div>
 
@@ -11,24 +11,24 @@
         <img src="{{ profile_picture_url }}" class="profile-picture img-thumbnail" alt="Imagen de perfil">
     </div>
     <div>
-        <h2 id="profile-name" style="border:none; padding:0; margin-bottom:16px;">
-            ◉ {{ user.first_name }} {{ user.last_name }}
+        <h2 id="profile-name" style="border:none; padding:0; margin-bottom:14px;">
+            <i class="fa-solid fa-user"></i> {{ user.first_name }} {{ user.last_name }}
         </h2>
         <table class="table">
             <tr>
-                <th># Nombre de usuario:</th>
+                <th><i class="fa-solid fa-tag"></i> Nombre de usuario:</th>
                 <td id="profile-username">{{ user.username or 'No definido' }}</td>
             </tr>
             <tr>
-                <th>✉ Email:</th>
+                <th><i class="fa-solid fa-envelope"></i> Email:</th>
                 <td id="profile-email">{{ user.email }}</td>
             </tr>
             <tr>
-                <th>⌚ Miembro desde:</th>
+                <th><i class="fa-solid fa-clock"></i> Miembro desde:</th>
                 <td>{{ user.created_at.strftime('%d/%m/%Y') }}</td>
             </tr>
             <tr>
-                <th>▦ Mi Día Cero:</th>
+                <th><i class="fa-solid fa-calendar-days"></i> Mi Día Cero:</th>
                 <td>
                     {% if day_zero %}
                         Día cero definido el {{ day_zero.strftime('%d/%m/%Y') }}
@@ -40,14 +40,15 @@
         </table>
 
         {% if not day_zero %}
-        <div class="alert alert-danger" role="alert" style="margin-bottom: 20px;">
-            [!] Aún no has definido el día cero de tu Reflexion Journal.
+        <div class="alert alert-danger" style="margin-bottom: 18px;">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            Aún no has definido el día cero de tu Reflexion Journal.
             <a href="{{ url_for('settings.define_day_zero') }}">Haz click para definirlo aquí</a>.
         </div>
         {% endif %}
 
         <button class="btn btn-primary" data-modal-open="#editProfileModal" type="button">
-            ✎ Editar perfil
+            <i class="fa-solid fa-pen-to-square"></i> Editar perfil
         </button>
     </div>
 </div>
@@ -56,34 +57,38 @@
     <div class="modal-box">
         <form id="edit-profile-form" method="post" action="{{ url_for('journal.edit_profile') }}">
             <div class="modal-head">
-                <span>✎ Editar Perfil</span>
+                <span><i class="fa-solid fa-pen-to-square"></i> Editar Perfil</span>
                 <button type="button" class="modal-close-btn" data-modal-close aria-label="Cerrar">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="edit-first-name">◉ Nombre</label>
+                    <label for="edit-first-name"><i class="fa-solid fa-user"></i> Nombre</label>
                     <input type="text" class="form-control" id="edit-first-name" name="first_name"
                         value="{{ user.first_name }}" required>
                 </div>
                 <div class="form-group">
-                    <label for="edit-last-name">◉ Apellido</label>
+                    <label for="edit-last-name"><i class="fa-solid fa-user"></i> Apellido</label>
                     <input type="text" class="form-control" id="edit-last-name" name="last_name"
                         value="{{ user.last_name }}" required>
                 </div>
                 <div class="form-group">
-                    <label for="edit-username"># Nombre de usuario</label>
+                    <label for="edit-username"><i class="fa-solid fa-tag"></i> Nombre de usuario</label>
                     <input type="text" class="form-control" id="edit-username" name="username"
                         value="{{ user.username }}" required>
                 </div>
                 <div class="form-group">
-                    <label for="edit-email">✉ Email</label>
+                    <label for="edit-email"><i class="fa-solid fa-envelope"></i> Email</label>
                     <input type="email" class="form-control" id="edit-email" name="email"
                         value="{{ user.email }}" required>
                 </div>
             </div>
             <div class="modal-foot">
-                <button type="button" class="btn btn-default" data-modal-close>✗ Cancelar</button>
-                <button type="submit" class="btn btn-primary">▣ Guardar cambios</button>
+                <button type="button" class="btn btn-default" data-modal-close>
+                    <i class="fa-solid fa-xmark"></i> Cancelar
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-floppy-disk"></i> Guardar cambios
+                </button>
             </div>
         </form>
     </div>

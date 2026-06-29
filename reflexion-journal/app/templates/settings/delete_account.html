@@ -1,42 +1,49 @@
 {% extends 'base/base.html' %}
 {% block title %}Eliminar Cuenta - Reflexion Journal{% endblock %}
 {% block content %}
-<div class="text-center" style="margin-bottom: 20px;">
-    <h1 class="text-danger">[✗] Eliminar Cuenta</h1>
-    <p><strong>[⚠] ¡Espera! Estás a punto de eliminar tu cuenta y todos tus datos de forma permanente.</strong></p>
+<div class="text-center" style="margin-bottom: 18px;">
+    <h1 class="text-danger"><i class="fa-solid fa-trash"></i> Eliminar Cuenta</h1>
+    <p><strong><i class="fa-solid fa-triangle-exclamation text-warning"></i> ¡Espera! Estás a punto de eliminar tu cuenta y todos tus datos de forma permanente.</strong></p>
     <hr>
 </div>
 
 <div style="max-width:500px; margin:0 auto;">
     <div class="panel panel-danger">
         <div class="panel-heading text-center">
-            <h3 class="panel-title">♥ ¡Vas por buen camino!</h3>
+            <h3 class="panel-title"><i class="fa-solid fa-heart"></i> ¡Vas por buen camino!</h3>
         </div>
         <div class="panel-body text-center">
             <img src="{{ url_for('static', filename='img/supertux.png') }}" alt="Progreso"
-                class="img-responsive center-block" style="max-height:110px; margin-bottom:14px;">
-            <h4>★ Progreso actual</h4>
+                class="img-responsive center-block" style="max-height:100px; margin-bottom:12px;">
+            <h4><i class="fa-solid fa-star text-warning"></i> Progreso actual</h4>
             <p>Días escritos: <strong>{{ total_entries }}</strong></p>
             <p>Meta de días: <strong>{{ goal }}</strong></p>
             <p>Progreso: <strong>{{ progress }}%</strong></p>
-            <p class="text-success">[✓] ¡No te rindas ahora! Cada día cuenta en tu viaje de reflexión.</p>
-            <p class="text-info">[i] Puedes exportar tus reflexiones o pausar tu cuenta si lo necesitas.</p>
+            <p class="text-success">
+                <i class="fa-solid fa-thumbs-up"></i>
+                ¡No te rindas ahora! Cada día cuenta en tu viaje de reflexión.
+            </p>
+            <p class="text-info">
+                <i class="fa-solid fa-circle-info"></i>
+                Puedes exportar tus reflexiones o pausar tu cuenta si lo necesitas.
+            </p>
         </div>
     </div>
 
-    <div class="well well-sm text-center" style="margin-bottom:20px;">
+    <div class="well well-sm text-center" style="margin-bottom:18px;">
         <p>
+            <i class="fa-solid fa-shield-halved text-primary"></i>
             <strong>Recuerda:</strong> Reflexion Journal es privado y seguro.
             Tu bienestar es importante para nosotros.
         </p>
     </div>
 
-    <form method="post" class="text-center" style="margin-top:20px;">
+    <form method="post" class="text-center" style="margin-top:18px;">
         <button type="submit" class="btn btn-danger">
-            [✗] Solicitar código de eliminación
+            <i class="fa-solid fa-trash"></i> Solicitar código de eliminación
         </button>
         <a href="{{ url_for('settings.settings_page') }}" class="btn btn-default">
-            ← Volver a Configuración
+            <i class="fa-solid fa-arrow-left"></i> Volver a Configuración
         </a>
     </form>
 </div>

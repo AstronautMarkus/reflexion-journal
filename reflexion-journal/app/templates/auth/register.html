@@ -1,8 +1,8 @@
 {% extends 'base/base.html' %}
 {% block title %}Registro - Reflexion Journal{% endblock %}
 {% block content %}
-<div class="text-center" style="margin-bottom: 20px;">
-    <h1>◉ Crear una cuenta</h1>
+<div class="text-center" style="margin-bottom: 18px;">
+    <h1><i class="fa-solid fa-user-plus"></i> Crear una cuenta</h1>
     <p><strong>Completa el formulario para registrarte en Reflexion Journal.</strong></p>
 </div>
 
@@ -11,7 +11,7 @@
         <div class="form-group">
             <label for="first_name" class="control-label">Nombre <i class="text-danger">*</i></label>
             <div class="input-group">
-                <span class="input-group-addon">◉</span>
+                <span class="input-group-addon"><i class="fa-solid fa-user"></i></span>
                 <input type="text" class="form-control" id="first_name" name="first_name" required
                     placeholder="Ej. Juan"
                     value="{{ form_data.first_name if form_data.first_name is defined else '' }}">
@@ -23,7 +23,7 @@
         <div class="form-group">
             <label for="last_name" class="control-label">Apellido <i class="text-danger">*</i></label>
             <div class="input-group">
-                <span class="input-group-addon">◉</span>
+                <span class="input-group-addon"><i class="fa-solid fa-user"></i></span>
                 <input type="text" class="form-control" id="last_name" name="last_name" required
                     placeholder="Ej. Pérez"
                     value="{{ form_data.last_name if form_data.last_name is defined else '' }}">
@@ -35,7 +35,7 @@
         <div class="form-group">
             <label for="username" class="control-label">Nombre de usuario (opcional)</label>
             <div class="input-group">
-                <span class="input-group-addon">#</span>
+                <span class="input-group-addon"><i class="fa-solid fa-tag"></i></span>
                 <input type="text" class="form-control" id="username" name="username"
                     placeholder="Tu seudónimo, John Doe, Big Floppa, etc."
                     value="{{ form_data.username if form_data.username is defined else '' }}">
@@ -47,7 +47,7 @@
         <div class="form-group">
             <label for="email" class="control-label">Email <i class="text-danger">*</i></label>
             <div class="input-group">
-                <span class="input-group-addon">✉</span>
+                <span class="input-group-addon"><i class="fa-solid fa-envelope"></i></span>
                 <input type="email" class="form-control" id="email" name="email" required
                     placeholder="Ej. juan@email.com"
                     value="{{ form_data.email if form_data.email is defined else '' }}">
@@ -59,10 +59,12 @@
         <div class="form-group">
             <label for="password" class="control-label">Contraseña <i class="text-danger">*</i></label>
             <div class="input-group">
-                <span class="input-group-addon">§</span>
+                <span class="input-group-addon"><i class="fa-solid fa-lock"></i></span>
                 <input type="password" class="form-control" id="password" name="password" required placeholder="Mínimo 8 caracteres">
                 <span class="input-group-btn">
-                    <button class="btn btn-default toggle-password" type="button" data-target="password" tabindex="-1">[ver]</button>
+                    <button class="btn btn-default toggle-password" type="button" data-target="password" tabindex="-1">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
                 </span>
             </div>
             {% if errors.password %}
@@ -72,10 +74,12 @@
         <div class="form-group">
             <label for="confirm" class="control-label">Confirmar contraseña <i class="text-danger">*</i></label>
             <div class="input-group">
-                <span class="input-group-addon">§</span>
+                <span class="input-group-addon"><i class="fa-solid fa-lock"></i></span>
                 <input type="password" class="form-control" id="confirm" name="confirm" required placeholder="Repite tu contraseña">
                 <span class="input-group-btn">
-                    <button class="btn btn-default toggle-password" type="button" data-target="confirm" tabindex="-1">[ver]</button>
+                    <button class="btn btn-default toggle-password" type="button" data-target="confirm" tabindex="-1">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
                 </span>
             </div>
             {% if errors.confirm %}
@@ -90,11 +94,31 @@
             {% endif %}
         </div>
         <div class="form-group text-center">
-            <button type="submit" class="btn btn-primary">◉ Registrarme</button>
+            <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-user-plus"></i> Registrarme
+            </button>
         </div>
     </form>
     <p class="text-center">
         <a href="{{ url_for('auth.login') }}">¿Ya tienes una cuenta? Inicia sesión aquí</a>
     </p>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.querySelectorAll('.toggle-password').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        var input = document.getElementById(btn.getAttribute('data-target'));
+        var icon = btn.querySelector('i');
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+    });
+});
+</script>
 {% endblock %}

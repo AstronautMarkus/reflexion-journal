@@ -1,62 +1,72 @@
 {% extends 'base/base.html' %}
 {% block title %}Configuración - Reflexion Journal{% endblock %}
 {% block content %}
-<div class="text-center" style="margin-bottom: 20px;">
-    <h1>⚙ Configuraciones</h1>
+<div class="text-center" style="margin-bottom: 18px;">
+    <h1><i class="fa-solid fa-gear"></i> Configuraciones</h1>
     <p>Administra las opciones y preferencias de tu cuenta y aplicación aquí.</p>
 </div>
 
-<h2 class="page-header">⚙ Opciones de Configuración</h2>
+<h2 class="page-header"><i class="fa-solid fa-gear"></i> Opciones de Configuración</h2>
 
-<h3 style="margin-top:28px; margin-bottom:12px;">◉ Usuario</h3>
-<ul class="list-group" style="margin-top:0;">
+<h3 style="margin-top:24px; margin-bottom:10px;"><i class="fa-solid fa-user"></i> Usuario</h3>
+<ul class="list-group">
     <li class="list-group-item">
-        <h5>◉ Editar Perfil</h5>
+        <h5><i class="fa-solid fa-user text-primary"></i> Editar Perfil</h5>
         <p class="mb-1 text-muted">Actualiza tu información personal y preferencias.</p>
-        <a href="{{ url_for('journal.profile') }}">⚙ Configurar</a>
+        <a href="{{ url_for('journal.profile') }}">
+            <i class="fa-solid fa-gear"></i> Configurar
+        </a>
     </li>
     <li class="list-group-item">
-        <h5>§ Cambiar Contraseña</h5>
+        <h5><i class="fa-solid fa-lock text-primary"></i> Cambiar Contraseña</h5>
         <p class="mb-1 text-muted">Modifica tu contraseña para mayor seguridad.</p>
-        <a href="{{ url_for('settings.change_password') }}">⚙ Configurar</a>
+        <a href="{{ url_for('settings.change_password') }}">
+            <i class="fa-solid fa-gear"></i> Configurar
+        </a>
     </li>
     <li class="list-group-item list-group-item-danger">
-        <h5 style="color:#6b1818;">✗ Eliminar Cuenta</h5>
+        <h5><i class="fa-solid fa-trash text-danger"></i> <span style="color:#8b1a1a;">Eliminar Cuenta</span></h5>
         <p class="mb-1 text-danger">
             Esta acción es irreversible. Eliminarás tu cuenta y todos tus datos permanentemente.<br>
             Te recomendamos <strong>Exportar tus reflexiones</strong> antes de proceder.
         </p>
         <a href="{{ url_for('settings.delete_account') }}" class="btn btn-danger btn-sm">
-            [⚠] Eliminar
+            <i class="fa-solid fa-triangle-exclamation"></i> Eliminar
         </a>
     </li>
 </ul>
 
-<h3 style="margin-top:28px; margin-bottom:12px;">☷ Reflexiones</h3>
-<ul class="list-group" style="margin-top:0;">
+<h3 style="margin-top:24px; margin-bottom:10px;"><i class="fa-solid fa-book-open"></i> Reflexiones</h3>
+<ul class="list-group">
     <li class="list-group-item">
-        <h5>▦ Definir Día Cero</h5>
-        <p class="mb-1 text-muted">Establece el día inicial para tu diario de reflexiones. Esto te ayudará a llevar un seguimiento cronológico de tus entradas.</p>
-        <a href="{{ url_for('settings.define_day_zero') }}">⚙ Configurar</a>
+        <h5><i class="fa-solid fa-calendar-days text-primary"></i> Definir Día Cero</h5>
+        <p class="mb-1 text-muted">Establece el día inicial para tu diario de reflexiones.</p>
+        <a href="{{ url_for('settings.define_day_zero') }}">
+            <i class="fa-solid fa-gear"></i> Configurar
+        </a>
     </li>
     <li class="list-group-item">
-        <h5>[✓] Definir Día de "Reflexión final"</h5>
-        <p class="mb-1 text-muted">Establece el día final para tu diario de reflexiones. Esto te permitirá concluir tu viaje reflexivo y obtener una Reflexión con Inteligencia Artificial.</p>
-        <a href="{{ url_for('settings.define_final_reflection_day') }}">⚙ Configurar</a>
+        <h5><i class="fa-solid fa-flag text-primary"></i> Definir Día de "Reflexión final"</h5>
+        <p class="mb-1 text-muted">Establece el día final y obtén una Reflexión con Inteligencia Artificial.</p>
+        <a href="{{ url_for('settings.define_final_reflection_day') }}">
+            <i class="fa-solid fa-gear"></i> Configurar
+        </a>
     </li>
     <li class="list-group-item">
-        <h5>↓ Exportar Reflexiones</h5>
+        <h5><i class="fa-solid fa-file-export text-primary"></i> Exportar Reflexiones</h5>
         <p class="mb-1 text-muted">Descarga todas tus reflexiones en formato PDF, CSV o JSON.</p>
-        <a href="{{ url_for('settings.export_reflections') }}">↓ Exportar</a>
+        <a href="{{ url_for('settings.export_reflections') }}">
+            <i class="fa-solid fa-download"></i> Exportar
+        </a>
     </li>
 </ul>
 
-<h3 style="margin-top:28px; margin-bottom:12px;">◆ Notificaciones</h3>
-<ul class="list-group" style="margin-top:0;">
+<h3 style="margin-top:24px; margin-bottom:10px;"><i class="fa-solid fa-bell"></i> Notificaciones</h3>
+<ul class="list-group">
     <li class="list-group-item">
-        <h5>◆ Configurar Notificaciones</h5>
+        <h5><i class="fa-solid fa-bell text-primary"></i> Configurar Notificaciones</h5>
         <p class="mb-1 text-muted">Activa o desactiva las notificaciones por correo.</p>
-        <a href="#">⚙ Configurar</a>
+        <a href="#"><i class="fa-solid fa-gear"></i> Configurar</a>
     </li>
 </ul>
 {% endblock %}

@@ -1,34 +1,37 @@
 {% extends 'base/base.html' %}
 {% block title %}Diario - Reflexion Journal{% endblock %}
 {% block content %}
-<div class="text-center" style="margin-bottom: 20px;">
-    <h1>☷ Panel de Reflexion Journal</h1>
-    <p>Bienvenido a tu panel principal. Aquí puedes ver el resumen y acceder a tus reflexiones diarias.</p>
+<div class="text-center" style="margin-bottom: 18px;">
+    <h1><i class="fa-solid fa-book-open"></i> Panel de Reflexion Journal</h1>
+    <p><i class="fa-solid fa-gauge"></i> Bienvenido a tu panel principal. Aquí puedes ver el resumen y acceder a tus reflexiones diarias.</p>
 </div>
 
 <h2 class="page-header" id="greeting-header">
-    ◉ Buenas, {{ user.first_name }}
+    <i class="fa-solid fa-user"></i> Buenas, {{ user.first_name }}
 </h2>
 
 {% if show_day_zero_alert %}
-<div class="alert alert-danger" role="alert" style="margin-bottom: 20px;">
-    [!] Aún no has definido el día cero de tu Reflexion Journal.
+<div class="alert alert-danger" role="alert" style="margin-bottom: 18px;">
+    <i class="fa-solid fa-circle-exclamation"></i>
+    Aún no has definido el día cero de tu Reflexion Journal.
     <a href="{{ url_for('settings.define_day_zero') }}">
-        ▦ Haz click para definirlo aquí
+        <i class="fa-solid fa-calendar-days"></i> Haz click para definirlo aquí
     </a>.
 </div>
 {% endif %}
 
 {% if day_count is not none %}
-<p class="lead text-info" style="margin-bottom: 20px;">
-    ⌚ Hoy es {{ today.strftime('%d-%m-%Y') }}, el día <strong>{{ day_count }}</strong> desde tu día cero.
+<p class="lead text-info" style="margin-bottom: 18px;">
+    <i class="fa-solid fa-clock"></i>
+    Hoy es {{ today.strftime('%d-%m-%Y') }}, el día <strong>{{ day_count }}</strong> desde tu día cero.
     ¡Sigue adelante con tus reflexiones!
 </p>
 {% endif %}
 
 {% if today_reflection is none %}
 <div class="alert alert-warning" role="alert">
-    ✎ Aún no has escrito ninguna reflexión para hoy.
+    <i class="fa-solid fa-pen-to-square"></i>
+    Aún no has escrito ninguna reflexión para hoy.
     <a href="{{ url_for('reflections.write_reflection') }}">
         Es un buen momento para comenzar
     </a>.
@@ -38,23 +41,24 @@
 {% if today_reflection %}
 <div class="panel panel-success">
     <div class="panel-heading">
-        <h3 class="panel-title">[✓] Reflexión de hoy (Día {{ day_count }})</h3>
+        <h3 class="panel-title">
+            <i class="fa-solid fa-circle-check"></i> Reflexión de hoy (Día {{ day_count }})
+        </h3>
     </div>
     <div class="panel-body">
         <h4>Estado de ánimo:</h4>
         <p><em>"{{ today_reflection.user_mood[:30] }}{% if today_reflection.user_mood|length > 30 %}...{% endif %}"</em></p>
         <h4>Reflexión:</h4>
         <p>"{{ today_reflection.reflection_text[:150] }}{% if today_reflection.reflection_text|length > 150 %}...{% endif %}"</p>
-        <a href="{{ url_for('reflections.reflection_detail', reflection_id=today_reflection.id) }}"
-            class="btn btn-primary">
-            ◉ Ver completa
+        <a href="{{ url_for('reflections.reflection_detail', reflection_id=today_reflection.id) }}" class="btn btn-primary">
+            <i class="fa-solid fa-eye"></i> Ver completa
         </a>
     </div>
 </div>
 {% endif %}
 
 {% if progress_percent is not none and final_reflection_date %}
-<div class="progress" style="margin-bottom: 8px;">
+<div class="progress" style="margin-bottom: 6px;">
     <div class="progress-bar progress-bar-striped {% if progress_percent < 100 %}active{% endif %}"
         role="progressbar"
         aria-valuenow="{{ progress_percent }}" aria-valuemin="0" aria-valuemax="100"
@@ -62,7 +66,7 @@
         {{ progress_percent }}%
     </div>
 </div>
-<p class="text-center" style="margin-bottom: 20px;">
+<p class="text-center" style="margin-bottom: 18px;">
     <strong>{{ progress_percent }}% completado. ¡Sigue así!</strong>
 </p>
 {% endif %}
@@ -71,15 +75,15 @@
 {% block scripts %}
 <script>
     function getGreeting() {
-        var hour = new Date().getHours();
-        if (hour >= 6 && hour < 12) return "Buenos días";
-        if (hour >= 12 && hour < 20) return "Buenas tardes";
+        var h = new Date().getHours();
+        if (h >= 6 && h < 12) return "Buenos días";
+        if (h >= 12 && h < 20) return "Buenas tardes";
         return "Buenas noches";
     }
     document.addEventListener("DOMContentLoaded", function () {
         var header = document.getElementById("greeting-header");
         if (header) {
-            header.textContent = "◉ " + getGreeting() + ", {{ user.first_name }}";
+            header.innerHTML = '<i class="fa-solid fa-user"></i> ' + getGreeting() + ", {{ user.first_name }}";
         }
     });
 </script>

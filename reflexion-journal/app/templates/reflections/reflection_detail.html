@@ -1,40 +1,42 @@
 {% extends 'base/base.html' %}
 {% block title %}Detalle de Reflexión - Reflexion Journal{% endblock %}
 {% block content %}
-<div class="text-center" style="margin-bottom: 20px;">
-    <h1>◉ Detalle de Reflexión</h1>
+<div class="text-center" style="margin-bottom: 18px;">
+    <h1><i class="fa-solid fa-eye"></i> Detalle de Reflexión</h1>
     <p>Consulta la información completa de tu reflexión seleccionada.</p>
 </div>
 
-<h2 class="page-header">◉ Detalle de Reflexión</h2>
-<p class="lead" style="margin-bottom: 20px;">▦ Fecha: <strong>{{ date }}</strong></p>
+<h2 class="page-header"><i class="fa-solid fa-eye"></i> Detalle de Reflexión</h2>
+<p class="lead" style="margin-bottom:18px;">
+    <i class="fa-solid fa-calendar-days"></i> Fecha: <strong>{{ date }}</strong>
+</p>
 
 <div class="panel">
-    <div class="panel-heading">♥ <strong>Estado de ánimo</strong></div>
+    <div class="panel-heading"><i class="fa-solid fa-heart text-danger"></i> <strong>Estado de ánimo</strong></div>
     <div class="panel-body">{{ reflection.user_mood or 'No escrito' }}</div>
 </div>
 
 <div class="panel">
-    <div class="panel-heading">☷ <strong>Reflexión</strong></div>
+    <div class="panel-heading"><i class="fa-solid fa-book text-primary"></i> <strong>Reflexión</strong></div>
     <div class="panel-body">{{ reflection.reflection_text or 'No escrito' }}</div>
 </div>
 
 <div class="panel">
-    <div class="panel-heading">◉ <strong>Interacciones</strong></div>
+    <div class="panel-heading"><i class="fa-solid fa-user text-info"></i> <strong>Interacciones</strong></div>
     <div class="panel-body">{{ reflection.interactions or 'No escrito' }}</div>
 </div>
 
 <div class="panel">
-    <div class="panel-heading">⌚ <strong>Recuerdos/Flashbacks</strong></div>
+    <div class="panel-heading"><i class="fa-solid fa-clock text-warning"></i> <strong>Recuerdos/Flashbacks</strong></div>
     <div class="panel-body">{{ reflection.flashbacks or 'No escrito' }}</div>
 </div>
 
 <div class="panel">
-    <div class="panel-heading">✦ <strong>Emociones</strong></div>
+    <div class="panel-heading"><i class="fa-solid fa-fire text-danger"></i> <strong>Emociones</strong></div>
     <div class="panel-body">
         {% if reflection.emotions %}
             {% for emotion in reflection.emotions.split(',') %}
-                <span class="label label-info" style="margin-right:4px;">
+                <span class="label label-info" style="margin-right:4px; margin-bottom:4px;">
                     {{ emotion.strip().capitalize() }}
                 </span>
             {% endfor %}
@@ -45,28 +47,28 @@
 </div>
 
 <div class="panel">
-    <div class="panel-heading">§ <strong>Conversaciones con amigos / seres queridos</strong></div>
+    <div class="panel-heading"><i class="fa-solid fa-comment text-success"></i> <strong>Conversaciones con amigos / seres queridos</strong></div>
     <div class="panel-body">{{ reflection.friendship_talk or 'No escrito' }}</div>
 </div>
 
 <div class="panel">
-    <div class="panel-heading">⚗ <strong>Experimentos</strong></div>
+    <div class="panel-heading"><i class="fa-solid fa-flask text-info"></i> <strong>Experimentos</strong></div>
     <div class="panel-body">{{ reflection.experiments or 'No escrito' }}</div>
 </div>
 
 <div class="panel">
-    <div class="panel-heading">◆ <strong>Eventos</strong></div>
+    <div class="panel-heading"><i class="fa-solid fa-bell text-warning"></i> <strong>Eventos</strong></div>
     <div class="panel-body">{{ reflection.events or 'No escrito' }}</div>
 </div>
 
 <div class="panel">
-    <div class="panel-heading">☰ <strong>Notas rápidas</strong></div>
+    <div class="panel-heading"><i class="fa-solid fa-list text-primary"></i> <strong>Notas rápidas</strong></div>
     <div class="panel-body">{{ reflection.rapid_notes or 'No escrito' }}</div>
 </div>
 
-<div style="margin-bottom: 50px;">
+<div style="margin-bottom:40px;">
     <a href="{{ url_for('reflections.reflections_list') }}" class="btn btn-primary">
-        ← Volver a la lista de reflexiones
+        <i class="fa-solid fa-arrow-left"></i> Volver a la lista de reflexiones
     </a>
 </div>
 {% endblock %}

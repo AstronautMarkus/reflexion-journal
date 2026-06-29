@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/astrotux.png')}}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/journal.css') }}">
     <title>{% block title %} {% endblock %}</title>
     {% block head %}{% endblock %}
@@ -11,15 +12,19 @@
 <body>
     <div class="main-content">
         {% include 'base/components/navbar.html' %}
-        <div class="container" style="margin-top: 68px;">
+        <div class="container" style="margin-top: 66px;">
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     {% for category, message in messages %}
-                        <div class="alert alert-{{ category }} alert-dismissible" style="margin-top: 16px;" role="alert">
-                            {% if category == 'danger' %}[!]
-                            {% elif category == 'success' %}[✓]
-                            {% elif category == 'info' %}[i]
-                            {% elif category == 'warning' %}[⚠]
+                        <div class="alert alert-{{ category }} alert-dismissible" style="margin-top: 14px;" role="alert">
+                            {% if category == 'danger' %}
+                                <i class="fa-solid fa-circle-exclamation"></i>
+                            {% elif category == 'success' %}
+                                <i class="fa-solid fa-circle-check"></i>
+                            {% elif category == 'info' %}
+                                <i class="fa-solid fa-circle-info"></i>
+                            {% elif category == 'warning' %}
+                                <i class="fa-solid fa-triangle-exclamation"></i>
                             {% endif %}
                             {{ message }}
                             <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">

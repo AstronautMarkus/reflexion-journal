@@ -1,8 +1,8 @@
 {% extends 'base/base.html' %}
 {% block title %}Iniciar sesión - Reflexion Journal{% endblock %}
 {% block content %}
-<div class="text-center" style="margin-bottom: 20px;">
-    <h1>→ Iniciar sesión</h1>
+<div class="text-center" style="margin-bottom: 18px;">
+    <h1><i class="fa-solid fa-arrow-right-to-bracket"></i> Iniciar sesión</h1>
     <p><strong>Por favor, ingresa tus credenciales para acceder a tu cuenta.</strong></p>
 </div>
 
@@ -11,34 +11,57 @@
         <div class="form-group">
             <label for="email" class="control-label">Email <i class="text-danger">*</i></label>
             <div class="input-group">
-                <span class="input-group-addon">✉</span>
+                <span class="input-group-addon"><i class="fa-solid fa-envelope"></i></span>
                 <input type="email" class="form-control" name="email" id="email" required placeholder="Ej. juan@email.com">
             </div>
         </div>
         <div class="form-group">
             <label for="password" class="control-label">Contraseña <i class="text-danger">*</i></label>
             <div class="input-group">
-                <span class="input-group-addon">§</span>
+                <span class="input-group-addon"><i class="fa-solid fa-lock"></i></span>
                 <input type="password" class="form-control" name="password" id="password" required placeholder="Tu contraseña">
                 <span class="input-group-btn">
-                    <button class="btn btn-default toggle-password" type="button" data-target="password" tabindex="-1">[ver]</button>
+                    <button class="btn btn-default toggle-password" type="button" data-target="password" tabindex="-1">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
                 </span>
             </div>
         </div>
         <div class="form-group text-center">
             <label class="checkbox">
-                <input type="checkbox" name="remember" id="remember">
-                Recuérdame
+                <input type="checkbox" name="remember" id="remember"> Recuérdame
             </label>
         </div>
         <div class="form-group text-center">
-            <button type="submit" class="btn btn-primary">→ Iniciar sesión</button>
+            <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-arrow-right-to-bracket"></i> Iniciar sesión
+            </button>
             <br><br>
-            <a href="{{ url_for('main.home') }}" class="btn btn-link">⌂ Volver a la página principal</a>
+            <a href="{{ url_for('main.home') }}" class="btn btn-link">
+                <i class="fa-solid fa-house"></i> Volver a la página principal
+            </a>
         </div>
     </form>
     <p class="text-center">
         <a href="{{ url_for('auth.register') }}">¿No tienes una cuenta? Regístrate aquí</a>
     </p>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.querySelectorAll('.toggle-password').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        var input = document.getElementById(btn.getAttribute('data-target'));
+        var icon = btn.querySelector('i');
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+    });
+});
+</script>
 {% endblock %}

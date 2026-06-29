@@ -1,30 +1,23 @@
 {% extends 'base/base.html' %}
 {% block title %}Tutorial - Reflexion Journal{% endblock %}
 {% block content %}
-<div class="text-center" style="margin-bottom: 20px;">
-    <h1>§ Tutorial de Reflexion Journal</h1>
-    <p>
-        Bienvenido al tutorial. Aquí aprenderás cómo usar Reflexion Journal para registrar
-        y reflexionar sobre tus experiencias diarias.
-    </p>
+<div class="text-center" style="margin-bottom: 18px;">
+    <h1><i class="fa-solid fa-graduation-cap"></i> Tutorial de Reflexion Journal</h1>
+    <p>Bienvenido al tutorial. Aprenderás cómo usar Reflexion Journal para registrar y reflexionar sobre tus experiencias diarias.</p>
 </div>
 
-<!-- ================= FASE 1 ================= -->
+<!-- FASE 1 -->
 <div id="fase1" class="tutorial-fase panel panel-primary">
     <div class="panel-heading">
-        <h2 class="panel-title" style="font-size:1.1em;">
+        <h2 class="panel-title" style="font-size:1em;">
             Hola, {{ user.first_name }} {{ user.last_name }}. Te damos la bienvenida a Reflexion Journal
         </h2>
     </div>
     <div class="panel-body">
-        <p class="lead text-center">
-            Estamos emocionados de que te unas a nosotros en este viaje de autodescubrimiento y crecimiento personal.
-        </p>
-        <p class="text-center">
-            En este tutorial, aprenderás a utilizar Reflexion Journal, entender su funcionamiento y cómo aprovechar al máximo sus características.
-        </p>
+        <p class="lead text-center">Estamos emocionados de que te unas a este viaje de autodescubrimiento y crecimiento personal.</p>
+        <p class="text-center">En este tutorial aprenderás a utilizar Reflexion Journal y aprovechar al máximo sus características.</p>
 
-        <div class="panel panel-info" style="max-width:700px; margin:20px auto 0;">
+        <div class="panel panel-info" style="max-width:700px; margin:18px auto 0;">
             <div class="panel-heading text-center">
                 <h3 class="panel-title">Fase 1: Definir tu día cero</h3>
             </div>
@@ -34,173 +27,168 @@
                     <h3 class="text-center">¿Qué es el día cero?</h3>
                     <p class="lead">
                         El "día cero" es el punto de partida de tu proceso de reflexión. Es el primer día en el que
-                        decides comenzar a registrar tus pensamientos, emociones y experiencias en Reflexion Journal.
+                        decides comenzar a registrar tus pensamientos, emociones y experiencias.
                     </p>
                     <h3 class="text-center">¿Cómo definir tu día cero?</h3>
-                    <ul class="lead list-unstyled">
+                    <ul class="list-unstyled lead">
                         <li>
-                            [⚠] Al iniciar Reflexion Journal, verás unos mensajes avisando que debes definir tu día cero
-                            y que no has escrito tu reflexión diaria.
+                            <i class="fa-solid fa-triangle-exclamation text-warning"></i>
+                            Al iniciar Reflexion Journal, verás mensajes avisando que debes definir tu día cero y que no has escrito tu reflexión diaria.
                         </li>
                     </ul>
-                    <div class="text-center" style="margin-top:20px;">
+                    <div class="text-center" style="margin-top:18px;">
                         <img src="{{ url_for('static', filename='img/tutorial/alerts.png') }}"
-                            alt="Alertas de registro" class="img-responsive img-thumbnail center-block"
-                            style="pointer-events: none; max-width:90%;">
+                            alt="Alertas de registro" class="img-responsive img-thumbnail center-block" style="pointer-events:none; max-width:90%;">
                     </div>
-                    <ul class="lead list-unstyled" style="margin-top: 12px;">
+                    <ul class="list-unstyled lead" style="margin-top:12px;">
                         <li>
-                            → Para definir tu día cero, simplemente haz clic en el botón
-                            <strong>"Haz click para definirlo aquí"</strong> en la alerta roja.
+                            <i class="fa-solid fa-arrow-right text-primary"></i>
+                            Haz clic en <strong>"Haz click para definirlo aquí"</strong> en la alerta roja.
                         </li>
                         <li>
-                            ▦ Dentro de esta vista, podrás definir el día cero de tu viaje.
-                            Si no realizas esto, no podrás comenzar a registrar tus reflexiones diarias.
+                            <i class="fa-solid fa-calendar-days text-success"></i>
+                            Dentro de esta vista podrás definir el día cero de tu viaje.
                         </li>
                     </ul>
-                    <div class="text-center" style="margin-top:20px;">
+                    <div class="text-center" style="margin-top:18px;">
                         <img src="{{ url_for('static', filename='img/tutorial/day_zero.png') }}"
-                            alt="Definir Día Cero" class="img-responsive img-thumbnail center-block"
-                            style="pointer-events: none; max-width:90%;">
+                            alt="Definir Día Cero" class="img-responsive img-thumbnail center-block" style="pointer-events:none; max-width:90%;">
                     </div>
-                    <ul class="lead list-unstyled" style="margin-top: 12px;">
+                    <ul class="list-unstyled lead" style="margin-top:12px;">
                         <li>
-                            ▦ Debes seleccionar una fecha en el calendario que aparece.
-                            Hoy es <span id="today_date" class="label label-info"></span>
+                            <i class="fa-solid fa-calendar-days text-info"></i>
+                            Selecciona una fecha en el calendario. Hoy es <span id="today_date" class="label label-info"></span>
                         </li>
                         <li>
-                            [✓] Una vez definido tu día cero, podrás comenzar a registrar tus reflexiones diarias.
+                            <i class="fa-solid fa-check text-success"></i>
+                            Una vez definido, podrás comenzar a registrar tus reflexiones diarias.
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
 
-        <div class="text-center" style="margin-top: 20px;">
-            <button id="prevBtn1" class="btn btn-default" onclick="changePhase(-1)" disabled>◄ Anterior</button>
-            <button id="nextBtn1" class="btn btn-primary" onclick="changePhase(1)">Siguiente ►</button>
+        <div class="text-center" style="margin-top:18px;">
+            <button id="prevBtn1" class="btn btn-default" onclick="changePhase(-1)" disabled>
+                <i class="fa-solid fa-chevron-left"></i> Anterior
+            </button>
+            <button id="nextBtn1" class="btn btn-primary" onclick="changePhase(1)">
+                Siguiente <i class="fa-solid fa-chevron-right"></i>
+            </button>
         </div>
     </div>
 </div>
 
-<!-- ================= FASE 2 ================= -->
+<!-- FASE 2 -->
 <div id="fase2" class="tutorial-fase panel panel-info" style="display:none;">
     <div class="panel-heading">
-        <h2 class="panel-title" style="font-size:1.1em;">Fase 2: Reflexión y escritura</h2>
+        <h2 class="panel-title" style="font-size:1em;">Fase 2: Reflexión y escritura</h2>
     </div>
     <div class="panel-body">
-        <p class="lead text-center">En esta fase redactarás tu reflexión diaria y podrás dejar espacio para fotos.</p>
-        <p class="text-center">Primero, verifica que aparezca la <strong>alerta amarilla</strong> que dice:</p>
+        <p class="lead text-center">En esta fase redactarás tu reflexión diaria.</p>
+        <p class="text-center">Primero, verifica que aparezca la <strong>alerta amarilla</strong>:</p>
 
-        <div class="text-center" style="margin-top:20px;">
+        <div class="text-center" style="margin-top:18px;">
             <img src="{{ url_for('static', filename='img/tutorial/yellow_alert.png') }}"
-                alt="Alerta amarilla" class="img-responsive img-thumbnail center-block"
-                style="pointer-events: none; max-width:90%;">
+                alt="Alerta amarilla" class="img-responsive img-thumbnail center-block" style="pointer-events:none; max-width:90%;">
         </div>
-        <p class="text-center" style="margin-top: 16px;">
+        <p class="text-center" style="margin-top:14px;">
             Puedes pinchar el <span class="text-primary">texto azul de la alerta</span>.
         </p>
-
-        <div class="text-center" style="margin-top:20px;">
+        <div class="text-center" style="margin-top:18px;">
             <img src="{{ url_for('static', filename='img/tutorial/header.png') }}"
-                alt="Encabezado" class="img-responsive img-thumbnail center-block"
-                style="pointer-events: none; max-width:90%;">
+                alt="Encabezado" class="img-responsive img-thumbnail center-block" style="pointer-events:none; max-width:90%;">
         </div>
-        <p class="text-center" style="margin-top: 16px;">
-            También puedes acceder a la vista de reflexión diaria desde el menú superior, haciendo clic en <strong>Nueva Entrada</strong>.
+        <p class="text-center" style="margin-top:14px;">
+            También puedes acceder desde el menú superior haciendo clic en <strong>Nueva Entrada</strong>.
         </p>
-
-        <p class="lead text-center" style="margin-top:20px;">Al entrar, verás un formulario con varios espacios:</p>
-
-        <div class="text-center" style="margin-top:20px;">
+        <p class="lead text-center" style="margin-top:18px;">Al entrar, verás un formulario con varios espacios:</p>
+        <div class="text-center" style="margin-top:18px;">
             <img src="{{ url_for('static', filename='img/tutorial/form.png') }}"
-                alt="Formulario" class="img-responsive img-thumbnail center-block"
-                style="pointer-events: none; max-width:90%;">
+                alt="Formulario" class="img-responsive img-thumbnail center-block" style="pointer-events:none; max-width:90%;">
         </div>
-
-        <ul class="lead list-unstyled text-left" style="max-width:600px; margin:16px auto 0;">
-            <li>♥ Estado de ánimo</li>
-            <li>☷ Reflexión</li>
-            <li>◉ Interacciones</li>
-            <li>⌚ Recuerdos o Flashbacks</li>
-            <li>✦ Emociones</li>
-            <li>§ Conversaciones con amigos / seres queridos</li>
-            <li>◆ Etc.</li>
+        <ul class="list-unstyled lead text-left" style="max-width:580px; margin:14px auto 0;">
+            <li><i class="fa-solid fa-heart text-danger"></i> Estado de ánimo</li>
+            <li><i class="fa-solid fa-book text-primary"></i> Reflexión</li>
+            <li><i class="fa-solid fa-user text-info"></i> Interacciones</li>
+            <li><i class="fa-solid fa-clock text-warning"></i> Recuerdos o Flashbacks</li>
+            <li><i class="fa-solid fa-fire text-danger"></i> Emociones</li>
+            <li><i class="fa-solid fa-comment text-success"></i> Conversaciones con amigos / seres queridos</li>
+            <li><i class="fa-solid fa-ellipsis text-info"></i> Etc.</li>
         </ul>
         <p class="text-center" style="margin-top:10px;">
             <em>Ninguna casilla es obligatoria, solo debes escribir al menos una por día.</em>
         </p>
-        <p class="text-center">
-            Cada casilla soporta hasta <strong>2048 caracteres</strong>.
+        <p class="text-center">Cada casilla soporta hasta <strong>2048 caracteres</strong>.</p>
+        <p class="lead text-center" style="margin-top:18px;">
+            Al terminar, presiona <strong>Guardar reflexión</strong>.
         </p>
-
-        <p class="lead text-center" style="margin-top:20px;">
-            Al terminar tu escritura, presiona el botón <strong>Guardar reflexión</strong> y esta se guardará.
-        </p>
-
-        <div class="text-center" style="margin-top:20px;">
+        <div class="text-center" style="margin-top:18px;">
             <img src="{{ url_for('static', filename='img/tutorial/save_reflection.png') }}"
-                alt="Guardar reflexión" class="img-responsive img-thumbnail center-block"
-                style="pointer-events: none; max-width:90%;">
+                alt="Guardar reflexión" class="img-responsive img-thumbnail center-block" style="pointer-events:none; max-width:90%;">
         </div>
-
-        <p class="text-center" style="margin-top: 12px;">
-            <strong>⌚ La reflexión puedes editarla solo durante las próximas 24 horas, esa es la magia de un diario.</strong>
+        <p class="text-center" style="margin-top:12px;">
+            <i class="fa-solid fa-clock text-warning"></i>
+            <strong>La reflexión puedes editarla solo durante las próximas 24 horas, esa es la magia de un diario.</strong>
         </p>
-
-        <div class="text-center" style="margin-top:20px;">
-            <button class="btn btn-default" onclick="changePhase(-1)">◄ Anterior</button>
-            <button class="btn btn-primary" onclick="changePhase(1)">Siguiente ►</button>
+        <div class="text-center" style="margin-top:18px;">
+            <button class="btn btn-default" onclick="changePhase(-1)">
+                <i class="fa-solid fa-chevron-left"></i> Anterior
+            </button>
+            <button class="btn btn-primary" onclick="changePhase(1)">
+                Siguiente <i class="fa-solid fa-chevron-right"></i>
+            </button>
         </div>
     </div>
 </div>
 
-<!-- ================= FASE 3 ================= -->
+<!-- FASE 3 -->
 <div id="fase3" class="tutorial-fase panel panel-info" style="display:none;">
     <div class="panel-heading">
-        <h2 class="panel-title" style="font-size:1.1em;">Fase 3: Seguimiento y Día Final</h2>
+        <h2 class="panel-title" style="font-size:1em;">Fase 3: Seguimiento y Día Final</h2>
     </div>
     <div class="panel-body">
         <p class="lead text-center">
-            Aprende a hacer seguimiento de tu progreso y crecimiento personal, y cómo definir tu "Día final".
+            Aprende a hacer seguimiento de tu progreso y cómo definir tu "Día final".
         </p>
         <p class="text-center">
-            En Reflexion Journal puedes especificar una <strong>fecha inicial</strong> y luego definir hasta qué cantidad
-            de días deseas reflexionar: por ejemplo, <strong>10, 20, 50 o hasta 100 días</strong>.
+            Puedes especificar una <strong>fecha inicial</strong> y luego definir hasta qué cantidad de días deseas reflexionar:
+            por ejemplo, <strong>10, 20, 50 o hasta 100 días</strong>.
         </p>
-
-        <div class="well" style="max-width:700px; margin:20px auto 0;">
+        <div class="well" style="max-width:700px; margin:18px auto 0;">
             <h3 class="text-center">¿Cómo definir el Día final?</h3>
-            <ul class="lead list-unstyled">
+            <ul class="list-unstyled lead">
                 <li>
-                    ⚙ Ve al apartado <strong>Configuración &gt; Reflexiones &gt; Definir Día de "Reflexión final"</strong>.
+                    <i class="fa-solid fa-gear text-primary"></i>
+                    Ve a <strong>Configuración &gt; Reflexiones &gt; Definir Día de "Reflexión final"</strong>.
                 </li>
                 <li>
-                    ✎ Allí verás un formulario donde puedes especificar <strong>cuántos días</strong>
-                    quieres que dure tu proceso de reflexión.
+                    <i class="fa-solid fa-pen-to-square text-info"></i>
+                    Allí verás un formulario donde puedes especificar <strong>cuántos días</strong> quieres reflexionar.
                 </li>
             </ul>
-            <div class="text-center" style="margin-top:20px;">
+            <div class="text-center" style="margin-top:18px;">
                 <img src="{{ url_for('static', filename='img/tutorial/define_days.png') }}"
-                    alt="Definir cantidad de días" class="img-responsive img-thumbnail center-block"
-                    style="pointer-events: none; max-width:90%;">
+                    alt="Definir días" class="img-responsive img-thumbnail center-block" style="pointer-events:none; max-width:90%;">
             </div>
-            <ul class="lead list-unstyled" style="margin-top: 12px;">
+            <ul class="list-unstyled lead" style="margin-top:12px;">
                 <li>
-                    ▦ Una vez definido, en la vista de <strong>Inicio</strong> verás una
-                    <strong>barra de porcentaje</strong> que calculará tu progreso.
+                    <i class="fa-solid fa-calendar-days text-success"></i>
+                    En la vista de <strong>Inicio</strong> verás una <strong>barra de porcentaje</strong> con tu progreso.
                 </li>
             </ul>
-            <div class="text-center" style="margin-top:20px;">
+            <div class="text-center" style="margin-top:18px;">
                 <img src="{{ url_for('static', filename='img/tutorial/progress_percent.png') }}"
-                    alt="Barra de progreso" class="img-responsive img-thumbnail center-block"
-                    style="pointer-events: none; max-width:90%;">
+                    alt="Barra de progreso" class="img-responsive img-thumbnail center-block" style="pointer-events:none; max-width:90%;">
             </div>
         </div>
-
-        <div class="text-center" style="margin-top:20px;">
-            <button class="btn btn-default" onclick="changePhase(-1)">◄ Anterior</button>
-            <button class="btn btn-primary" disabled>Siguiente ►</button>
+        <div class="text-center" style="margin-top:18px;">
+            <button class="btn btn-default" onclick="changePhase(-1)">
+                <i class="fa-solid fa-chevron-left"></i> Anterior
+            </button>
+            <button class="btn btn-primary" disabled>
+                Siguiente <i class="fa-solid fa-chevron-right"></i>
+            </button>
         </div>
     </div>
 </div>
@@ -211,8 +199,7 @@
     var todayDate = new Date().toISOString().split('T')[0];
     document.getElementById('today_date').innerText = '(' + todayDate + ')';
 
-    var currentPhase = 1;
-    var totalPhases = 3;
+    var currentPhase = 1, totalPhases = 3;
 
     function showPhase(n) {
         for (var i = 1; i <= totalPhases; i++) {
@@ -220,11 +207,8 @@
             if (el) el.style.display = (i === n) ? 'block' : 'none';
         }
     }
-
     function changePhase(delta) {
-        currentPhase += delta;
-        if (currentPhase < 1) currentPhase = 1;
-        if (currentPhase > totalPhases) currentPhase = totalPhases;
+        currentPhase = Math.max(1, Math.min(totalPhases, currentPhase + delta));
         showPhase(currentPhase);
         window.scrollTo({ top: 0 });
     }

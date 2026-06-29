@@ -1,29 +1,31 @@
 {% extends 'base/base.html' %}
 {% block title %}Exportar Reflexiones - Reflexion Journal{% endblock %}
 {% block content %}
-<div class="text-center" style="margin-bottom: 20px;">
-    <h1>↓ Exportar Reflexiones</h1>
+<div class="text-center" style="margin-bottom: 18px;">
+    <h1><i class="fa-solid fa-file-export"></i> Exportar Reflexiones</h1>
     <p>Elige una opción para exportar tus reflexiones.</p>
 </div>
 
-<h2 class="page-header">☰ Opciones de exportación</h2>
+<h2 class="page-header"><i class="fa-solid fa-list"></i> Opciones de exportación</h2>
 
-<ul class="list-group" style="margin-bottom:30px;">
+<ul class="list-group" style="margin-bottom:26px;">
     <li class="list-group-item">
-        ☰ Exportar todas las reflexiones
-        <div class="small text-muted">Descarga un archivo con todas tus reflexiones guardadas.</div>
+        <h5><i class="fa-solid fa-list text-primary"></i> Exportar todas las reflexiones</h5>
+        <p class="mb-1 text-muted">Descarga un archivo con todas tus reflexiones guardadas.</p>
     </li>
     <li class="list-group-item">
-        ▦ Exportar por rango de fechas
-        <div class="small text-muted">Selecciona un periodo específico para exportar solo las reflexiones de esas fechas.</div>
+        <h5><i class="fa-solid fa-calendar-days text-primary"></i> Exportar por rango de fechas</h5>
+        <p class="mb-1 text-muted">Selecciona un periodo específico para exportar solo las reflexiones de esas fechas.</p>
     </li>
     <li class="list-group-item">
-        ◎ Exportar reflexión específica
-        <div class="small text-muted">Busca y exporta una reflexión individual de tu historial.</div>
+        <h5><i class="fa-solid fa-magnifying-glass text-primary"></i> Exportar reflexión específica</h5>
+        <p class="mb-1 text-muted">Busca y exporta una reflexión individual de tu historial.</p>
     </li>
 </ul>
 
-<div class="text-center" style="margin-bottom:30px;">
-    <a href="{{ url_for('settings.settings_page') }}" class="btn btn-default">← Volver a Configuración</a>
+<div class="text-center" style="margin-bottom:26px;">
+    <a href="{{ url_for('settings.settings_page') }}" class="btn btn-default">
+        <i class="fa-solid fa-arrow-left"></i> Volver a Configuración
+    </a>
 </div>
 {% endblock %}

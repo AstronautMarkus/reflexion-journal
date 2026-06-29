@@ -1,19 +1,19 @@
 <nav class="navbar">
     <a class="navbar-brand" href="{{ url_for('main.home') }}">
-        ☷ Reflexion Journal
+        <i class="fa-solid fa-book-open"></i> Reflexion Journal
     </a>
 
     <button class="navbar-toggle" data-target="#navbar-main" type="button" aria-label="Menú">
-        ☰
+        <i class="fa-solid fa-bars"></i>
     </button>
 
     <div class="navbar-collapse" id="navbar-main">
         {% if current_user.is_authenticated %}
         <ul class="navbar-nav">
-            <li><a href="{{ url_for('main.home') }}">⌂ Inicio</a></li>
-            <li><a href="{{ url_for('reflections.reflections_list') }}">☰ Entradas</a></li>
-            <li><a href="{{ url_for('journal.calendar_view') }}">▦ Calendario</a></li>
-            <li><a href="{{ url_for('reflections.write_reflection') }}">✎ Nueva Entrada</a></li>
+            <li><a href="{{ url_for('main.home') }}"><i class="fa-solid fa-house"></i> Inicio</a></li>
+            <li><a href="{{ url_for('reflections.reflections_list') }}"><i class="fa-solid fa-list"></i> Entradas</a></li>
+            <li><a href="{{ url_for('journal.calendar_view') }}"><i class="fa-solid fa-calendar-days"></i> Calendario</a></li>
+            <li><a href="{{ url_for('reflections.write_reflection') }}"><i class="fa-solid fa-pen-to-square"></i> Nueva Entrada</a></li>
         </ul>
         {% else %}
         <ul class="navbar-nav"></ul>
@@ -22,29 +22,29 @@
         <ul class="navbar-nav">
             <li class="dropdown">
                 <a class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
-                    ◉
+                    <i class="fa-solid fa-user"></i>
                     {% if current_user.is_authenticated %}
-                        {% if current_user.username %}
-                            {{ current_user.username }}
-                        {% else %}
-                            {{ current_user.first_name }} {{ current_user.last_name }}
+                        {% if current_user.username %}{{ current_user.username }}
+                        {% else %}{{ current_user.first_name }} {{ current_user.last_name }}
                         {% endif %}
                     {% else %}
                         Acceder
                     {% endif %}
-                    ▾
+                    <i class="fa-solid fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu">
                     {% if current_user.is_authenticated %}
-                    <li><a href="{{ url_for('journal.profile') }}">◉ Perfil</a></li>
-                    <li><a href="{{ url_for('settings.settings_page') }}">⚙ Configuración</a></li>
+                    <li><a href="{{ url_for('journal.profile') }}"><i class="fa-solid fa-user"></i> Perfil</a></li>
+                    <li><a href="{{ url_for('settings.settings_page') }}"><i class="fa-solid fa-gear"></i> Configuración</a></li>
                     <li class="divider"></li>
                     <li>
-                        <a href="#" data-modal-open="#logoutModal">← Cerrar sesión</a>
+                        <a href="#" data-modal-open="#logoutModal">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i> Cerrar sesión
+                        </a>
                     </li>
                     {% else %}
-                    <li><a href="{{ url_for('auth.login') }}">→ Iniciar sesión</a></li>
-                    <li><a href="{{ url_for('auth.register') }}">+ Registrarme</a></li>
+                    <li><a href="{{ url_for('auth.login') }}"><i class="fa-solid fa-arrow-right-to-bracket"></i> Iniciar sesión</a></li>
+                    <li><a href="{{ url_for('auth.register') }}"><i class="fa-solid fa-user-plus"></i> Registrarme</a></li>
                     {% endif %}
                 </ul>
             </li>
@@ -56,15 +56,19 @@
 <div class="modal-overlay" id="logoutModal">
     <div class="modal-box">
         <div class="modal-head">
-            <span>¿Cerrar sesión?</span>
+            <span><i class="fa-solid fa-arrow-right-from-bracket"></i> ¿Cerrar sesión?</span>
             <button class="modal-close-btn" data-modal-close type="button" aria-label="Cerrar">&times;</button>
         </div>
         <div class="modal-body">
             ¿Ya te vas? ¡Te esperamos pronto de vuelta!
         </div>
         <div class="modal-foot">
-            <button type="button" class="btn btn-default" data-modal-close>Cancelar</button>
-            <a href="{{ url_for('auth.logout') }}" class="btn btn-danger">← Cerrar sesión</a>
+            <button type="button" class="btn btn-default" data-modal-close>
+                <i class="fa-solid fa-xmark"></i> Cancelar
+            </button>
+            <a href="{{ url_for('auth.logout') }}" class="btn btn-danger">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> Cerrar sesión
+            </a>
         </div>
     </div>
 </div>

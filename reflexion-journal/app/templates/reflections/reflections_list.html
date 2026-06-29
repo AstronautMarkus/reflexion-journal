@@ -1,15 +1,16 @@
 {% extends 'base/base.html' %}
 {% block title %}Mis Reflexiones - Reflexion Journal{% endblock %}
 {% block content %}
-<div class="text-center" style="margin-bottom: 20px;">
-    <h1>☰ Lista de Reflexiones</h1>
+<div class="text-center" style="margin-bottom: 18px;">
+    <h1><i class="fa-solid fa-list"></i> Lista de Reflexiones</h1>
     <p>Aquí puedes ver todas tus reflexiones registradas y acceder a cada una de ellas.</p>
 </div>
 
 {% if reflection_entries|length == 0 %}
-<div style="max-width:600px; margin:30px auto;">
+<div style="max-width:580px; margin:26px auto;">
     <div class="alert alert-info text-center">
-        [i] <strong>¡Aún no tienes reflexiones!</strong><br>
+        <i class="fa-solid fa-circle-info"></i>
+        <strong>¡Aún no tienes reflexiones!</strong><br>
         Comienza tu viaje de autodescubrimiento escribiendo
         <a href="{{ url_for('reflections.write_reflection') }}">tu primera reflexión</a>.
     </div>
@@ -23,19 +24,18 @@
         </div>
         <div class="thumb-card-body">
             <h3>
-                ▦
-                {% if entry.day is not none and entry.day >= 0 %}
-                    Día {{ entry.day }}
-                {% else %}
-                    Día N/D
-                {% endif %}
+                <i class="fa-solid fa-calendar-days text-primary"></i>
+                {% if entry.day is not none and entry.day >= 0 %}Día {{ entry.day }}{% else %}Día N/D{% endif %}
             </h3>
             <p>{{ entry.reflection_text[:200] }}{% if entry.reflection_text|length > 200 %}...{% endif %}</p>
-            <p><small class="text-muted">⌚ {{ entry.created_at }}</small></p>
+            <p><small class="text-muted"><i class="fa-solid fa-clock"></i> {{ entry.created_at }}</small></p>
             <div class="thumb-card-actions">
-                <a href="{{ url_for('reflections.reflection_detail', reflection_id=entry.id) }}"
-                    class="btn btn-primary btn-sm">◉ Ver</a>
-                <a href="#" class="btn btn-default btn-sm">✎ Editar</a>
+                <a href="{{ url_for('reflections.reflection_detail', reflection_id=entry.id) }}" class="btn btn-primary btn-sm">
+                    <i class="fa-solid fa-eye"></i> Ver
+                </a>
+                <a href="#" class="btn btn-default btn-sm">
+                    <i class="fa-solid fa-pencil"></i> Editar
+                </a>
             </div>
         </div>
     </div>
@@ -43,7 +43,9 @@
 </div>
 {% endif %}
 
-<div class="text-center" style="margin-top: 24px; margin-bottom: 20px;">
-    <a href="{{ url_for('journal.dashboard') }}" class="btn btn-link">⌂ Volver al Inicio</a>
+<div class="text-center" style="margin-top: 22px; margin-bottom: 18px;">
+    <a href="{{ url_for('journal.dashboard') }}" class="btn btn-link">
+        <i class="fa-solid fa-house"></i> Volver al Inicio
+    </a>
 </div>
 {% endblock %}

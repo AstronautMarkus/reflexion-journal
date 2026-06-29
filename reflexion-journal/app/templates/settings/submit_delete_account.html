@@ -1,31 +1,35 @@
 {% extends 'base/base.html' %}
 {% block title %}Confirmar Eliminación - Reflexion Journal{% endblock %}
 {% block content %}
-<div class="text-center" style="margin-bottom: 20px;">
-    <h1 class="text-danger">[⚠] Confirmar Eliminación de Cuenta</h1>
+<div class="text-center" style="margin-bottom: 18px;">
+    <h1 class="text-danger"><i class="fa-solid fa-triangle-exclamation"></i> Confirmar Eliminación de Cuenta</h1>
     <p><strong>Por favor, ingresa tu email y el código recibido para confirmar la eliminación.</strong></p>
 </div>
 
 <div class="form-narrow">
     <form method="post">
         <div class="form-group">
-            <label for="email" class="control-label">✉ Tu Email <i class="text-danger">*</i></label>
+            <label for="email" class="control-label"><i class="fa-solid fa-envelope"></i> Tu Email <i class="text-danger">*</i></label>
             <div class="input-group">
-                <span class="input-group-addon">✉</span>
+                <span class="input-group-addon"><i class="fa-solid fa-envelope"></i></span>
                 <input type="email" class="form-control" name="email" id="email" required placeholder="Ej. juan@email.com">
             </div>
         </div>
         <div class="form-group">
-            <label for="code" class="control-label">§ Código recibido <i class="text-danger">*</i></label>
+            <label for="code" class="control-label"><i class="fa-solid fa-key"></i> Código recibido <i class="text-danger">*</i></label>
             <div class="input-group">
-                <span class="input-group-addon">§</span>
+                <span class="input-group-addon"><i class="fa-solid fa-key"></i></span>
                 <input type="text" class="form-control" name="code" id="code" required placeholder="Código de eliminación">
             </div>
         </div>
         <div class="form-group text-center">
-            <button type="submit" class="btn btn-danger">[✗] Eliminar cuenta</button>
+            <button type="submit" class="btn btn-danger">
+                <i class="fa-solid fa-trash"></i> Eliminar cuenta
+            </button>
             <br><br>
-            <a href="{{ url_for('main.home') }}" class="btn btn-link">⌂ Volver a la página principal</a>
+            <a href="{{ url_for('main.home') }}" class="btn btn-link">
+                <i class="fa-solid fa-house"></i> Volver a la página principal
+            </a>
         </div>
     </form>
 </div>

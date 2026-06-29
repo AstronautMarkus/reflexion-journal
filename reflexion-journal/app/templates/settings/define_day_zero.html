@@ -1,59 +1,64 @@
 {% extends 'base/base.html' %}
 {% block title %}Definir Día Cero - Reflexion Journal{% endblock %}
 {% block content %}
-<div class="text-center" style="margin-bottom: 20px;">
-    <h1>▦ Definir Día Cero</h1>
+<div class="text-center" style="margin-bottom: 18px;">
+    <h1><i class="fa-solid fa-calendar-days"></i> Definir Día Cero</h1>
     <p><strong>Selecciona la fecha que marcará el inicio de tu registro.</strong></p>
 </div>
 
-<div style="max-width:600px; margin:0 auto;">
+<div style="max-width:580px; margin:0 auto;">
     {% if has_day_zero_set %}
-    <div id="alerta-dia-zero" class="alert alert-warning" style="font-size:1.05em; padding:1.6em;">
-        [⚠] Ya tienes un <strong>Día Cero definido</strong> ({{ day_zero_date }}).
-        Si lo cambias, es posible que los registros fuera del nuevo rango de fechas se eliminen.<br>
+    <div id="alerta-dia-zero" class="alert alert-warning" style="font-size:1em; padding:1.4em;">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        Ya tienes un <strong>Día Cero definido</strong> ({{ day_zero_date }}).
+        Si lo cambias, es posible que los registros fuera del nuevo rango se eliminen.<br>
         ¿Desea continuar?
-        <div class="text-center" style="margin-top:1.4em;">
+        <div class="text-center" style="margin-top:1.2em;">
             <button id="continuar-dia-zero" class="btn btn-danger btn-sm" style="margin-right:8px;">
-                [✓] Sí, continuar
+                <i class="fa-solid fa-check"></i> Sí, continuar
             </button>
             <button id="cancelar-dia-zero" class="btn btn-success btn-sm">
-                [✗] Cancelar
+                <i class="fa-solid fa-xmark"></i> Cancelar
             </button>
         </div>
     </div>
     <div id="form-dia-zero" style="display:none;">
         <form method="post">
             <div class="form-group">
-                <label for="day_zero">▦ Selecciona el Día Cero:</label>
+                <label for="day_zero"><i class="fa-solid fa-calendar-days"></i> Selecciona el Día Cero:</label>
                 <input type="date" class="form-control" id="day_zero" name="day_zero" required>
             </div>
-            <button type="submit" class="btn btn-primary">▣ Guardar</button>
-            <button type="button" class="btn btn-default" id="cancelar-form-dia-zero">✗ Cancelar</button>
+            <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-floppy-disk"></i> Guardar
+            </button>
+            <button type="button" class="btn btn-default" id="cancelar-form-dia-zero">
+                <i class="fa-solid fa-xmark"></i> Cancelar
+            </button>
         </form>
     </div>
     <script>
-        document.getElementById('continuar-dia-zero').onclick = function () {
+        document.getElementById('continuar-dia-zero').onclick = function() {
             document.getElementById('alerta-dia-zero').style.display = 'none';
             document.getElementById('form-dia-zero').style.display = 'block';
         };
-        document.getElementById('cancelar-dia-zero').onclick = function () {
-            window.history.back();
-        };
-        document.getElementById('cancelar-form-dia-zero').onclick = function () {
-            window.history.back();
-        };
+        document.getElementById('cancelar-dia-zero').onclick = function() { window.history.back(); };
+        document.getElementById('cancelar-form-dia-zero').onclick = function() { window.history.back(); };
     </script>
     {% else %}
     <form method="post">
         <div class="form-group">
-            <label for="day_zero">▦ Selecciona el Día Cero:</label>
+            <label for="day_zero"><i class="fa-solid fa-calendar-days"></i> Selecciona el Día Cero:</label>
             <input type="date" class="form-control" id="day_zero" name="day_zero" required>
         </div>
-        <button type="submit" class="btn btn-primary">▣ Guardar</button>
+        <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-floppy-disk"></i> Guardar
+        </button>
     </form>
     <br>
     <div class="text-center">
-        <a href="{{ url_for('settings.settings_page') }}" class="btn btn-default">← Volver a Configuración</a>
+        <a href="{{ url_for('settings.settings_page') }}" class="btn btn-default">
+            <i class="fa-solid fa-arrow-left"></i> Volver a Configuración
+        </a>
     </div>
     {% endif %}
 </div>

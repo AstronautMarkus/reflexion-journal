@@ -1,8 +1,8 @@
 {% extends 'base/base.html' %}
 {% block title %}Activar cuenta - Reflexion Journal{% endblock %}
 {% block content %}
-<div class="text-center" style="margin-bottom: 20px;">
-    <h1>[✓] Activar cuenta</h1>
+<div class="text-center" style="margin-bottom: 18px;">
+    <h1><i class="fa-solid fa-circle-check"></i> Activar cuenta</h1>
     <p><strong>Ingresa el código de activación que recibiste por email.</strong></p>
 </div>
 
@@ -11,7 +11,7 @@
         <div class="form-group">
             <label for="email" class="control-label">Email <i class="text-danger">*</i></label>
             <div class="input-group">
-                <span class="input-group-addon">✉</span>
+                <span class="input-group-addon"><i class="fa-solid fa-envelope"></i></span>
                 <input type="email" class="form-control" id="email" name="email" required
                     placeholder="Ej. juan@email.com"
                     value="{{ form_data.email if form_data.email is defined else email if email is defined else '' }}">
@@ -23,7 +23,7 @@
         <div class="form-group">
             <label for="activation_code" class="control-label">Código de activación <i class="text-danger">*</i></label>
             <div class="input-group">
-                <span class="input-group-addon">§</span>
+                <span class="input-group-addon"><i class="fa-solid fa-key"></i></span>
                 <input type="text" class="form-control" id="activation_code" name="activation_code" required
                     placeholder="Código recibido por email"
                     value="{{ form_data.activation_code if form_data.activation_code is defined else '' }}">
@@ -33,7 +33,9 @@
             {% endif %}
         </div>
         <div class="form-group text-center">
-            <button type="submit" class="btn btn-success">[✓] Activar cuenta</button>
+            <button type="submit" class="btn btn-success">
+                <i class="fa-solid fa-circle-check"></i> Activar cuenta
+            </button>
         </div>
     </form>
     <p class="text-center">

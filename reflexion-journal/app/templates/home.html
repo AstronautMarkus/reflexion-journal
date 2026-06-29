@@ -1,70 +1,74 @@
 {% extends 'base/base.html' %}
 {% block title %}Inicio - Reflexion Journal{% endblock %}
 {% block content %}
-<div style="text-align:center; margin-bottom: 28px;">
-    <h1>⌂ Bienvenido/a a Reflexion Journal</h1>
+<div class="text-center" style="margin-bottom: 24px;">
+    <h1><i class="fa-solid fa-house"></i> Bienvenido/a a Reflexion Journal</h1>
     <p><strong>¿Eres nuevo/a o ya tienes cuenta?</strong></p>
 </div>
 
-<div class="rj-grid-2" style="margin-bottom: 30px;">
+<div class="rj-grid-2" style="margin-bottom: 24px;">
     <div class="panel">
         <div class="panel-heading text-center">
-            <h3 class="panel-title">◉ Nuevo usuario</h3>
+            <h3 class="panel-title"><i class="fa-solid fa-user-plus"></i> Nuevo usuario</h3>
         </div>
         <div class="panel-body text-center">
             <img src="{{ url_for('static', filename='img/babytux.png') }}" alt="Soy nuevo"
-                class="img-responsive center-block" style="max-height:220px; margin-bottom:14px;">
-            <h3 style="border:none; padding:0;">✿ Soy nuevo/a</h3>
+                class="img-responsive center-block" style="max-height:200px; margin-bottom:12px;">
+            <h3 style="border:none; padding:0;"><i class="fa-solid fa-leaf text-success"></i> Soy nuevo/a</h3>
             <p><strong>¡Bienvenido/a! Crea una cuenta para empezar a usar Reflexion Journal.</strong></p>
             <a href="{{ url_for('auth.register') }}" class="btn btn-primary">
-                + Registrarme
+                <i class="fa-solid fa-user-plus"></i> Registrarme
             </a>
         </div>
     </div>
 
     <div class="panel">
         <div class="panel-heading text-center">
-            <h3 class="panel-title">→ Usuario existente</h3>
+            <h3 class="panel-title"><i class="fa-solid fa-arrow-right-to-bracket"></i> Usuario existente</h3>
         </div>
         <div class="panel-body text-center">
             <img src="{{ url_for('static', filename='img/supertux.png') }}" alt="Ya tengo cuenta"
-                class="img-responsive center-block" style="max-height:220px; margin-bottom:14px;">
-            <h3 style="border:none; padding:0;">★ Ya tengo cuenta</h3>
+                class="img-responsive center-block" style="max-height:200px; margin-bottom:12px;">
+            <h3 style="border:none; padding:0;"><i class="fa-solid fa-star text-warning"></i> Ya tengo cuenta</h3>
             <p><strong>¡De acuerdo, jefe! Inicia sesión para acceder a tu Reflexion Journal.</strong></p>
             <a href="{{ url_for('auth.login') }}" class="btn btn-success">
-                → Iniciar sesión
+                <i class="fa-solid fa-arrow-right-to-bracket"></i> Iniciar sesión
             </a>
         </div>
     </div>
 </div>
 
-<div class="panel panel-info" style="margin-bottom: 28px;">
+<div class="panel panel-info" style="margin-bottom: 24px;">
     <div class="panel-heading text-center">
-        <h2 style="margin:0; border:none; padding:0; font-size:1.2em;">☷ ¿Qué es Reflexion Journal?</h2>
+        <h2 style="margin:0; border:none; padding:0; font-size:1.1em; color:#fff;">
+            <i class="fa-solid fa-book-open"></i> ¿Qué es Reflexion Journal?
+        </h2>
     </div>
     <div class="panel-body">
         <p class="lead text-center">
             <strong>Reflexion Journal es una herramienta para ayudarte a reflexionar sobre tu día a día y mejorar tu bienestar emocional.</strong>
         </p>
-        <ul class="list-unstyled text-center" style="max-width:700px; margin:0 auto;">
-            <li>✎ <strong>Escribe sobre tus experiencias diarias.</strong></li>
-            <li>♥ <strong>Identifica y comprende tus emociones.</strong></li>
-            <li>⚑ Establece tu <strong>"día cero"</strong> para comenzar tu viaje.</li>
-            <li>◈ <strong>Reflexiona con ayuda de la Inteligencia Artificial.</strong></li>
+        <ul class="list-unstyled text-center" style="max-width:680px; margin:0 auto;">
+            <li><i class="fa-solid fa-pen text-primary"></i> <strong>Escribe sobre tus experiencias diarias.</strong></li>
+            <li><i class="fa-solid fa-heart text-danger"></i> <strong>Identifica y comprende tus emociones.</strong></li>
+            <li><i class="fa-solid fa-flag text-success"></i> Establece tu <strong>"día cero"</strong> para comenzar tu viaje.</li>
+            <li><i class="fa-solid fa-robot text-info"></i> <strong>Reflexiona con ayuda de la Inteligencia Artificial.</strong></li>
         </ul>
     </div>
     <div class="panel-footer text-center">
-        <small>⌚ <strong>Dedica unos minutos al día a tu bienestar mental.</strong></small>
+        <small><i class="fa-solid fa-clock"></i> <strong>Dedica unos minutos al día a tu bienestar mental.</strong></small>
     </div>
 </div>
 
-<div class="media" style="background:#faf6ef; padding:20px; border:1px solid #b0956e; margin-bottom:28px;">
+<div class="media" style="background:#fff; padding:18px; border:1px solid #cccccc; border-radius:6px; margin-bottom:24px; box-shadow:0 1px 4px rgba(0,0,0,0.1);">
     <div class="media-left">
         <img class="media-object" src="{{ url_for('static', filename='img/tux-reading.gif') }}"
-            alt="Pingüino Tux leyendo" style="width:120px; height:120px; object-fit:cover;">
+            alt="Pingüino Tux leyendo" style="width:110px; height:110px; object-fit:cover; border-radius:4px;">
     </div>
     <div class="media-body">
-        <h3 class="media-heading text-info" style="border:none; padding:0;">§ ¿Por qué Reflexion Journal?</h3>
+        <h3 class="media-heading text-info" style="border:none; padding:0;">
+            <i class="fa-solid fa-comment-dots"></i> ¿Por qué Reflexion Journal?
+        </h3>
         <p>
             <strong>¿Alguna vez has sentido que necesitas un espacio donde reflexionar o guardar tu día a día?</strong>
             Tus pensamientos más íntimos o simplemente llevar un registro de tus emociones y experiencias diarias?
@@ -74,21 +78,23 @@
             una herramienta que me ayudara a mí, originalmente pensado como un proyecto personal, pero quizás podría ayudar a más personas.
         </p>
         <p>
-            Todo comenzó con la idea de crear un diario personal, pero con un enfoque especial en la reflexión y en un "experimento" que hice.
-            Empecé a documentar todo esto en un programa, originalmente una simple aplicación que guardaba los textos en JSON, pero con el tiempo evolucionó a una aplicación web más completa.
+            Todo comenzó con la idea de crear un diario personal, pero con un enfoque especial en la reflexión.
+            Originalmente una simple aplicación que guardaba los textos en JSON, con el tiempo evolucionó a una aplicación web más completa.
         </p>
         <p>
             <strong>Reflexion Journal no es solo un diario, es una herramienta para ayudarte a reflexionar sobre tu día a día.</strong>
-            Tal vez un día quieras mostrarle a tu "yo futuro" lo que viviste o algo que aprendiste. ¿No has pensado en eso de que tu "yo futuro" es otra persona?
+            ¿No has pensado en eso de que tu "yo futuro" es otra persona?
         </p>
     </div>
 </div>
 
-<div class="panel panel-warning" id="faq-section" style="margin-bottom:28px;">
+<div class="panel panel-warning" id="faq-section" style="margin-bottom:24px;">
     <div class="panel-heading text-center">
-        <h2 style="margin:0; border:none; padding:0; font-size:1.2em;">? Preguntas Frecuentes (FAQ)</h2>
+        <h2 style="margin:0; border:none; padding:0; font-size:1.1em; color:#fff;">
+            <i class="fa-solid fa-circle-question"></i> Preguntas Frecuentes (FAQ)
+        </h2>
     </div>
-    <div class="panel-body" style="padding: 0;">
+    <div class="panel-body" style="padding:0;">
         <div class="rj-accordion">
             <div class="rj-accordion-item">
                 <button class="rj-accordion-btn" type="button">
@@ -97,7 +103,7 @@
                 <div class="rj-accordion-body">
                     <strong>Sí, Reflexion Journal no recopila datos personales ni de uso.</strong>
                     Todo lo que escribes es solo tuyo y puedes eliminar tu cuenta y datos cuando quieras.
-                    <strong>Tu privacidad es nuestra prioridad</strong>, nuestro deseo es ayudarte a reflexionar sin comprometer tu privacidad.
+                    <strong>Tu privacidad es nuestra prioridad.</strong>
                 </div>
             </div>
             <div class="rj-accordion-item">
@@ -105,9 +111,9 @@
                     <strong>¿Puedo usar Reflexion Journal gratis?</strong>
                 </button>
                 <div class="rj-accordion-body">
-                    <strong>Sí, Reflexion Journal es gratuito</strong>, el escribir y reflexionar no debería tener costo alguno.
-                    También hay ciertos servicios <strong>premium opcionales</strong> como la <strong>"reflexión final"</strong>
-                    que pueden tener un costo asociado para funciones exclusivas que no afectan la funcionalidad básica del diario.
+                    <strong>Sí, Reflexion Journal es gratuito.</strong> También hay servicios
+                    <strong>premium opcionales</strong> como la <strong>"reflexión final"</strong>
+                    que pueden tener un costo asociado, pero no afectan la funcionalidad básica del diario.
                 </div>
             </div>
             <div class="rj-accordion-item">
@@ -115,14 +121,9 @@
                     <strong>¿Cómo funciona la "Reflexión final" con IA?</strong>
                 </button>
                 <div class="rj-accordion-body">
-                    Para la <strong>"Reflexión final"</strong>, primero usted establece un <strong>"día cero"</strong>,
-                    que es el punto de partida para sus reflexiones. Luego, puede ir escribiendo sus experiencias diarias.
-                    Para que la IA le ayude a reflexionar y obtener su propia <strong>"reflexión final"</strong>,
-                    usted debe asignar un <strong>"Día final"</strong>, por ejemplo el día <strong>"110"</strong>.
-                    Entonces usted podrá escribir sus reflexiones diarias hasta llegar a ese día final.
-                    Al llegar al <strong>"Día final"</strong>, la IA analizará todas sus entradas y le proporcionará una
-                    <strong>reflexión general sobre su viaje</strong>, ayudándole a obtener una perspectiva más amplia
-                    de su experiencia, considerando lo positivo, negativo y neutro de su viaje.
+                    Primero estableces un <strong>"día cero"</strong>, luego escribes tus reflexiones diarias.
+                    Al asignar un <strong>"Día final"</strong> (por ejemplo el día 110), la IA analizará todas
+                    tus entradas y te proporcionará una <strong>reflexión general sobre tu viaje</strong>.
                 </div>
             </div>
             <div class="rj-accordion-item">
@@ -130,10 +131,8 @@
                     <strong>¿Puedo exportar mis reflexiones?</strong>
                 </button>
                 <div class="rj-accordion-body">
-                    <strong>Sí, puedes exportar tus reflexiones en diferentes formatos</strong> desde la sección de
-                    configuración de tu cuenta, en formatos como <strong>PDF, json o texto plano</strong>.
-                    Esto te permite guardar una copia de tus entradas o compartirlas si lo deseas.
-                    <strong>No confundir con "Reflexión final"</strong>, que es un resumen generado por IA con muchas más capacidades.
+                    <strong>Sí</strong>, puedes exportar desde la sección de configuración en formatos como
+                    <strong>PDF, JSON o texto plano</strong>. No confundir con "Reflexión final", que es un resumen generado por IA.
                 </div>
             </div>
             <div class="rj-accordion-item">
@@ -141,26 +140,24 @@
                     <strong>¿Por qué usan el pingüino Tux?</strong>
                 </button>
                 <div class="rj-accordion-body">
-                    <strong>El pingüino Tux, ilustrado por Larry Ewing, es la mascota oficial de Linux</strong>,
-                    y dado que Reflexion Journal es un proyecto Open Source, queríamos rendir homenaje a la comunidad de
-                    software libre. Además, Tux es un símbolo amigable y accesible que representa la filosofía de
-                    compartir y colaborar, valores que son fundamentales para este proyecto.
+                    <strong>Tux es la mascota oficial de Linux</strong> y dado que Reflexion Journal es Open Source,
+                    rendimos homenaje a la comunidad de software libre. Tux representa la filosofía de compartir y colaborar.
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="well well-sm text-center" style="margin-bottom:30px;">
+<div class="well well-sm text-center" style="margin-bottom:26px;">
     <p>
+        <i class="fa-brands fa-github text-primary"></i>
         <strong>Este programa es Open Source:</strong>
         puedes encontrar el código en
         <a href="https://github.com/astronautmarkus/reflexion-journal" target="_blank">GitHub</a>.
-        Este proyecto está hosteado por <strong>Marcos Reyes</strong> a través de
+        Hosteado por <strong>Marcos Reyes</strong> a través de
         <a href="https://www.reyesandfriends.cl" target="_blank">Reyes&amp;Friends</a>.
         <br><br>
         <strong>Nunca</strong> se recopilan datos personales ni de uso. ¡Tu privacidad es lo primero!
-        Puedes eliminar tu cuenta y datos cuando quieras.
     </p>
 </div>
 {% endblock %}

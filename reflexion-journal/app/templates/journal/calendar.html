@@ -1,21 +1,23 @@
 {% extends 'base/base.html' %}
 {% block title %}Calendario - Reflexion Journal{% endblock %}
 {% block content %}
-<h1 class="text-center">▦ Calendario de Reflexiones &mdash; {{ month_name }} {{ year }}</h1>
-<p class="text-center" style="margin-bottom: 20px;">
+<h1 class="text-center">
+    <i class="fa-solid fa-calendar-days"></i> Calendario de Reflexiones &mdash; {{ month_name }} {{ year }}
+</h1>
+<p class="text-center" style="margin-bottom: 18px;">
     Día cero: <strong>{{ day_zero_date.strftime('%d-%m-%Y') }}</strong>
     {% if last_day %} &mdash; Último día: <strong>{{ last_day.strftime('%d-%m-%Y') }}</strong>{% endif %}
 </p>
 
-<div class="text-center" style="margin-bottom: 24px;">
+<div class="text-center" style="margin-bottom: 20px;">
     {% if prev_enabled %}
         <a href="{{ url_for('journal.calendar_view', year=prev_year, month=prev_month) }}" class="btn btn-default">
-            ◄ Mes anterior
+            <i class="fa-solid fa-chevron-left"></i> Mes anterior
         </a>
     {% endif %}
     {% if next_enabled %}
         <a href="{{ url_for('journal.calendar_view', year=next_year, month=next_month) }}" class="btn btn-default">
-            Mes siguiente ►
+            Mes siguiente <i class="fa-solid fa-chevron-right"></i>
         </a>
     {% endif %}
 </div>
@@ -23,12 +25,12 @@
 {% for day in calendar_days %}
 <div class="cal-day {{ day.status }}">
     <div class="cal-day-icon">
-        {% if day.status == 'day_zero' %}⚑
-        {% elif day.status == 'last_day' %}⚑
-        {% elif day.status == 'done' %}✓
-        {% elif day.status == 'pending' %}✎
-        {% elif day.status == 'missed' %}✗
-        {% else %}▦
+        {% if day.status == 'day_zero' %}<i class="fa-solid fa-flag"></i>
+        {% elif day.status == 'last_day' %}<i class="fa-solid fa-flag"></i>
+        {% elif day.status == 'done' %}<i class="fa-solid fa-check"></i>
+        {% elif day.status == 'pending' %}<i class="fa-solid fa-pencil"></i>
+        {% elif day.status == 'missed' %}<i class="fa-solid fa-xmark"></i>
+        {% else %}<i class="fa-regular fa-calendar"></i>
         {% endif %}
     </div>
     <div class="cal-day-body">
@@ -42,19 +44,23 @@
             {% endif %}
         </div>
         {% if day.status == 'done' %}
-            <span class="label label-success">[✓] Reflexión completada</span>
+            <span class="label label-success"><i class="fa-solid fa-check"></i> Reflexión completada</span>
         {% elif day.status == 'pending' %}
-            <span class="label label-warning">[✎] Hoy, aún no has escrito</span>
-            <a href="{{ url_for('reflections.write_reflection') }}" class="btn btn-sm btn-primary" style="margin-left:8px;">Escribir reflexión</a>
+            <span class="label label-warning"><i class="fa-solid fa-pencil"></i> Hoy, aún no has escrito</span>
+            <a href="{{ url_for('reflections.write_reflection') }}" class="btn btn-sm btn-primary" style="margin-left:8px;">
+                <i class="fa-solid fa-pen-to-square"></i> Escribir reflexión
+            </a>
         {% elif day.status == 'missed' %}
-            <span class="label label-danger">[✗] Día pasado sin reflexión</span>
+            <span class="label label-danger"><i class="fa-solid fa-xmark"></i> Día pasado sin reflexión</span>
         {% elif day.status == 'day_zero' %}
-            <span class="label label-primary">[⚑] Día Cero</span>
+            <span class="label label-primary"><i class="fa-solid fa-flag"></i> Día Cero</span>
         {% elif day.status == 'last_day' %}
-            <span class="label" style="color:#5c1a5c; background:#f5e8f5; border-color:#5c1a5c;">[⚑] Último Día</span>
+            <span class="label" style="color:#fff; background:#8b2abc; border-color:#8b2abc;">
+                <i class="fa-solid fa-flag"></i> Último Día
+            </span>
         {% endif %}
         {% if day.reflection %}
-            <div style="margin-top:8px; font-size:0.93em; color:#5c4a35;">
+            <div style="margin-top:7px; font-size:0.85em; color:#555;">
                 <strong>Reflexión:</strong>
                 {{ day.reflection.reflection_text[:120] }}{% if day.reflection.reflection_text|length > 120 %}...{% endif %}
             </div>
@@ -63,11 +69,11 @@
 </div>
 {% endfor %}
 
-<div class="alert alert-info cal-legend">
-    <span class="label label-primary">[⚑]</span> Día Cero &nbsp;
-    <span class="label" style="color:#5c1a5c; background:#f5e8f5; border-color:#5c1a5c;">[⚑]</span> Último Día &nbsp;
-    <span class="label label-success">[✓]</span> Reflexión completada &nbsp;
-    <span class="label label-warning">[✎]</span> Hoy, aún no has escrito &nbsp;
-    <span class="label label-danger">[✗]</span> Día pasado sin reflexión
+<div class="alert alert-info cal-legend" style="margin-top: 20px;">
+    <span class="label label-primary"><i class="fa-solid fa-flag"></i></span> Día Cero &nbsp;
+    <span class="label" style="color:#fff;background:#8b2abc;border-color:#8b2abc;"><i class="fa-solid fa-flag"></i></span> Último Día &nbsp;
+    <span class="label label-success"><i class="fa-solid fa-check"></i></span> Reflexión completada &nbsp;
+    <span class="label label-warning"><i class="fa-solid fa-pencil"></i></span> Hoy, sin escribir &nbsp;
+    <span class="label label-danger"><i class="fa-solid fa-xmark"></i></span> Día sin reflexión
 </div>
 {% endblock %}
