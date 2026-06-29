@@ -389,7 +389,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         driver({
             showProgress: true,
-            progressText: '{step} de {total}',
+            progressText: '{% raw %}{{current}} de {{total}}{% endraw %}',
             nextBtnText: 'Siguiente →',
             prevBtnText: '← Anterior',
             doneBtnText: '¡Entendido!',

@@ -163,12 +163,19 @@
         var targetId = btn.getAttribute('data-target');
         var input = document.getElementById(targetId);
         if (!input) return;
+        var icon = btn.querySelector('i');
         if (input.type === 'password') {
             input.type = 'text';
-            btn.textContent = '[ocultar]';
+            if (icon) {
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            }
         } else {
             input.type = 'password';
-            btn.textContent = '[ver]';
+            if (icon) {
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
         }
     });
 
