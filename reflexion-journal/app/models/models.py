@@ -5,6 +5,23 @@ from datetime import datetime
 db = SQLAlchemy()
 
 
+class ReflectionDraft(db.Model):
+    __tablename__ = 'reflection_draft'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, unique=True)
+    draft_date = db.Column(db.Date, nullable=False)
+    user_mood = db.Column(db.Text, nullable=True)
+    reflection_text = db.Column(db.Text, nullable=True)
+    interactions = db.Column(db.Text, nullable=True)
+    flashbacks = db.Column(db.Text, nullable=True)
+    emotions = db.Column(db.Text, nullable=True)
+    friendship_talk = db.Column(db.Text, nullable=True)
+    experiments = db.Column(db.Text, nullable=True)
+    events = db.Column(db.Text, nullable=True)
+    rapid_notes = db.Column(db.Text, nullable=True)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+
 class AIReflection(db.Model):
     __tablename__ = 'ai_reflection'
     id = db.Column(db.Integer, primary_key=True)

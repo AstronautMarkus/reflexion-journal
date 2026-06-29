@@ -2,7 +2,7 @@ from . import journal
 from flask import render_template, request
 from flask_login import current_user
 from app.middleware.check_user_auth import login_required_middleware
-from app.models.models import UserDayZero, ReflectionEntry, UserDaysGoal, AIReflection, db
+from app.models.models import UserDayZero, ReflectionEntry, UserDaysGoal, AIReflection, ReflectionDraft, db
 from datetime import date, datetime, time, timedelta
 from collections import Counter
 
@@ -91,12 +91,20 @@ def dashboard():
 
     show_final_day_alert = bool(user_day_zero) and not bool(user_final_reflection_day)
 
+    # Borrador de hoy
+    today_draft = None
+    if today_reflection is None:
+        draft = ReflectionDraft.query.filter_by(user_id=user.id).first()
+        if draft and draft.draft_date == today:
+            today_draft = draft
+
     return render_template(
         'journal/dashboard.html',
         user=user,
         show_day_zero_alert=show_day_zero_alert,
         show_final_day_alert=show_final_day_alert,
         show_tour=show_tour,
+        today_draft=today_draft,
         day_count=day_count,
         today_reflection=today_reflection,
         today=today,

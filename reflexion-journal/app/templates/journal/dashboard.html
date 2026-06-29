@@ -211,8 +211,19 @@
 </p>
 {% endif %}
 
+<!-- Borrador en progreso -->
+{% if today_draft %}
+<div class="alert alert-info" role="alert" id="rj-draft-alert" style="border-left-width:5px; border-left-color:#2a5db0;">
+    <i class="fa-solid fa-floppy-disk"></i>
+    <strong>Tienes un borrador guardado de hoy.</strong>
+    Guardado a las {{ today_draft.updated_at.strftime('%H:%M') }} —
+    <a href="{{ url_for('reflections.write_reflection') }}"><i class="fa-solid fa-pen-to-square"></i> Continuar escribiendo</a>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar"><span>&times;</span></button>
+</div>
+{% endif %}
+
 <!-- Reflexión de hoy -->
-{% if today_reflection is none and not final_day_reached and day_count is not none %}
+{% if today_reflection is none and not today_draft and not final_day_reached and day_count is not none %}
 <div class="alert alert-warning" role="alert" id="rj-today-alert">
     <i class="fa-solid fa-pen-to-square"></i>
     Aún no has escrito ninguna reflexión para hoy.
